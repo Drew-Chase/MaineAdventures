@@ -1,0 +1,27 @@
+:root{
+    --scrollbar-width: 5px;
+    scroll-behavior: smooth;
+    scrollbar-width: var(--scrollbar-width);
+    scrollbar-color: var(--primary) transparent;
+}
+body{
+    overflow: overlay;
+}
+
+
+::-webkit-scrollbar{
+    width: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-thumb{
+    width: var(--scrollbar-width);
+    background: var(--primary);
+    border-radius: 100px;
+}
+::-webkit-scrollbar-track{
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-corner{
+    background-color: transparent;
+}
