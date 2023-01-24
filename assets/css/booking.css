@@ -1,10 +1,12 @@
 /* Landing Page */
 #landing {
     position: relative;
-    height: 100vh;
-    min-height: 800px;
+    height: 20vh;
+    min-height: 400px;
     z-index: 0;
-    background: url('/assets/images/landing-lake-1920x1280.jpg');
+    background-position: center;
+    color: var(--background);
+    background-image: url('/assets/images/bonfire-1288x859.jpg');
 }
 
 #landing::before {

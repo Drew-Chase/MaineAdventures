@@ -1,0 +1,5 @@
+{
+    "es6-css-minify.cssMinPath": "assets\\css\\min\\",
+    "es6-css-minify.jsMinPath": "assets\\js\\min\\",
+    "liveServer.settings.port": 5501
+}
