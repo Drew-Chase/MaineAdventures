@@ -103,7 +103,7 @@
 
 #about-us>.row>* {
     margin: 0 2rem;
-    width: 100%;
+    width: 50%;
 }
 
 #about-us p {
@@ -239,50 +239,4 @@
     font-size: 3rem;
     color: var(--primary);
     padding: 1rem;
-}
-
-/* Footer */
-footer {
-    position: relative;
-    width: 100%;
-    color: white;
-    padding: 2rem;
-    margin-top: 100px;
-    height: 50vh;
-    min-height: 400px;
-    max-height: 600px;
-    z-index: 1;
-    background-image: url('/assets/images/fireplace-1920x1280.jpg');
-}
-
-footer #copyright {
-    text-align: center;
-    padding-top: 3rem;
-    width: 70%;
-    opacity: .5;
-    border-top: 2px solid rgba(255, 255, 255, .5);
-    color: white;
-}
-
-footer .social-icon {
-    width: 33px;
-    aspect-ratio: 1;
-    display: flex;
-}
-
-footer img#footer-logo {
-    height: 33%;
-}
-
-
-footer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: -1;
-    opacity: .4;
-    background: linear-gradient(#d6173f -10%, #00113e 75%);
 }
