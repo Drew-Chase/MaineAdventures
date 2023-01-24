@@ -1,5 +1,6 @@
 @media (max-height: 730px) {
     #page-arrow {
+        position: fixed;
         right: 1rem;
         background-color: rgba(0, 0, 0, .5);
     }
