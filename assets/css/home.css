@@ -4,7 +4,7 @@
     height: 100vh;
     min-height: 800px;
     z-index: 0;
-    background: url('/assets/images/landing-lake-1920x1280.jpg');
+    background: url('/assets/images/landing-lg.webp');
 }
 
 #landing::before {
@@ -128,7 +128,7 @@
     background-position: center;
     background-size: cover;
     z-index: 1;
-    background-image: url('/assets/images/archer-1920x1099.jpg');
+    background-image: url('/assets/images/bow-arrow-banner.webp');
 }
 
 #hunt-banner::before {
