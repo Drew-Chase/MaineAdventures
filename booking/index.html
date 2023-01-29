@@ -44,17 +44,157 @@
     <div id="landing" class="center col">
         <h1>Booking</h1>
     </div>
+    <div id="sections">
+        <section id="time-span" class="row center">
+            <div class="card center col" id="daily">
+                <p class="name">Nightly</p>
+                <p class="description">With this option you'll be paying for every night individually, usually between $40 - $60 a night
+                </p>
+                <div class="btn">Select</div>
+            </div>
+            <div class="card center col" id="seasonal">
+                <p class="name">Seasonal</p>
+                <p class="description">With this option you will be paying for the entire season, usually between $1,000 - $4,000</p>
+                <div class="btn">Select</div>
+            </div>
+        </section>
 
-    <section id="cabin" class="row">
-        <div id="cabin-names" class="col">
-            <p id="cabin-a">Cabin A</p>
-            <p id="cabin-b">Cabin B</p>
-            <p id="cabin-c">Cabin C</p>
-            <p id="cabin-d">Cabin D</p>
-            <p id="cabin-e">Cabin E</p>
-        </div>
-        <div id="cabin-image" alt=""></div>
-    </section>
+        <section id="cabin" class="col" style="display: none;">
+            <div class="row">
+                <h2>Cabin</h2>
+                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
+            </div>
+            <div class="row">
+                <div id="cabin-names" class="col">
+                </div>
+                <div id="cabin-image" alt=""></div>
+            </div>
+
+        </section>
+
+        <section id="pets" style="display: none;">
+            <div class="row">
+                <h2>Pets</h2>
+                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
+            </div>
+            <div class="items">
+                <span class="count">0</span>
+                <span class="count">1</span>
+                <span class="count">2</span>
+                <span class="count">3</span>
+                <span class="count">4</span>
+                <span class="count">5</span>
+                <span class="count">6</span>
+            </div>
+        </section>
+
+        <section id="adults" style="display: none;">
+            <div class="row">
+                <h2>Adults</h2>
+                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
+            </div>
+            
+            <div class="items">
+                <span class="count">1</span>
+                <span class="count">2</span>
+                <span class="count">3</span>
+                <span class="count">4</span>
+                <span class="count">5</span>
+                <span class="count">6</span>
+            </div>
+        </section>
+        
+        <section id="children" style="display: none;">
+            <div class="row">
+                <h2>Children</h2>
+                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
+            </div>
+            <h4 style="margin-top: 0;">Over the age of 12</h4>
+            
+            <div class="items">
+                <span class="count">0</span>
+                <span class="count">1</span>
+                <span class="count">2</span>
+                <span class="count">3</span>
+                <span class="count">4</span>
+                <span class="count">5</span>
+                <span class="count">6</span>
+            </div>
+        </section>
+
+        <section id="times" class="col" style="display: none;">
+            <div class="row">
+                <h2>How Long?</h2>
+                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
+            </div>
+            <div class="row">
+                <div id="start-times" class="col">
+                    <h4>Start</h4>
+                    <div class="row">
+                        <input type="date" name="start-date" id="start-date" value="2012-11-10">
+                        <input type="time" name="start-time" id="start-time" value="10:00">
+                    </div>
+                </div>
+                <div id="end-times" class="col">
+                    <h4>End</h4>
+                    <div class="row">
+                        <input type="date" name="end-date" id="end-date">
+                        <input type="time" name="end-time" id="end-time" value="18:00">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="itemized" style="display: none;">
+            <div class="row">
+                <h2>Your Order</h2>
+                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
+            </div>
+            <p id="item-cabin"></p>
+            <p id="item-adults"></p>
+            <p id="item-children"></p>
+            <p id="item-pets"></p>
+            <p id="item-nights"></p>
+            <hr>
+        </section>
+
+        <section id="contact-information" class="col" style="display: none;">
+            <div class="row">
+                <h2>Your Information</h2>
+                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
+            </div>
+            <div class="row">
+                <input type="text" name="fname" placeholder="First Name">
+                <input type="text" name="lname" placeholder="Last Name">
+            </div>
+            <input type="email" name="email" placeholder="Email">
+        </section>
+
+        <section id="payment-method" class="row center" style="display: none;">
+            <div class="card center col" id="inperson-payment">
+                <p class="name">In Person</p>
+                <p class="description">With this option you'll be paying for every night individually, usually between $40 - $60 a night
+                </p>
+                <div class="btn">Select</div>
+            </div>
+            <div class="card center col" id="online-payment">
+                <p class="name">Online</p>
+                <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo asperiores dolorem voluptate! Praesentium vero earum quod consequatur quia accusantium cumque deleniti. Id quam blanditiis aperiam nisi culpa officiis esse assumenda.</p>
+                <div class="btn">Select</div>
+            </div>
+        </section>
+
+        <section id="online-payment" class="col" style="display: none;">
+            <input type="text" name="cardholder" id="cardholder" placeholder="Cardholder Name">
+            <div class="row">
+                <input type="text" name="card-number" id="card-number" placeholder="0000 0000 0000 0000">
+                <input type="month" name="" id="">
+                <input type="number" name="card-cvv2" id="cvv" placeholder="123" maxlength="2">
+            </div>
+            <div id="book-trip-btn" class="btn">Book Trip!</div>
+        </section>
+
+    </div>
 
     <footer id="footer" class="center col">
         <img id="footer-logo" src="/assets/images/large-logo.svg" alt="">
@@ -68,7 +208,7 @@
     <!-- JS Scripts -->
     <script src="/assets/js/min/contact-us.min.js"></script>
     <script src="/assets/js/min/nav.min.js"></script>
-    <script src="/assets/js/min/booking.min.js"></script>
+    <script src="/assets/js/booking.js"></script>
     <script src="/assets/js/min/lf.min.js"></script>
 </body>
 
