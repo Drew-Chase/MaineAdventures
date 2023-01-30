@@ -53,7 +53,7 @@ input {
 
 input[type=date], input[type=time], input {
     padding: 3rem;
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
 input {
@@ -99,10 +99,16 @@ input[type=number] {
     flex-direction: row;
     flex-wrap: nowrap;
     overflow: scroll;
-    height: 100vh;
+    height: 80vh;
+    min-height: 700px;
     scroll-behavior: smooth;
     scrollbar-color: transparent transparent;
     scrollbar-width: 0;
+    margin-top: 100px;
+}
+
+#sections::-webkit-scrollbar{
+    display: none;
 }
 
 #sections section {
@@ -114,50 +120,76 @@ input[type=number] {
 #sections section h2 {
     margin-bottom: 0;
     margin-left: 2rem;
+    margin-top: 0;
 }
 
 #sections section h3, #sections section h4 {
     margin-left: 2rem;
+    margin-bottom: 0;
+}
+section>p {
+    margin-left: 2rem;
 }
 
-.next-btn {
-    position: absolute;
+#section-navigation {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 200px;
+}
+
+.section-nav-item {
     background-color: var(--foreground);
     color: var(--background);
     display: flex;
     justify-content: center;
     align-items: center;
     right: 2rem;
-    font-size: 2rem;
+    bottom: 2rem;
+    font-size: 1.2rem;
     padding: 1rem 2rem;
     border-radius: 100px;
-    top: 8rem;
+    margin: 0 2rem;
     box-shadow: 0 0 0 0 rgba(0, 0, 0, .5);
     transition: color, background-color, box-shadow;
     transition-duration: 200ms;
 }
 
-.next-btn i {
-    font-size: 1.5rem;
+.section-nav-item i {
+    font-size: 1rem;
+}
+
+#next.section-nav-item i {
     margin-left: 2rem;
 }
 
-.next-btn:hover {
+#previous.section-nav-item i {
+    margin-right: 2rem;
+}
+
+.section-nav-item:not([disabled]):hover {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, .5);
     background-color: var(--primary);
     cursor: pointer;
     color: var(--foreground);
 }
 
+.section-nav-item[disabled] {
+    cursor: default;
+    filter: brightness(.5);
+}
+
+
 /*#endregion Selection Body */
 
-/*#region Time Span */
+/*#region Card */
 
-#time-span .card {
+.card {
     position: relative;
     background-color: var(--foreground);
     color: var(--background);
     height: 80%;
+    max-height: 600px;
+    min-height: 400px;
     margin: 0 1rem;
     aspect-ratio: 2/3;
     z-index: 0;
@@ -167,12 +199,12 @@ input[type=number] {
     box-shadow: 0 0 0px 0px rgba(0, 0, 0, 0);
 }
 
-#time-span .card .name {
+.card .name {
     font-weight: 900;
     font-size: 3rem;
 }
 
-#time-span .card .description {
+.card .description {
     font-size: 1rem;
     font-weight: 500;
     margin: 0 1rem;
@@ -182,18 +214,18 @@ input[type=number] {
     transition-duration: 200ms;
 }
 
-#time-span .card .btn {
+.card .btn {
     position: absolute;
     bottom: 1rem;
     width: 75%;
 }
 
-#time-span .card:hover .description {
+.card:hover .description {
     transform: translateY(0%);
     opacity: 1;
 }
 
-#time-span .card:after {
+.card:after {
     content: '';
     position: absolute;
     top: 0;
@@ -205,7 +237,7 @@ input[type=number] {
     transition-duration: 200ms;
 }
 
-#time-span .card:before {
+.card:before {
     content: '';
     filter: blur(8px);
     position: absolute;
@@ -220,6 +252,18 @@ input[type=number] {
     transition-duration: 200ms;
 }
 
+.card:hover {
+    box-shadow: 0 0 10px 0px rgba(0, 0, 0, .5);
+    transform: scale(1.01);
+}
+
+.card:hover:before {
+    filter: blur(0px);
+}
+
+/*#endregion Card */
+
+/*#region Time Span */
 #time-span .card#daily:before {
     background-image: url('/assets/images/nightly.webp')
 }
@@ -236,14 +280,6 @@ input[type=number] {
     background: linear-gradient(to bottom, rgba(180, 20, 20, 0.5), rgba(13, 13, 143, 0.5));
 }
 
-#time-span .card:hover {
-    box-shadow: 0 0 10px 0px rgba(0, 0, 0, .5);
-    transform: scale(1.01);
-}
-
-#time-span .card:hover:before {
-    filter: blur(0px);
-}
 
 /*#endregion Time Span */
 
@@ -251,7 +287,7 @@ input[type=number] {
 
 #cabin #cabin-names {
     width: 100%;
-    justify-content: center;
+    justify-content: start;
     font-size: 2rem;
     font-weight: 300;
 }
@@ -310,10 +346,21 @@ input[type=number] {
     transition: background-image 100ms;
 }
 
+#cabin > .row{
+    height: 100%;
+}
+
+
 
 /*#endregion Cabin Selectors */
 
 /*#region Counters */
+#pets, #adults, #children {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .items {
     display: flex;
     justify-content: center;
@@ -342,7 +389,7 @@ input[type=number] {
 
 /*#region Times */
 #times #start-times, #times #end-times {
-    width: 40%;
+    width: 75%;
     margin: 1rem;
 }
 
@@ -352,6 +399,11 @@ input[type=number] {
 
 #times input[type=date] {
     width: 100%;
+}
+
+#times h4 {
+    margin: 1rem;
+    margin-left: 1rem;
 }
 
 /*#endregion Times */
@@ -367,36 +419,79 @@ input[type=number] {
     font-weight: 900;
 }
 
-#balance-amount {
-    position: relative;
-    padding: 1rem 0;
-    z-index: 10;
-    bottom: 1rem;
-    right: 1rem;
+#itemized p {
     font-size: 2rem;
-    font-weight: 800;
-    background-color: transparent;
-    color: var(--foreground);
-    padding: 1rem 2rem;
-    border-radius: 100px;
-    transition: background-color, color, position;
-    transition-duration: 200ms;
+    margin-left: 3rem;
 }
 
 /*#endregion Itemized */
 
 /*#region Contact */
+#contact-information .col {
+    width: 70%;
+    justify-content: center;
+}
+
 #contact-information input {
-    width: calc(100% - 2rem);
-    padding: 1rem;
+    width: 100%;
+}
+
+#contact-information input[name="fname"] {
+    width: 80%;
+}
+
+label {
+    font-size: 1.2rem;
     margin: 1rem 0;
 }
 
-#contact-information .row input[name="fname"] {
-    margin-right: 1rem;
+/*#endregion Contact */
+
+/*#region Payment Methods */
+
+#payment-method .card#inperson-payment:before {
+    background-image: url('/assets/images/inperson-payment.webp')
 }
 
-/*#endregion Contact */
+#payment-method .card#inperson-payment:after {
+    background: linear-gradient(to bottom, rgba(180, 116, 20, 0.274), rgba(87, 143, 13, 0.5));
+}
+
+#payment-method .card#online-payment:before {
+    background-image: url('/assets/images/online-payment.webp')
+}
+
+#payment-method .card#online-payment:after {
+    background: linear-gradient(to bottom, rgba(20, 180, 92, 0.5), rgba(91, 13, 143, 0.5));
+}
+
+#payment-information, #timespan-information {
+    width: 40%;
+    margin-left: 1rem;
+    position: relative;
+    height: 100%;
+}
+
+#payment-method #buttons, #time-span #buttons {
+    width: 50%;
+    height: 100%;
+}
+
+#payment-method h2, #time-span h2 {
+    margin-left: 0 !important;
+}
+
+#payment-information p {
+    height: 60%;
+    min-height: 300px;
+}
+
+#payment-method #cards i {
+    font-size: 6rem;
+    margin: 0 5px;
+}
+
+/*#endregion Payment Methods */
 
 /*#region Payments */
 #online-payment input#card-number {

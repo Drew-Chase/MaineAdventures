@@ -1,4 +1,7 @@
 /* Base Styling */
+nav[static]{
+    position: absolute;
+}
 nav {
     position: fixed;
     z-index: 9999;

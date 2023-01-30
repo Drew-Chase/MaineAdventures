@@ -6,11 +6,12 @@ $(document).on('scroll', () => {
     } else {
         pageArrow.attr("fixed", true);
     }
-
-    if (window.scrollY <= 50) {
-        nav.attr("fixed", false);
-    } else {
-        nav.attr("fixed", true);
+    if (nav.attr('static') == null) {
+        if (window.scrollY <= 50) {
+            nav.attr("fixed", false);
+        } else {
+            nav.attr("fixed", true);
+        }
     }
 })
 

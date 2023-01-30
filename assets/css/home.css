@@ -4,7 +4,9 @@
     height: 100vh;
     min-height: 800px;
     z-index: 0;
-    background: url('/assets/images/landing-lg.webp');
+    background-size: cover;
+    background-position: center;
+    background-image: url('/assets/images/landing-lg.webp');
 }
 
 #landing::before {

@@ -28,7 +28,7 @@
 </head>
 
 <body>
-    <nav>
+    <nav static>
         <span id="brand">
             <a href="/" title="Go Home">
                 <img src="/assets/images/icon.svg" alt="Maine Adventures Logo">
@@ -45,25 +45,44 @@
         <h1>Booking</h1>
     </div>
     <div id="sections">
-        <section id="time-span" class="row center">
-            <div class="card center col" id="daily">
-                <p class="name">Nightly</p>
-                <p class="description">With this option you'll be paying for every night individually, usually between $40 - $60 a night
+
+        <section id="time-span" class="row center" next="cabin">
+            <div id="timespan-information" class="col">
+                <h2>Stay Options</h2>
+                <p><br><br>
+                    We offer two ways to camp.<br><br>
+                    <strong>1. Nightly</strong><br>
+                    This is the most common option. Nightly is where you pay for every night individually, typically $40-$60 per night!<br><br>
+                    <strong>2. Seasonal</strong><br>
+                    This is for the person that really needs a summer getaway! A typical season goes from the first week of May <i>(or when the roads allow)</i> to the third week of November.
+                    <br> Included in the seasonal option is permission to hunt on our private property. <i>(call for more details)</i><br><br>
+                    <strong>Utility Notice:</strong> Power and Water are only available from 7-9 A.M. and 5-9 P.M.<br><br>
+                    Cabins include a heater, four cook top burners, a refrigerator and lights. Heater and burners are powered by propane. All the cabins have cookware, dishes, utensils, and bedding. Privy's are close by and showers are available from 5 P.M. to 7:30 P.M. for $4.00 per person at the main lodge. <br><br>
+                    We now offer winter showers as well!<br>
+                    Water is portaged to you daily from our water-well.
+                    <br><br><strong><u>Please select one of the two options on your right to continue!</u></strong>
                 </p>
-                <div class="btn">Select</div>
             </div>
-            <div class="card center col" id="seasonal">
-                <p class="name">Seasonal</p>
-                <p class="description">With this option you will be paying for the entire season, usually between $1,000 - $4,000</p>
-                <div class="btn">Select</div>
+            <div id="buttons" class="row center">
+                <div class="card center col" id="daily">
+                    <p class="name">Nightly</p>
+                    <p class="description">
+                    <p class="description">With this option you'll be paying for every night individually, usually between $40 - $60 a night
+                    </p>
+                    <div class="btn">Select</div>
+                </div>
+
+                <div class="card center col" id="seasonal">
+                    <p class="name">Seasonal</p>
+                    <p class="description">With this option you will be paying for the entire season, usually between $1,000 - $4,000</p>
+                    <div class="btn">Select</div>
+                </div>
             </div>
         </section>
 
-        <section id="cabin" class="col" style="display: none;">
-            <div class="row">
-                <h2>Cabin</h2>
-                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
-            </div>
+        <section id="cabin" class="col" next="pets" style="display: none;" previous="time-span">
+            <h2>Cabin</h2>
+            <p>We have 4 small cabins that house up to 5 people and 1 large cabin that can house up to 10+ people.</p>
             <div class="row">
                 <div id="cabin-names" class="col">
                 </div>
@@ -72,11 +91,9 @@
 
         </section>
 
-        <section id="pets" style="display: none;">
-            <div class="row">
-                <h2>Pets</h2>
-                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
-            </div>
+        <section id="pets" style="display: none;" next="adults" previous="cabin">
+            <h2>Pets</h2>
+            <p>Pets are <b>$10.00</b> per pet per night</p>
             <div class="items">
                 <span class="count">0</span>
                 <span class="count">1</span>
@@ -88,12 +105,9 @@
             </div>
         </section>
 
-        <section id="adults" style="display: none;">
-            <div class="row">
-                <h2>Adults</h2>
-                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
-            </div>
-            
+        <section id="adults" style="display: none;" next="children" previous="pets">
+            <h2>Adults</h2>
+            <p>Adults are <b>$15.00</b> per person per night</p>
             <div class="items">
                 <span class="count">1</span>
                 <span class="count">2</span>
@@ -103,14 +117,10 @@
                 <span class="count">6</span>
             </div>
         </section>
-        
-        <section id="children" style="display: none;">
-            <div class="row">
-                <h2>Children</h2>
-                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
-            </div>
-            <h4 style="margin-top: 0;">Over the age of 12</h4>
-            
+
+        <section id="children" style="display: none;" next="times" previous="adults">
+            <h2>Children</h2>
+            <p>Children under the age of 5 are free, others are <b>$10.00</b> per person per night</p>
             <div class="items">
                 <span class="count">0</span>
                 <span class="count">1</span>
@@ -122,12 +132,10 @@
             </div>
         </section>
 
-        <section id="times" class="col" style="display: none;">
-            <div class="row">
-                <h2>How Long?</h2>
-                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
-            </div>
-            <div class="row">
+        <section id="times" class="col" style="display: none;" next="itemized" previous="children">
+            <h2>How Long?</h2>
+            <p>We need at least <strong>5 days</strong> notice before booking</p>
+            <div class="col center">
                 <div id="start-times" class="col">
                     <h4>Start</h4>
                     <div class="row">
@@ -145,46 +153,75 @@
             </div>
         </section>
 
-        <section id="itemized" style="display: none;">
-            <div class="row">
-                <h2>Your Order</h2>
-                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
-            </div>
+        <section id="itemized" style="display: none;" next="contact-information" previous="times">
+            <h2>Your Order</h2>
             <p id="item-cabin"></p>
             <p id="item-adults"></p>
             <p id="item-children"></p>
             <p id="item-pets"></p>
             <p id="item-nights"></p>
             <hr>
+            <p id="total-balance"></p>
         </section>
 
-        <section id="contact-information" class="col" style="display: none;">
-            <div class="row">
-                <h2>Your Information</h2>
-                <div class="next-btn">Next <i class="fa fa-chevron-right"></i></div>
+        <section id="contact-information" style="display: none;" next="payment-method" previous="itemized">
+            <h2>Your Information</h2>
+            <div class="center">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <label for="fname">First Name</label>
+                            <input type="text" name="fname" id="fname" placeholder="First Name">
+                        </div>
+                        <div class="col">
+                            <label for="lname">Last Name</label>
+                            <input type="text" name="lname" id="lname" placeholder="Last Name">
+                        </div>
+                    </div>
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="Email">
+                    <label for="telephone-number">Phone Number</label>
+                    <input type="tel" name="telephone-number" id="telephone-number" placeholder="(123) 456-7890">
+                </div>
             </div>
-            <div class="row">
-                <input type="text" name="fname" placeholder="First Name">
-                <input type="text" name="lname" placeholder="Last Name">
-            </div>
-            <input type="email" name="email" placeholder="Email">
         </section>
 
-        <section id="payment-method" class="row center" style="display: none;">
-            <div class="card center col" id="inperson-payment">
-                <p class="name">In Person</p>
-                <p class="description">With this option you'll be paying for every night individually, usually between $40 - $60 a night
+        <section id="payment-method" class="row center" style="display: none;" next="online-payment" previous="contact-information">
+            <div id="payment-information" class="col">
+                <h2>How to Pay</h2>
+                <p>We accept many forms of payment. How ever you choose to pay, we can help accommodate. We want you to spend less time worrying about city problems, and start enjoying the great outdoors as soon as possible!<br><br>
+                    We offer two ways to pay.<br><br>
+                    <strong>1. In Person</strong><br>
+                    You will make your payment when you check in.<br><br>
+                    <strong>2. Online</strong><br>
+                    This is the easiest method, while booking your trip you will prepay for your time.<br><br>
+                    Please select one of the two options on your right to continue!
+
                 </p>
-                <div class="btn">Select</div>
+                <div id="cards" class="row">
+                    <i class="fa fa-brands fa-cc-visa"></i>
+                    <i class="fa fa-brands fa-cc-mastercard"></i>
+                    <i class="fa fa-brands fa-cc-discover"></i>
+                    <i class="fa fa-brands fa-cc-amex"></i>
+                    <i class="fa fa-brands fa-cc-stripe"></i>
+                    <i class="fa fa-brands fa-cc-apple-pay"></i>
+                </div>
             </div>
-            <div class="card center col" id="online-payment">
-                <p class="name">Online</p>
-                <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo asperiores dolorem voluptate! Praesentium vero earum quod consequatur quia accusantium cumque deleniti. Id quam blanditiis aperiam nisi culpa officiis esse assumenda.</p>
-                <div class="btn">Select</div>
+            <div id="buttons" class="row center">
+                <div class="card center col" id="inperson-payment">
+                    <p class="name">In Person</p>
+                    <p class="description">We'll take your payment as soon as you get here</p>
+                    <div class="btn">Select</div>
+                </div>
+                <div class="card center col" id="online-payment">
+                    <p class="name">Online</p>
+                    <p class="description">Quick and Easy</p>
+                    <div class="btn">Select</div>
+                </div>
             </div>
         </section>
 
-        <section id="online-payment" class="col" style="display: none;">
+        <section id="online-payment" class="col" style="display: none;" previous="payment-method">
             <input type="text" name="cardholder" id="cardholder" placeholder="Cardholder Name">
             <div class="row">
                 <input type="text" name="card-number" id="card-number" placeholder="0000 0000 0000 0000">
@@ -195,7 +232,10 @@
         </section>
 
     </div>
-
+    <div id="section-navigation" class="row center no-select" style="opacity: 0;">
+        <div id="previous" class="section-nav-item row" disabled><i class="fa fa-chevron-left"></i> Prev.</div>
+        <div id="next" class="section-nav-item row">Next <i class="fa fa-chevron-right"></i></div>
+    </div>
     <footer id="footer" class="center col">
         <img id="footer-logo" src="/assets/images/large-logo.svg" alt="">
         <a href="https://www.facebook.com/allagashgateway/" target="_blank">
@@ -208,7 +248,7 @@
     <!-- JS Scripts -->
     <script src="/assets/js/min/contact-us.min.js"></script>
     <script src="/assets/js/min/nav.min.js"></script>
-    <script src="/assets/js/min/booking.min.js"></script>
+    <script src="/assets/js/booking.js"></script>
     <script src="/assets/js/min/lf.min.js"></script>
 </body>
 

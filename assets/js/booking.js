@@ -29,7 +29,7 @@
                 price: 40
             },
             {
-                name: "Suncook",
+                name: "Suncook (10+ People)",
                 image: "cabin-c",
                 price: 60
             },
@@ -208,81 +208,125 @@
         let price_per_child = 10;
         let price_per_adult = 15;
         let price_per_pet = 10;
-        price += currentOptions.people.adults * price_per_adult
-        if (currentOptions.people.children > 0)
-            price += currentOptions.people.children * price_per_child
-        if (currentOptions.people.pets > 0)
-            price += currentOptions.people.pets * price_per_pet
 
-        price += currentOptions.cabin.price * currentOptions.nights;
+        let cabin_cost = currentOptions.cabin.price * currentOptions.nights;
+        let adults_cost = currentOptions.people.adults * price_per_adult * currentOptions.nights
+        let children_cost = currentOptions.people.children * price_per_child * currentOptions.nights
+        let pets_cost = currentOptions.people.pets * price_per_pet * currentOptions.nights;
+        price += adults_cost
+        if (currentOptions.people.children > 0)
+            price += children_cost
+        if (currentOptions.people.pets > 0)
+            price += pets_cost
+
+        price += cabin_cost;
 
         price = formatter.format(price)
+        $("#total-balance")[0].innerHTML = `Total Balance: <strong>${price}</strong>`
         $("#book-trip-btn")[0].innerHTML = `Book Trip - ${price}`
-        $("#balance-amount")[0].innerHTML = `Next <i class="fa fa-chevron-right"></i>`
-        $("#item-cabin")[0].innerHTML = `Cabin: <strong>${currentOptions.cabin.name}</strong> - <span class="price">${currentOptions.cabin.price}/night</span>`
-        $("#item-adults")[0].innerHTML = `Adults: <strong>${currentOptions.people.adults}</strong> - <span class="price">${formatter.format(price_per_adult)}/adult</span>`
-        $("#item-children")[0].innerHTML = `Children: <strong>${currentOptions.people.children}</strong> - <span class="price">${formatter.format(price_per_child)}/child</span>`
-        $("#item-pets")[0].innerHTML = `Pets: <strong>${currentOptions.people.pets}</strong> - <span class="price">${formatter.format(price_per_pet)}/pet</span>`
-        $("#item-nights")[0].innerHTML = `Nights: <strong>${currentOptions.nights}</strong>`
+        $("#item-cabin")[0].innerHTML = `Cabin: <strong>${currentOptions.cabin.name}</strong> - <span class="price">${currentOptions.cabin.price}/Night</span>`
+        $("#item-adults")[0].innerHTML = `Adults: <strong>${formatter.format(adults_cost)}</strong> - <span class="price">${formatter.format(price_per_adult)}/Adult</span>`
+        $("#item-children")[0].innerHTML = `Children: <strong>${formatter.format(children_cost)}</strong> - <span class="price">${formatter.format(price_per_child)}/Child</span>`
+        $("#item-pets")[0].innerHTML = `Pets: <strong>${formatter.format(pets_cost)}</strong> - <span class="price">${formatter.format(price_per_pet)}/Pet</span>`
+        $("#item-nights")[0].innerHTML = `Nights: <strong>${formatter.format(cabin_cost)}</strong>`
     }
 
 
-    let scrollBox = $("#sections")[0];
+    let scrollBox = {
+        element: $("#sections")[0],
+        current: "time-span",
+        next: "cabin",
+        previous: null
+    };
     function NavigateNext() {
-        scrollBox.scrollBy(scrollBox.offsetWidth, 0)
+
+        $(`#${scrollBox.next}`).css('display', "")
+        scrollBox.element.scrollBy(scrollBox.element.offsetWidth, 0)
+        scrollBox.previous = scrollBox.current
+        scrollBox.current = scrollBox.next
+        scrollBox.next = $(`#${scrollBox.current}`).attr('next')
+        if (scrollBox.next == null) {
+            $("#next").attr('disabled', "")
+        } else {
+            $("#next").attr('disabled', null)
+        }
+        if (scrollBox.previous == null) {
+            $("#previous").attr('disabled', "")
+        } else {
+            $("#previous").attr('disabled', null)
+        }
+        setTimeout(() => {
+            scrollBox.element.querySelectorAll("section").forEach(i => {
+                if (i.id != scrollBox.current)
+                    $(i).css('display', "none")
+            })
+        }, 500)
+        window.scrollTo(0, $("#sections")[0].offsetTop)
     }
 
     function NavigatePrevious() {
-        scrollBox.scrollBy(-scrollBox.offsetWidth, 0)
+        $(`#${scrollBox.previous}`).css('display', "")
+
+        scrollBox.current = scrollBox.previous
+        scrollBox.previous = $(`#${scrollBox.current}`).attr('previous')
+        scrollBox.next = $(`#${scrollBox.current}`).attr('next')
+        if (scrollBox.next == null) {
+            $("#next").attr('disabled', "")
+        } else {
+            $("#next").attr('disabled', null)
+        }
+        if (scrollBox.previous == null) {
+            $("#previous").attr('disabled', "")
+        } else {
+            $("#previous").attr('disabled', null)
+        }
+        setTimeout(() => {
+            scrollBox.element.querySelectorAll("section").forEach(i => {
+                if (i.id != scrollBox.current)
+                    $(i).css('display', "none")
+            })
+        }, 500)
+        window.scrollTo(0, $("#sections")[0].offsetTop)
     }
 
     $("#time-span .card").on('click', e => {
-        $("#cabin").css('display', "")
         currentOptions.isNightly = e.currentTarget.querySelector('.name').innerText == "Nightly"
         InitCabin()
         NavigateNext();
-        setTimeout(() => {
-            $("#time-span").css('display', "none")
-        }, 500)
+        $("#section-navigation").css('opacity', "")
     })
 
+    $("#next").on('click', e => {
+        if ($(e.currentTarget).attr('disabled') == null)
+            NavigateNext()
+    });
+    $("#previous").on('click', e => {
+        if ($(e.currentTarget).attr('disabled') == null)
+            NavigatePrevious()
+    });
 
-    $("#cabin .next-btn").on('click', () => {
-        $("#pets").css('display', "")
-        NavigateNext();
-        setTimeout(() => {
-            $("#cabin").css('display', "none")
-        }, 500)
+    $("input[type=tel]").on('keydown', e => {
+        let key = e.key;
+        if ((key != "Enter" && key != "Backspace") && (isNaN(key) || isNaN(parseInt(key)))) {
+            console.log(key)
+            e.preventDefault();
+        }
     })
-
-    $("#pets .next-btn").on('click', () => {
-        $("#adults").css('display', "")
-        NavigateNext();
-        setTimeout(() => {
-            $("#pets").css('display', "none")
-        }, 500)
+    $("input[type=tel]").on('change', e => {
+        let input = e.currentTarget;
+        let num = $(input).val().replace(/\D/g, '');
+        if (num != "") {
+            let area = num.substring(0, 3);
+            let town = num.substring(3, 6)
+            let unique = num.substring(6, 10);
+            $(input).val(`(${area}) ${town}-${unique}`);
+        }
     })
-
-    $("#adults .next-btn").on('click', () => {
-        $("#children").css('display', "")
-        NavigateNext();
-        setTimeout(() => {
-            $("#adults").css('display', "none")
-        }, 500)
-    })
-    $("#children .next-btn").on('click', () => {
-        $("#times").css('display', "")
-        NavigateNext();
-        setTimeout(() => {
-            $("#children").css('display', "none")
-        }, 500)
-    })
-
-
-    // InitCabin();
+    InitCabin();
     InitCounts();
     // InitPriceObserver();
     InitTimeSelector()
     UpdatePrice()
+    // $("#daily")[0].click();
 
 }).call();

@@ -41,5 +41,5 @@ footer::before {
     right: 0;
     z-index: -1;
     opacity: .4;
-    background: linear-gradient(#d6173f -10%, #00113e 75%);
+    background: linear-gradient(#d6173f -10%, #00113e 70%);
 }
