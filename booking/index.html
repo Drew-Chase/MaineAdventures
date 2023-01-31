@@ -45,22 +45,33 @@
         <h1>Booking</h1>
     </div>
     <div id="sections">
-
-        <section id="time-span" class="row center" next="cabin">
+        <section id="time-span" class="row center" style="display: none;" next="cabin">
             <div id="timespan-information" class="col">
                 <h2>Stay Options</h2>
-                <p><br><br>
-                    We offer two ways to camp.<br><br>
-                    <strong>1. Nightly</strong><br>
-                    This is the most common option. Nightly is where you pay for every night individually, typically $40-$60 per night!<br><br>
-                    <strong>2. Seasonal</strong><br>
+                <p>
+                    We offer two ways to camp.
+                </p>
+                <p>
+                    <strong>1. Nightly: </strong>
+                    This is the most common option. Nightly is where you pay for every night individually, typically $40-$60 per night!
+                </p>
+                <p>
+                    <strong>2. Seasonal: </strong>
                     This is for the person that really needs a summer getaway! A typical season goes from the first week of May <i>(or when the roads allow)</i> to the third week of November.
-                    <br> Included in the seasonal option is permission to hunt on our private property. <i>(call for more details)</i><br><br>
-                    <strong>Utility Notice:</strong> Power and Water are only available from 7-9 A.M. and 5-9 P.M.<br><br>
-                    Cabins include a heater, four cook top burners, a refrigerator and lights. Heater and burners are powered by propane. All the cabins have cookware, dishes, utensils, and bedding. Privy's are close by and showers are available from 5 P.M. to 7:30 P.M. for $4.00 per person at the main lodge. <br><br>
+                    <br> Included in the seasonal option is permission to hunt on our private property. <i>(call for more details)</i>
+                </p>
+                <p>
+                    <strong>Utility Notice:</strong> Power and Water are only available from 7-9 A.M. and 5-9 P.M.
+                </p>
+                <p>
+                    Cabins include a heater, four cook top burners, a refrigerator and lights. Heater and burners are powered by propane. All the cabins have cookware, dishes, utensils, and bedding. Privy's are close by and showers are available from 5 P.M. to 7:30 P.M. for $4.00 per person at the main lodge.
+                </p>
+                <p>
                     We now offer winter showers as well!<br>
                     Water is portaged to you daily from our water-well.
-                    <br><br><strong><u>Please select one of the two options on your right to continue!</u></strong>
+                </p>
+                <p>
+                    <strong><u>Please select one of the two options on your right to continue!</u></strong>
                 </p>
             </div>
             <div id="buttons" class="row center">
@@ -80,7 +91,7 @@
             </div>
         </section>
 
-        <section id="cabin" class="col" next="pets" style="display: none;" previous="time-span">
+        <section id="cabin" class="col" next="adults" style="display: none;" previous="time-span">
             <h2>Cabin</h2>
             <p>We have 4 small cabins that house up to 5 people and 1 large cabin that can house up to 10+ people.</p>
             <div class="row">
@@ -91,21 +102,7 @@
 
         </section>
 
-        <section id="pets" style="display: none;" next="adults" previous="cabin">
-            <h2>Pets</h2>
-            <p>Pets are <b>$10.00</b> per pet per night</p>
-            <div class="items">
-                <span class="count">0</span>
-                <span class="count">1</span>
-                <span class="count">2</span>
-                <span class="count">3</span>
-                <span class="count">4</span>
-                <span class="count">5</span>
-                <span class="count">6</span>
-            </div>
-        </section>
-
-        <section id="adults" style="display: none;" next="children" previous="pets">
+        <section id="adults" style="display: none;" next="children" previous="cabin">
             <h2>Adults</h2>
             <p>Adults are <b>$15.00</b> per person per night</p>
             <div class="items">
@@ -118,9 +115,23 @@
             </div>
         </section>
 
-        <section id="children" style="display: none;" next="times" previous="adults">
+        <section id="children" style="display: none;" next="pets" previous="adults">
             <h2>Children</h2>
             <p>Children under the age of 5 are free, others are <b>$10.00</b> per person per night</p>
+            <div class="items">
+                <span class="count">0</span>
+                <span class="count">1</span>
+                <span class="count">2</span>
+                <span class="count">3</span>
+                <span class="count">4</span>
+                <span class="count">5</span>
+                <span class="count">6</span>
+            </div>
+        </section>
+
+        <section id="pets" style="display: none;" next="times" previous="cabin">
+            <h2>Pets</h2>
+            <p>Pets are <b>$10.00</b> per pet per night</p>
             <div class="items">
                 <span class="count">0</span>
                 <span class="count">1</span>
@@ -153,15 +164,44 @@
             </div>
         </section>
 
-        <section id="itemized" style="display: none;" next="contact-information" previous="times">
+        <section id="itemized" next="contact-information" style="display: none;" previous="times">
             <h2>Your Order</h2>
-            <p id="item-cabin"></p>
-            <p id="item-adults"></p>
-            <p id="item-children"></p>
-            <p id="item-pets"></p>
-            <p id="item-nights"></p>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Price per Item</th>
+                </tr>
+                <tr>
+                    <td id="itemized-cabin-name"></td>
+                    <td id="itemized-nights"></td>
+                    <td id="itemized-cabin-price"></td>
+                    <td id="itemized-cabin-price-per"></td>
+                </tr>
+                <tr>
+                    <td id="itemized-adults-name">Adults</td>
+                    <td id="itemized-adults-count"></td>
+                    <td id="itemized-adults-price"></td>
+                    <td id="itemized-adults-price-per"></td>
+                </tr>
+                <tr>
+                    <td id="itemized-children-name">Children</td>
+                    <td id="itemized-children-count"></td>
+                    <td id="itemized-children-price"></td>
+                    <td id="itemized-children-price-per"></td>
+                </tr>
+                <tr>
+                    <td id="itemized-pets-name">Pets</td>
+                    <td id="itemized-pets-count"></td>
+                    <td id="itemized-pets-price"></td>
+                    <td id="itemized-pets-price-per"></td>
+                </tr>
+            </table>
             <hr>
-            <p id="total-balance"></p>
+            <p id="balance-line">Total Balance: <strong id="total-balance"></strong>
+                <span id="print-itemized" class="btn"> <i class="fa fa-solid fa-print"></i> Print</span>
+            </p>
         </section>
 
         <section id="contact-information" style="display: none;" next="payment-method" previous="itemized">
@@ -171,33 +211,31 @@
                     <div class="row">
                         <div class="col">
                             <label for="fname">First Name</label>
-                            <input type="text" name="fname" id="fname" placeholder="First Name">
+                            <input type="text" name="fname" id="fname" placeholder="First Name" autocomplete="name">
                         </div>
                         <div class="col">
                             <label for="lname">Last Name</label>
-                            <input type="text" name="lname" id="lname" placeholder="Last Name">
+                            <input type="text" name="lname" id="lname" placeholder="Last Name" autocomplete="family-name">
                         </div>
                     </div>
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" placeholder="Email">
+                    <input type="email" name="email" id="email" placeholder="Email" autocomplete="email">
                     <label for="telephone-number">Phone Number</label>
-                    <input type="tel" name="telephone-number" id="telephone-number" placeholder="(123) 456-7890">
+                    <input type="tel" name="telephone-number" id="telephone-number" placeholder="(123) 456-7890" autocomplete="mobile">
                 </div>
             </div>
         </section>
 
-        <section id="payment-method" class="row center" style="display: none;" next="online-payment" previous="contact-information">
+        <section id="payment-method" class="row center" style="/*display: none;*/" next="online-payment" previous="contact-information">
             <div id="payment-information" class="col">
                 <h2>How to Pay</h2>
-                <p>We accept many forms of payment. How ever you choose to pay, we can help accommodate. We want you to spend less time worrying about city problems, and start enjoying the great outdoors as soon as possible!<br><br>
-                    We offer two ways to pay.<br><br>
-                    <strong>1. In Person</strong><br>
-                    You will make your payment when you check in.<br><br>
-                    <strong>2. Online</strong><br>
-                    This is the easiest method, while booking your trip you will prepay for your time.<br><br>
-                    Please select one of the two options on your right to continue!
-
+                <p>
+                    We accept many forms of payment. How ever you choose to pay, we can help accommodate. We want you to spend less time worrying about city problems, and start enjoying the great outdoors as soon as possible!
                 </p>
+                <p>We offer two ways to pay</p>
+                <p><strong>1. In Person: </strong>You will make your payment when you check in.</p>
+                <p><strong>2. Online: </strong>This is the easiest method, while booking your trip you will prepay for your time.
+                    Please select one of the two options on your right to continue!</p>
                 <div id="cards" class="row">
                     <i class="fa fa-brands fa-cc-visa"></i>
                     <i class="fa fa-brands fa-cc-mastercard"></i>
@@ -208,12 +246,12 @@
                 </div>
             </div>
             <div id="buttons" class="row center">
-                <div class="card center col" id="inperson-payment">
+                <div class="card center col" id="inperson-payment-card">
                     <p class="name">In Person</p>
                     <p class="description">We'll take your payment as soon as you get here</p>
                     <div class="btn">Select</div>
                 </div>
-                <div class="card center col" id="online-payment">
+                <div class="card center col" id="online-payment-card">
                     <p class="name">Online</p>
                     <p class="description">Quick and Easy</p>
                     <div class="btn">Select</div>
@@ -221,14 +259,16 @@
             </div>
         </section>
 
-        <section id="online-payment" class="col" style="display: none;" previous="payment-method">
-            <input type="text" name="cardholder" id="cardholder" placeholder="Cardholder Name">
-            <div class="row">
-                <input type="text" name="card-number" id="card-number" placeholder="0000 0000 0000 0000">
-                <input type="month" name="" id="">
-                <input type="number" name="card-cvv2" id="cvv" placeholder="123" maxlength="2">
+        <section id="online-payment" style="display: none;" previous="payment-method">
+            <h2>Pay Online</h2>
+            <div id="online-payment-form" class="col">
+                <input type="text" name="cardholder" id="cardholder" placeholder="Cardholder Name" autocomplete="cc-name">
+                <div class="row">
+                    <input type="text" name="card-number" id="card-number" placeholder="0000 0000 0000 0000" autocomplete="cc-number">
+                    <input type="month" name="" id="" autocomplete="cc-exp">
+                    <input type="number" name="card-cvv2" id="cvv" placeholder="123" maxlength="2" autocomplete="cc-csc">
+                </div>
             </div>
-            <div id="book-trip-btn" class="btn">Book Trip!</div>
         </section>
 
     </div>

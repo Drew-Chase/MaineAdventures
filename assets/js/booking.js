@@ -106,8 +106,6 @@
         }
         currentOptions.cabin.name = cabin.name;
         currentOptions.cabin.price = cabin.price;
-
-        UpdatePrice();
     }
 
     function InitCounts() {
@@ -125,15 +123,12 @@
 
         $("#pets .count").on('click', e => {
             currentOptions.people.pets = Number.parseInt($(e.target.parentElement).attr('value'));
-            UpdatePrice();
         })
         $("#adults .count").on('click', e => {
             currentOptions.people.adults = Number.parseInt($(e.target.parentElement).attr('value'));
-            UpdatePrice();
         })
         $("#children .count").on('click', e => {
             currentOptions.people.children = Number.parseInt($(e.target.parentElement).attr('value'));
-            UpdatePrice();
         })
 
         $("#pets .count")[0].click();
@@ -167,40 +162,16 @@
             let end = $("input#start-date")[0].valueAsDate
             let days = Math.round((start - end) / (1000 * 60 * 60 * 24));
             currentOptions.nights = days;
-            console.log(currentOptions.nights)
-            UpdatePrice()
         })
 
-        $("#end-date").on('change', e => {
-            let value = e.target.value;
-            $("#start-date")[0].max = value;
-        })
         $("#start-date").on('change', e => {
             let value = e.target.value;
             $("#end-date")[0].min = value;
         })
-        UpdatePrice();
-    }
-
-    function InitPriceObserver() {
-        let callback = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    $("#balance-amount").attr('sticky', null)
-                } else {
-                    $("#balance-amount").attr('sticky', "")
-                }
-            })
-        }
-
-        let observer = new IntersectionObserver(callback, {
-            threshold: .2
+        $("#end-date").on('change', e => {
+            let value = e.target.value;
+            $("#start-date")[0].max = value;
         })
-        observer.observe($("#balance")[0])
-        $("#balance-amount[sticky]").on('click', e => {
-            window.location.hash = "balance"
-        })
-        $("#balance .page-nav-item")[0].click()
     }
 
     function UpdatePrice() {
@@ -222,13 +193,25 @@
         price += cabin_cost;
 
         price = formatter.format(price)
-        $("#total-balance")[0].innerHTML = `Total Balance: <strong>${price}</strong>`
-        $("#book-trip-btn")[0].innerHTML = `Book Trip - ${price}`
-        $("#item-cabin")[0].innerHTML = `Cabin: <strong>${currentOptions.cabin.name}</strong> - <span class="price">${currentOptions.cabin.price}/Night</span>`
-        $("#item-adults")[0].innerHTML = `Adults: <strong>${formatter.format(adults_cost)}</strong> - <span class="price">${formatter.format(price_per_adult)}/Adult</span>`
-        $("#item-children")[0].innerHTML = `Children: <strong>${formatter.format(children_cost)}</strong> - <span class="price">${formatter.format(price_per_child)}/Child</span>`
-        $("#item-pets")[0].innerHTML = `Pets: <strong>${formatter.format(pets_cost)}</strong> - <span class="price">${formatter.format(price_per_pet)}/Pet</span>`
-        $("#item-nights")[0].innerHTML = `Nights: <strong>${formatter.format(cabin_cost)}</strong>`
+
+        $("#itemized-cabin-name")[0].innerText = currentOptions.cabin.name;
+        $("#itemized-nights")[0].innerText = `${currentOptions.nights} Nights`;
+        $("#itemized-cabin-price")[0].innerText = formatter.format(cabin_cost);
+        $("#itemized-cabin-price-per")[0].innerText = formatter.format(currentOptions.cabin.price);
+
+        $("#itemized-adults-count")[0].innerText = currentOptions.people.adults;
+        $("#itemized-adults-price")[0].innerText = formatter.format(adults_cost);
+        $("#itemized-adults-price-per")[0].innerText = formatter.format(price_per_adult);
+
+        $("#itemized-children-count")[0].innerText = currentOptions.people.children;
+        $("#itemized-children-price")[0].innerText = formatter.format(children_cost);
+        $("#itemized-children-price-per")[0].innerText = formatter.format(price_per_child);
+
+        $("#itemized-pets-count")[0].innerText = currentOptions.people.pets;
+        $("#itemized-pets-price")[0].innerText = formatter.format(pets_cost);
+        $("#itemized-pets-price-per")[0].innerText = formatter.format(price_per_pet);
+
+        $("#total-balance")[0].innerHTML = price
     }
 
 
@@ -254,6 +237,19 @@
             $("#previous").attr('disabled', "")
         } else {
             $("#previous").attr('disabled', null)
+        }
+        if (scrollBox.current == "contact-information") {
+            let update = setInterval(() => {
+                if (validateContactInformation()) {
+                    if (update != null) {
+                        clearInterval(update)
+                        update = null;
+                    }
+                }
+            }, 1000)
+        }
+        if (scrollBox.current == "itemized") {
+            UpdatePrice()
         }
         setTimeout(() => {
             scrollBox.element.querySelectorAll("section").forEach(i => {
@@ -289,6 +285,21 @@
         window.scrollTo(0, $("#sections")[0].offsetTop)
     }
 
+    function Print() {
+        let print_window = window.open('', "PRINT", 'width=1280,height=720,top=100,left=150')
+        print_window.document.write(`<html>
+        <head>
+        </head>
+        <body>
+        ${$("#itemized").html()}
+        </body>
+        </html>`)
+        print_window.document.close();
+        print_window.focus();
+        print_window.print();
+        print_window.close();
+    }
+
     $("#time-span .card").on('click', e => {
         currentOptions.isNightly = e.currentTarget.querySelector('.name').innerText == "Nightly"
         InitCabin()
@@ -308,7 +319,6 @@
     $("input[type=tel]").on('keydown', e => {
         let key = e.key;
         if ((key != "Enter" && key != "Backspace") && (isNaN(key) || isNaN(parseInt(key)))) {
-            console.log(key)
             e.preventDefault();
         }
     })
@@ -322,11 +332,45 @@
             $(input).val(`(${area}) ${town}-${unique}`);
         }
     })
+
+    $("#contact-information input").on("focus", e => $(e.target).attr('interacted', ""))
+    // $("#contact-information input").on("keydown", () => validateContactInformation())
+
+    function validateContactInformation() {
+        let error = false;
+        if ($("#email[interacted]").length == 1 && !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($("#email[interacted]").val()))) {
+            $("#email[interacted]").addClass("error")
+        } else {
+            $("#email[interacted]").removeClass("error")
+        }
+        if ($("#fname[interacted]").length == 1 && $("#fname[interacted]").val().length == 0) {
+            $("#fname[interacted]").addClass("error")
+        } else {
+            $("#fname[interacted]").removeClass("error")
+        }
+        if ($("#lname[interacted]").length == 1 && $("#lname[interacted]").val().length == 0) {
+            $("#lname[interacted]").addClass("error")
+        } else {
+            $("#lname[interacted]").removeClass("error")
+        }
+        if ($("#telephone-number[interacted]").length == 1 && $("#telephone-number[interacted]").val().replaceAll("(", "").replaceAll(")", "").replaceAll("-", "").replaceAll(" ", "").length != 10) {
+            $("#telephone-number[interacted]").addClass("error")
+        } else {
+            $("#telephone-number[interacted]").removeClass("error")
+        }
+        Array.from($("#contact-information input[interacted]")).forEach(i => {
+            if (i.value.length == 0 || i.classList.contains("error")) {
+                error = true;
+            }
+        })
+        console.log(!error)
+        return !error;
+    }
+
+
+    $("#print-itemized").on('click', () => Print())
     InitCabin();
     InitCounts();
-    // InitPriceObserver();
     InitTimeSelector()
-    UpdatePrice()
-    // $("#daily")[0].click();
 
 }).call();
