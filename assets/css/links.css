@@ -1,26 +1,40 @@
-a {
+a:not(.btn) {
     color: var(--primary);
     text-decoration: none;
     cursor: pointer;
     transition: filter 200ms;
 }
 
-a:hover {
+a:not(.btn):hover {
     filter: brightness(1.1);
 }
 
+button {
+    outline: none;
+    border: none;
+}
+
 .btn {
+    text-decoration: none;
     font-weight: 500;
     text-align: center;
     cursor: pointer;
     background-color: var(--primary);
     color: var(--foreground);
-    border-radius: 5px;
+    border-radius: 100px;
     padding: 1rem 2rem;
     margin: .5rem;
     box-shadow: 0 0 0px 0px rgba(0, 0, 0, 0);
-    transition: box-shadow, filter;
-    transition-duration: 200ms;
+    transition: box-shadow, filter, background-color, color, transform !important;
+    transition-duration: 200ms !important;
+}
+
+.btn i.right {
+    margin-right: 1rem;
+}
+
+.btn i.left {
+    margin-left: 1rem;
 }
 
 .btn.secondary {
@@ -30,4 +44,7 @@ a:hover {
 
 .btn:hover {
     box-shadow: 0 0 10px 0px rgba(0, 0, 0, .15);
+    background-color: var(--primary);
+    color: var(--foreground);
+    transform: scale(1.03);
 }
