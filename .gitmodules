@@ -1,0 +1,3 @@
+[submodule "assets/php/stripe"]
+	path = assets/php/stripe
+	url = https://github.com/stripe/stripe-php
