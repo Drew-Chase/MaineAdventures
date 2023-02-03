@@ -1,0 +1,47 @@
+input.error, input.error:focus {
+    outline: 2px dotted red;
+}
+
+input {
+    font-family: 'Roboto';
+    border: none;
+}
+
+input[type=date], input[type=time], input {
+    padding: 3rem;
+    font-size: 1.5rem;
+}
+
+input {
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+}
+
+input[type=time] {
+    text-align: center;
+    width: 30%;
+}
+
+input[type=number] {
+    text-align: center;
+}
+
+input:focus {
+    outline: 1px solid var(--primary);
+}
+
+input[type=month] {
+    text-align: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
