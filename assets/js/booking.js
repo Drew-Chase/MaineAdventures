@@ -1,19 +1,22 @@
+let currentOptions =
+{
+    isNightly: "nightly",
+    cabin: {
+        name: "",
+        price: 0
+    },
+    people: {
+        adults: 0,
+        children: 0,
+        pets: 0
+    },
+    nights: 7,
+    card: null,
+    price: 0.00
+};
+
 (() => {
-    let currentOptions =
-    {
-        isNightly: "nightly",
-        cabin: {
-            name: "",
-            price: 0
-        },
-        people: {
-            adults: 0,
-            children: 0,
-            pets: 0
-        },
-        nights: 7,
-        price: 0.00
-    }
+
 
     let cabins =
     {
@@ -140,21 +143,13 @@
     function InitTimeSelector() {
         let now = new Date();
         now.setDate(now.getDate() + 5);
-        let day = ("0" + now.getDate()).slice(-2);
-        let month = ("0" + (now.getMonth() + 1)).slice(-2);
-        let start = now.getFullYear() + "-" + (month) + "-" + (day);
+        let start = GetFormattedDate(now)
         $("#start-date")[0].value = start;
 
         $("input[type=date]").attr('min', start)
-        $("input[type=month]").attr('min', `${now.getFullYear()}-${month}`)
-        $("input[type=month]").attr('value', `${now.getFullYear()}-${month}`)
-        $("input[type=month]").attr('placeholder', `${month}/${now.getFullYear().toString().substring(2, 4)}`)
 
         now.setDate(now.getDate() + 7);
-        day = ("0" + now.getDate()).slice(-2);
-        month = ("0" + (now.getMonth() + 1)).slice(-2);
-        start = now.getFullYear() + "-" + (month) + "-" + (day);
-        $("#end-date")[0].value = start;
+        $("#end-date")[0].value = GetFormattedDate(now);
 
         $("#start-date, #end-date").on('change', () => {
 
@@ -167,6 +162,12 @@
         $("#start-date").on('change', e => {
             let value = e.target.value;
             $("#end-date")[0].min = value;
+            let startDate = e.target.valueAsDate;
+            if (startDate > $("#end-date")[0].valueAsDate) {
+                startDate.setDate(startDate.getDate() + 7);
+                $("#end-date").val(GetFormattedDate(startDate))
+
+            }
         })
         $("#end-date").on('change', e => {
             let value = e.target.value;
@@ -192,6 +193,7 @@
 
         price += cabin_cost;
 
+        currentOptions.price = price;
         price = formatter.format(price)
 
         $("#itemized-cabin-name")[0].innerText = currentOptions.cabin.name;
@@ -210,7 +212,11 @@
         $("#itemized-pets-count")[0].innerText = currentOptions.people.pets;
         $("#itemized-pets-price")[0].innerText = formatter.format(pets_cost);
         $("#itemized-pets-price-per")[0].innerText = formatter.format(price_per_pet);
-
+        if (currentOptions.card != null) {
+            $("#card-suffix")[0].innerText = currentOptions.card;
+        } else {
+            $("#itemized-paid").css('display', "none")
+        }
         $("#total-balance")[0].innerHTML = price
     }
 
@@ -221,120 +227,98 @@
         next: "cabin",
         previous: null
     };
-    function NavigateNext() {
 
-        $(`#${scrollBox.next}`).css('display', "")
-        scrollBox.element.scrollBy(scrollBox.element.offsetWidth, 0)
-        scrollBox.previous = scrollBox.current
-        scrollBox.current = scrollBox.next
-        scrollBox.next = $(`#${scrollBox.current}`).attr('next')
-        if (scrollBox.next == null) {
-            $("#next").attr('disabled', "")
-        } else {
-            $("#next").attr('disabled', null)
-        }
-        if (scrollBox.previous == null) {
-            $("#previous").attr('disabled', "")
-        } else {
-            $("#previous").attr('disabled', null)
-        }
-        if (scrollBox.current == "contact-information") {
-            let update = setInterval(() => {
-                if (validateContactInformation()) {
-                    if (update != null) {
-                        clearInterval(update)
-                        update = null;
-                    }
-                }
-            }, 1000)
-        }
-        if (scrollBox.current == "itemized") {
-            UpdatePrice()
-        }
-        setTimeout(() => {
-            scrollBox.element.querySelectorAll("section").forEach(i => {
-                if (i.id != scrollBox.current)
-                    $(i).css('display', "none")
-            })
-        }, 500)
-        window.scrollTo(0, $("#sections")[0].offsetTop)
-    }
+    function NavigateTo(name) {
+        $("#section-navigation").css('opacity', "")
+        $("#previous").attr('disabled', null);
+        $("#next").attr('disabled', null);
 
-    function NavigatePrevious() {
-        $(`#${scrollBox.previous}`).css('display', "")
-
-        scrollBox.current = scrollBox.previous
+        $(`#${name}`).css("display", "")
+        $(`#${name}`)[0].scrollIntoView();
+        scrollBox.current = name;
         scrollBox.previous = $(`#${scrollBox.current}`).attr('previous')
         scrollBox.next = $(`#${scrollBox.current}`).attr('next')
-        if (scrollBox.next == null) {
-            $("#next").attr('disabled', "")
-        } else {
-            $("#next").attr('disabled', null)
+
+        $("#previous").attr('disabled', "");
+        $("#next").attr('disabled', "");
+
+        if (scrollBox.current == "success") {
+            $("#section-navigation").css('opacity', 0)
         }
-        if (scrollBox.previous == null) {
-            $("#previous").attr('disabled', "")
-        } else {
-            $("#previous").attr('disabled', null)
+        if (scrollBox.current == "itemized") {
+            $("#sections").css('display', "none")
+            $("#section-navigation").css('display', "none")
+            UpdatePrice()
+            $(`#${name}`)[0].scrollIntoView();
         }
         setTimeout(() => {
             scrollBox.element.querySelectorAll("section").forEach(i => {
-                if (i.id != scrollBox.current)
+                if (i.id != name)
                     $(i).css('display', "none")
             })
+
+            if (scrollBox.next == null) {
+                $("#next").attr('disabled', "")
+            } else {
+                $("#next").attr('disabled', null)
+            }
+            if (scrollBox.previous == null) {
+                $("#previous").attr('disabled', "")
+            } else {
+                $("#previous").attr('disabled', null)
+            }
+
+            if (scrollBox.current == "contact-information") {
+                if (validateContactInformation()) {
+                    $("#next").attr('disabled', null)
+                } else {
+                    $("#next").attr('disabled', "")
+                }
+            }
+            if (scrollBox.current == "payment-method") {
+                $("#next").attr('disabled', "")
+            }
         }, 500)
-        window.scrollTo(0, $("#sections")[0].offsetTop)
     }
 
     function Print() {
-        let print_window = window.open('', "PRINT", 'width=1280,height=720,top=100,left=150')
+        let print_window = window.open('', "PRINT", 'width=1280,height=720,scale=200')
         print_window.document.write(`<html>
         <head>
+            <link rel="stylesheet" href="/assets/css/min/main.min.css">
+            <link rel="stylesheet" href="/assets/css/min/social-media.min.css">
+            <link rel="stylesheet" href="/assets/css/min/inputs.min.css">
+            <link rel="stylesheet" href="/assets/css/min/links.min.css">
+            <link rel="stylesheet" href="/assets/css/min/nav.min.css">
+            <link rel="stylesheet" href="/assets/css/min/scrollbar.min.css">
+            <link rel="stylesheet" href="/assets/css/min/booking.min.css">
+            <link rel="stylesheet" href="/assets/css/min/footer.min.css">
+            <style>
+                .btn{
+                    display:none;
+                }
+            </style>
         </head>
         <body>
-        ${$("#itemized").html()}
+        <div id="itemized">
+            ${$("#itemized").html()}
+        </div>
         </body>
         </html>`)
         print_window.document.close();
-        print_window.focus();
-        print_window.print();
-        print_window.close();
+        print_window.onload = () => {
+            print_window.focus();
+            print_window.print();
+            print_window.close();
+        }
     }
 
-    $("#time-span .card").on('click', e => {
-        currentOptions.isNightly = e.currentTarget.querySelector('.name').innerText == "Nightly"
-        InitCabin()
-        NavigateNext();
-        $("#section-navigation").css('opacity', "")
-    })
-
-    $("#next").on('click', e => {
-        if ($(e.currentTarget).attr('disabled') == null)
-            NavigateNext()
-    });
-    $("#previous").on('click', e => {
-        if ($(e.currentTarget).attr('disabled') == null)
-            NavigatePrevious()
-    });
-
-    $("input[type=tel]").on('keydown', e => {
-        let key = e.key;
-        if ((key != "Enter" && key != "Backspace") && (isNaN(key) || isNaN(parseInt(key)))) {
-            e.preventDefault();
-        }
-    })
-    $("input[type=tel]").on('change', e => {
-        let input = e.currentTarget;
-        let num = $(input).val().replace(/\D/g, '');
-        if (num != "") {
-            let area = num.substring(0, 3);
-            let town = num.substring(3, 6)
-            let unique = num.substring(6, 10);
-            $(input).val(`(${area}) ${town}-${unique}`);
-        }
-    })
-
-    $("#contact-information input").on("focus", e => $(e.target).attr('interacted', ""))
-    // $("#contact-information input").on("keydown", () => validateContactInformation())
+    function GetFormattedDate(input) {
+        let day = ("0" + input.getDate()).slice(-2);
+        let month = ("0" + (input.getMonth() + 1)).slice(-2);
+        let year = input.getFullYear();
+        return `${year}-${month}-${day}`;
+    }
 
     function validateContactInformation() {
         let error = false;
@@ -358,19 +342,139 @@
         } else {
             $("#telephone-number[interacted]").removeClass("error")
         }
-        Array.from($("#contact-information input[interacted]")).forEach(i => {
+        Array.from($("#contact-information input")).forEach(i => {
             if (i.value.length == 0 || i.classList.contains("error")) {
                 error = true;
             }
         })
-        console.log(!error)
         return !error;
     }
 
+    async function Submit() {
+        return Submit(null, null, null, null)
+    }
 
-    $("#print-itemized").on('click', () => Print())
+    async function Submit(card, cvc, exp) {
+        UpdatePrice()
+        let inPerson = card == null;
+        let data = new FormData();
+        data.append("first_name", $("#contact-information #fname").val());
+        data.append("last_name", $("#contact-information #lname").val());
+        data.append("email", $("#contact-information #email").val());
+        data.append("phone", $("#contact-information #telephone-number").val());
+        data.append("adults", currentOptions.adults);
+        data.append("children", currentOptions.children);
+        data.append("pets", currentOptions.people.pets);
+        data.append("cabin", currentOptions.cabin.name);
+        data.append("arrival", `${GetFormattedDate($("#start-date")[0].valueAsDate)} ${$("#start-time").val()}`);
+        data.append("departure", `${GetFormattedDate($("#end-date")[0].valueAsDate)} ${$("#end-time").val()}`);
+        data.append("seasonal", !currentOptions.isNightly);
+        data.append("price", currentOptions.price);
+        let id = -1;
+        let response = await fetch("/assets/php/bookings.inc.php?c=create", { method: "POST", body: data })
+        if (!response.ok) {
+            console.error("not ok")
+            let json = { error: "Unable to process request at this time!" };
+            try {
+                json = await response.json();
+            } catch { }
+            alert(json.error)
+            return;
+        } else {
+            try {
+                let json = await response.json();
+                id = json["id"];
+            } catch { }
+        }
+        if (id == -1) {
+            alert("Unable to process request at this time!")
+            return;
+        }
+        if (!inPerson) {
+            data = new FormData();
+            data.append("id", id);
+            data.append("card", card);
+            data.append("card_exp", exp);
+            data.append("cvc", cvc);
+            data.append("price", Math.ceil(currentOptions.price * 100))
+            let response = await fetch("/assets/php/payments.inc.php", {
+                method: "POST",
+                body: data
+            })
+            if (response.ok) {
+                let cardLength = card.split('').length;
+                currentOptions.card = `x${card.slice(cardLength - 4, cardLength)}`
+            } else {
+                let json = { error: "Unexpected error has occurred when attempting to process your payment!" }
+                try {
+                    json = await response.json();
+                } catch { }
+                alert(json.error)
+                return;
+            }
+        }
+        NavigateTo("itemized");
+    }
+
+    $("#inperson-payment-card").on('click', () => {
+        $("#previous").attr('disabled', "");
+        $("#next").attr('disabled', "");
+        Submit();
+    })
+
+
+    $("#time-span .card").on('click', e => {
+        currentOptions.isNightly = e.currentTarget.querySelector('.name').innerText == "Nightly"
+        InitCabin()
+        NavigateTo("cabin");
+        $("#section-navigation").css('opacity', "")
+    })
+
+    $("#next").on('click', e => {
+        if ($(e.currentTarget).attr('disabled') == null)
+            NavigateTo(scrollBox.next);
+    });
+    $("#previous").on('click', e => {
+        if ($(e.currentTarget).attr('disabled') == null)
+            NavigateTo(scrollBox.previous);
+    });
+
+    $("input[type=tel]").on('keydown', e => {
+        let key = e.key;
+        if ((key != "Enter" && key != "Backspace") && (isNaN(key) || isNaN(parseInt(key)))) {
+            e.preventDefault();
+        }
+    })
+    $("input[type=tel]").on('change', e => {
+        let input = e.currentTarget;
+        let num = $(input).val().replace(/\D/g, '');
+        if (num != "") {
+            let area = num.substring(0, 3);
+            let town = num.substring(3, 6)
+            let unique = num.substring(6, 10);
+            $(input).val(`(${area}) ${town}-${unique}`);
+        }
+    })
+
+    $("#contact-information input").on("focus", e => $(e.target).attr('interacted', ""))
+    $("#contact-information input").on("keyup", () => {
+        if (validateContactInformation()) {
+            $("#next").attr('disabled', null)
+        } else {
+            $("#next").attr('disabled', "")
+        }
+    })
+
+
+    $(".btn.print").on('click', () => Print())
+
     InitCabin();
     InitCounts();
     InitTimeSelector()
 
+    // NavigateTo("time-span")
+
 }).call();
+
+
+
