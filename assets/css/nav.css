@@ -1,7 +1,8 @@
 /* Base Styling */
-nav[static]{
+nav[static] {
     position: absolute;
 }
+
 nav {
     position: fixed;
     z-index: 9999;
@@ -17,17 +18,20 @@ nav {
     transition: max-height, background-color, color;
     transition-duration: 200ms;
 }
-nav #brand{
+
+nav #brand {
     min-width: 18rem;
     width: 20%;
 }
-nav #brand a{
+
+nav #brand a {
     display: flex;
     align-items: center;
     justify-content: start;
     width: 100%;
     padding-left: 1rem;
 }
+
 nav #brand img {
     height: 100%;
     max-height: 100px;
@@ -88,7 +92,7 @@ nav #nav-items a.nav-item:not(.btn):hover:before {
 
 /* Fixed */
 nav[fixed=true] {
-    box-shadow: 0 0 10px 0 rgba(0,0,0,.5);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .5);
     background-color: hsl(0, 0%, 5%);
     max-height: 100px;
 }
