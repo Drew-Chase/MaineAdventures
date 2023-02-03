@@ -50,6 +50,12 @@ h5{
     font-size: 2rem;
 }
 
+p.error{
+    color: red;
+    font-size: 1rem;
+    text-decoration: underline;
+}
+
 .no-select {
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
