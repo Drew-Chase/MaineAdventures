@@ -10,11 +10,10 @@
     <!-- Pages Styling -->
     <link rel="stylesheet" href="/assets/css/min/main.min.css">
     <link rel="stylesheet" href="/assets/css/min/social-media.min.css">
+    <link rel="stylesheet" href="/assets/css/min/inputs.min.css">
     <link rel="stylesheet" href="/assets/css/min/links.min.css">
     <link rel="stylesheet" href="/assets/css/min/nav.min.css">
     <link rel="stylesheet" href="/assets/css/min/scrollbar.min.css">
-    <link rel="stylesheet" href="/assets/css/min/booking.min.css">
-    <link rel="stylesheet" href="/assets/css/min/gallery.min.css">
     <link rel="stylesheet" href="/assets/css/min/booking.min.css">
     <link rel="stylesheet" href="/assets/css/min/footer.min.css">
 
@@ -45,7 +44,7 @@
         <h1>Booking</h1>
     </div>
     <div id="sections">
-        <section id="time-span" class="row center" style="display: none;" next="cabin">
+        <section id="time-span" class="row center" next="cabin">
             <div id="timespan-information" class="col">
                 <h2>Stay Options</h2>
                 <p>
@@ -143,7 +142,7 @@
             </div>
         </section>
 
-        <section id="times" class="col" style="display: none;" next="itemized" previous="children">
+        <section id="times" class="col" style="display: none;" next="contact-information" previous="children">
             <h2>How Long?</h2>
             <p>We need at least <strong>5 days</strong> notice before booking</p>
             <div class="col center">
@@ -164,47 +163,7 @@
             </div>
         </section>
 
-        <section id="itemized" next="contact-information" style="display: none;" previous="times">
-            <h2>Your Order</h2>
-            <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Price per Item</th>
-                </tr>
-                <tr>
-                    <td id="itemized-cabin-name"></td>
-                    <td id="itemized-nights"></td>
-                    <td id="itemized-cabin-price"></td>
-                    <td id="itemized-cabin-price-per"></td>
-                </tr>
-                <tr>
-                    <td id="itemized-adults-name">Adults</td>
-                    <td id="itemized-adults-count"></td>
-                    <td id="itemized-adults-price"></td>
-                    <td id="itemized-adults-price-per"></td>
-                </tr>
-                <tr>
-                    <td id="itemized-children-name">Children</td>
-                    <td id="itemized-children-count"></td>
-                    <td id="itemized-children-price"></td>
-                    <td id="itemized-children-price-per"></td>
-                </tr>
-                <tr>
-                    <td id="itemized-pets-name">Pets</td>
-                    <td id="itemized-pets-count"></td>
-                    <td id="itemized-pets-price"></td>
-                    <td id="itemized-pets-price-per"></td>
-                </tr>
-            </table>
-            <hr>
-            <p id="balance-line">Total Balance: <strong id="total-balance"></strong>
-                <span id="print-itemized" class="btn"> <i class="fa fa-solid fa-print"></i> Print</span>
-            </p>
-        </section>
-
-        <section id="contact-information" style="display: none;" next="payment-method" previous="itemized">
+        <section id="contact-information" style="display: none;" next="payment-method" previous="times">
             <h2>Your Information</h2>
             <div class="center">
                 <div class="col">
@@ -226,7 +185,7 @@
             </div>
         </section>
 
-        <section id="payment-method" class="row center" style="/*display: none;*/" next="online-payment" previous="contact-information">
+        <section id="payment-method" class="row center" style="display: none;" next="online-payment" previous="contact-information">
             <div id="payment-information" class="col">
                 <h2>How to Pay</h2>
                 <p>
@@ -276,6 +235,67 @@
         <div id="previous" class="section-nav-item row" disabled><i class="fa fa-chevron-left"></i> Prev.</div>
         <div id="next" class="section-nav-item row">Next <i class="fa fa-chevron-right"></i></div>
     </div>
+
+
+    <section id="itemized" style="display: none;">
+        <h2>Order Completed</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Price per Item</th>
+            </tr>
+            <tr>
+                <td id="itemized-cabin-name"></td>
+                <td id="itemized-nights"></td>
+                <td id="itemized-cabin-price"></td>
+                <td id="itemized-cabin-price-per"></td>
+            </tr>
+            <tr>
+                <td id="itemized-adults-name">Adults</td>
+                <td id="itemized-adults-count"></td>
+                <td id="itemized-adults-price"></td>
+                <td id="itemized-adults-price-per"></td>
+            </tr>
+            <tr>
+                <td id="itemized-children-name">Children</td>
+                <td id="itemized-children-count"></td>
+                <td id="itemized-children-price"></td>
+                <td id="itemized-children-price-per"></td>
+            </tr>
+            <tr>
+                <td id="itemized-pets-name">Pets</td>
+                <td id="itemized-pets-count"></td>
+                <td id="itemized-pets-price"></td>
+                <td id="itemized-pets-price-per"></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+            <tr>
+                <td>Arrival</td>
+                <td id="itemized-arrival-date">Monday, Oct. 4th, 2023</td>
+                <td id="itemized-arrival-time">10:30 AM</td>
+            </tr>
+            <tr>
+                <td>Departure</td>
+                <td id="itemized-departure-date">Monday, Oct. 16th, 2023</td>
+                <td id="itemized-departure-time">6:00 PM</td>
+            </tr>
+        </table>
+        <hr>
+        <div id="itemized-paid">
+            <p><strong>Paid with Visa ending in <span id="card-suffix"></span></strong></p>
+        </div>
+        <p id="balance-line">Total Balance: <strong id="total-balance"></strong>
+            <span id="print-itemized" class="btn print"> <i class="fa fa-solid fa-print"></i> Print</span>
+        </p>
+    </section>
     <footer id="footer" class="center col">
         <img id="footer-logo" src="/assets/images/large-logo.svg" alt="">
         <a href="https://www.facebook.com/allagashgateway/" target="_blank">
