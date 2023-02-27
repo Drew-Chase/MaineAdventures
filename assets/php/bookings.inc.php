@@ -68,7 +68,6 @@ class Bookings
             http_response_code(500);
             die(json_encode(array("error" => "Unable to prepare SQL Statement")));
         }
-        
         $stmt->bind_param("ssssssssssss", $fname, $lname, $email, $phone, $adults, $children, $pets, $cabin, $arrival, $departure,  $seasonal,  $price);
         if ($stmt->execute()) {
             http_response_code(200);
