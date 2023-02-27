@@ -1,98 +1,82 @@
-let currentOptions =
-{
-    isNightly: "nightly",
-    cabin: {
-        name: "",
-        price: 0
-    },
-    people: {
-        adults: 0,
-        children: 0,
-        pets: 0
-    },
-    nights: 7,
-    card: null,
-    price: 0.00
-};
 
 (() => {
-
-
-    let cabins =
+    let cabins = Array.prototype;
+    let currentOptions =
     {
-        nightly: [
-            {
-                name: "Quaker Brook",
-                image: "cabin-a",
-                price: 40
-            },
-            {
-                name: "Deer Brook",
-                image: "cabin-b",
-                price: 40
-            },
-            {
-                name: "Suncook (10+ People)",
-                image: "cabin-c",
-                price: 60
-            },
-            {
-                name: "Rip Stream",
-                image: "cabin-d",
-                price: 50
-            },
-            {
-                name: "Red Brook",
-                image: "cabin-e",
-                price: 50
-            },
-        ],
-        seasonal: [
-            {
-                name: "Premium Lot with electricity and water",
-                image: "cabin-a",
-                price: 3000
-            },
-            {
-                name: "Primitive Lot",
-                image: "cabin-b",
-                price: 1900
-            }
-        ]
-    }
+        isNightly: "nightly",
+        cabin: {
+            name: "",
+            price: 0
+        },
+        people: {
+            adults: 0,
+            children: 0,
+            pets: 0
+        },
+        nights: 7,
+        card: null,
+        price: 0.00
+    };
+
 
     let formatter = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD"
     })
 
+    /**
+     * It fetches a JSON file from the server and stores it in a variable.
+     */
+    async function GetCabinsList() {
+        let response = await fetch("/assets/php/cabins.inc.php?c=get");
+        let json = { "error": "Unexpected error has occurred" };
+        try {
+            json = await response.json();
+        } catch (ex) {
+            console.error(ex);
+        }
+        if (response.ok) {
+            cabins = json;
+        } else
+            alert(json.error);
+
+    }
+
+    /**
+     * It takes an array of objects, and creates a paragraph element for each object, and appends it to
+     * a div.
+     * </code>
+     */
     function InitCabin() {
         let cabinImage = $("#cabin-image")
-
-        let c = currentOptions.isNightly ? Array.from(cabins.nightly) : Array.from(cabins.seasonal);
+        // let c = currentOptions.isNightly ? Array.from(cabins.nightly) : Array.from(cabins.seasonal);
         $("#cabin-names")[0].innerHTML = '';
         let index = 0;
-        c.forEach(i => {
-            let item = document.createElement('p');
-            item.id = i.name.replaceAll(' ', '-').toLowerCase();
-            item.innerText = `${i.name} - ${formatter.format(i.price)}/night`;
+        cabins.forEach(i => {
+            let seasonal = i.seasonal != 0;
+            if (currentOptions.isNightly && !seasonal || !currentOptions.isNightly && seasonal) {
+                let item = document.createElement('p');
+                item.id = i.name.replaceAll(' ', '-').toLowerCase();
+                item.innerText = `${i.name} (${i.people} people) - ${formatter.format(i.price)}/night`;
 
-            $("#cabin-names")[0].appendChild(item)
-            $(item).attr("index", index)
+                $("#cabin-names")[0].appendChild(item)
+                $(item).attr("index", index)
 
-            $(item).on('click', () => {
-                let url = `/assets/images/cabins/${i.image}.jpg`
-                Array.from($("#cabin-names p[selected]")).forEach(c => {
-                    $(c).attr('selected', null)
+                /* Adding an event listener to the item. */
+                $(item).on('click', () => {
+                    let url = `/assets/images/cabins/${i.image}.jpg`
+                    Array.from($("#cabin-names p[selected]")).forEach(c => {
+                        $(c).attr('selected', null)
+                    })
+                    $(item).attr('selected', "")
+
+                    cabinImage.css("background-image", `url('${url}')`)
+                    SelectCabin($(item).attr("index"))
+
                 })
-                $(item).attr('selected', "")
-
-                cabinImage.css("background-image", `url('${url}')`)
-                SelectCabin($(item).attr("index"))
-
-            })
-            if (index == 0) {
-                item.click();
+                if (index == 0) {
+                    item.click();
+                }
             }
             index++;
         })
@@ -100,17 +84,24 @@ let currentOptions =
         $("#cabin-names p")[0].click()
     }
 
+    /**
+     * SelectCabin() is a function that takes in an index, and then sets the currentOptions.cabin.name,
+     * currentOptions.cabin.price, and currentOptions.cabin.people to the name, price, and people of
+     * the cabin at the index.
+     * @param index - the index of the cabin in the cabins array
+     */
     function SelectCabin(index) {
         let cabin;
-        if (currentOptions.isNightly) {
-            cabin = cabins.nightly[index]
-        } else {
-            cabin = cabins.seasonal[index]
-        }
+        cabin = cabins[index]
         currentOptions.cabin.name = cabin.name;
         currentOptions.cabin.price = cabin.price;
+        currentOptions.cabin.people = cabin.people;
     }
 
+    /**
+     * It's a function that takes a click event and sets the value of the clicked element to the value
+     * of the parent element.
+     */
     function InitCounts() {
         $(".count").on('click', e => {
             let element = e.target;
@@ -220,7 +211,6 @@ let currentOptions =
         $("#total-balance")[0].innerHTML = price
     }
 
-
     let scrollBox = {
         element: $("#sections")[0],
         current: "time-span",
@@ -241,7 +231,9 @@ let currentOptions =
 
         $("#previous").attr('disabled', "");
         $("#next").attr('disabled', "");
-
+        if (scrollBox.current == "cabin") {
+            InitCabin()
+        }
         if (scrollBox.current == "success") {
             $("#section-navigation").css('opacity', 0)
         }
@@ -422,10 +414,8 @@ let currentOptions =
         Submit();
     })
 
-
     $("#time-span .card").on('click', e => {
         currentOptions.isNightly = e.currentTarget.querySelector('.name').innerText == "Nightly"
-        InitCabin()
         NavigateTo("cabin");
         $("#section-navigation").css('opacity', "")
     })
@@ -455,7 +445,9 @@ let currentOptions =
             $(input).val(`(${area}) ${town}-${unique}`);
         }
     })
-
+    $("#online-payment-card").on('click', () => {
+        NavigateTo("online-payment")
+    })
     $("#contact-information input").on("focus", e => $(e.target).attr('interacted', ""))
     $("#contact-information input").on("keyup", () => {
         if (validateContactInformation()) {
@@ -467,12 +459,13 @@ let currentOptions =
 
 
     $(".btn.print").on('click', () => Print())
-
-    InitCabin();
-    InitCounts();
+    GetCabinsList()
+    // .then(() => {
+    //     NavigateTo("cabin")
+    // })
+    InitCounts()
     InitTimeSelector()
 
-    // NavigateTo("time-span")
 
 }).call();
 
