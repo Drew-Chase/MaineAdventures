@@ -1,0 +1,173 @@
+.quick-view-row{
+    margin: 1rem 0;
+}
+
+/* Card */
+#quickview-content .quick-view-row .card {
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .25);
+    transition: box-shadow, transform;
+    transition-duration: 200ms;
+}
+
+#quickview-content .quick-view-row .card {
+    background-color: var(--foreground);
+    color: var(--background);
+    aspect-ratio: 0.7;
+    width: 450px;
+    height: auto;
+    position: relative;
+    margin: 0 1rem;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#quickview-content .quick-view-row .card:hover {
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .5);
+    transform: scale(1.01);
+}
+
+/* Title */
+#quickview-content .quick-view-row .card.title .banner {
+    background-color: var(--background);
+    width: 100%;
+    font-size: 2.5rem;
+    padding: 1rem 0;
+    color: var(--foreground);
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .5);
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+#quickview-content .quick-view-row .card.title .icon {
+    background: var(--background);
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    width: auto;
+    height: 33%;
+    margin: auto;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .25);
+
+}
+
+#quickview-content .quick-view-row .card.title .icon i {
+    font-size: 3rem;
+    color: black;
+    margin: auto;
+}
+
+#quickview-content .quick-view-row .card.title#departures-card .icon i {
+    transform: rotate(180deg);
+}
+
+#quickview-content .quick-view-row .card.title .btn {
+    width: 50%;
+    min-width: 100px;
+    margin: auto;
+}
+
+/* Front */
+#quickview-content .quick-view-row .card .front {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+}
+
+#quickview-content .quick-view-row .card .front::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 51.04%, rgba(0, 0, 0, 0.58) 71.35%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+#quickview-content .quick-view-row .card.paid .front:after {
+    content: '$';
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    top: .5rem;
+    right: 4rem;
+    background-color: white;
+    font-size: 1rem;
+    color: var(--foreground);
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    width: 2rem;
+    height: auto;
+    transition: box-shadow, background;
+    transition-duration: 200ms;
+    box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0);
+    z-index: 2;
+
+}
+
+#quickview-content .quick-view-row .card .front .info-btn {
+    position: absolute;
+    top: .5rem;
+    right: 1rem;
+    background-color: white;
+    font-size: 1rem;
+    color: var(--foreground);
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    width: 2rem;
+    height: auto;
+    transition: box-shadow, background;
+    transition-duration: 200ms;
+    box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0);
+    z-index: 2;
+}
+
+#quickview-content .quick-view-row .card .front .info-btn:hover {
+    cursor: pointer;
+    background-color: var(--primary);
+    box-shadow: 0 0px 10px 0 rgba(0, 0, 0, .5);
+}
+
+#quickview-content .quick-view-row .card .front .content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin: 0 1rem;
+}
+
+
+#quickview-content .quick-view-row .card .front .content p {
+    text-transform: uppercase;
+    margin: 0;
+}
+
+#quickview-content .quick-view-row .card .front .content .name {
+    font-size: 2rem;
+}
+
+#quickview-content .quick-view-row .card .front .content .row {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+#quickview-content .quick-view-row .card .front .content .btn {
+    width: 50%;
+}
+
+#quickview-content .quick-view-row .card.paid .front .content .btn.pay-btn {
+    display: none;
+}
+
+#quickview-content .quick-view-row .card .back {
+    display: none;
+}
