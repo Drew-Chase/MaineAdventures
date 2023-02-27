@@ -28,12 +28,11 @@ button {
     transition: box-shadow, filter, background-color, color, transform !important;
     transition-duration: 200ms !important;
 }
-
-.btn i.right {
+.btn i.right, .btn .icon.left {
     margin-right: 1rem;
 }
 
-.btn i.left {
+.btn i.left, .btn .icon.left {
     margin-left: 1rem;
 }
 
