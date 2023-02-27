@@ -1,3 +1,9 @@
+/**
+ * It takes a platform as a parameter, and then opens a new window with the appropriate url for that
+ * platform
+ * @param platform - The platform you want to share to.
+ * @returns undefined.
+ */
 function Share(platform) {
     let url = ``;
     switch (platform) {
