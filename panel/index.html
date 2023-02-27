@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/assets/css/min/footer.min.css">
     <link rel="stylesheet" href="/assets/css/min/inputs.min.css">
     <link rel="stylesheet" href="/assets/css/min/panel.min.css">
+    <link rel="stylesheet" href="/assets/css/min/quickview.min.css">
 
     <!-- Responsive Styling -->
     <link rel="stylesheet" href="/assets/css/min/responsive.min.css">
@@ -28,7 +29,7 @@
 </head>
 
 <body>
-    <nav fixed="true" static>
+    <nav fixed="true" >
         <span id="brand">
             <a href="/panel" title="Go Home">
                 <img src="/assets/images/icon.svg" alt="Maine Adventures Logo">
@@ -37,17 +38,165 @@
         </span>
         <div id="nav-items">
             <a href="/panel" class="nav-item" title="Goto Home Page">Home</a>
-            <a href="/panel/calendar" class="nav-item" title="Goto Services Page">Calendar</a>
+            <a href="/panel/calendar" class="nav-item" title="Goto Calendar">Calendar</a>
             <a href="/panel/" class="nav-item btn primary" title="Goto Booking Page"> <i class="fa fa-search right"></i> Search</a>
+            <a href="/" class="nav-item btn secondary" title="Goto Booking Page">Main Site</a>
         </div>
     </nav>
     <main>
-        <h1>Hello, <span class="username"></span>!</h1>
         <div id="quickview">
             <h3>Quickview</h3>
             <hr>
             <div id="quickview-content" class="col">
-                <p><b><u>No Activity today!</u></b></p>
+                <div class="quick-view-row row">
+                    <div class="card title col" id="arrivals-card">
+                        <p class="banner">arrivals</p>
+                        <div class="icon center">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        </div>
+                        <div class="btn primary">Check Calendar</div>
+                    </div>
+                    <div class="card col paid">
+                        <div class="front" style="background-image: url('/assets/images/debug/Man.png');">
+                            <span class="info-btn center" title="For more information on the customers stay!"><i class="fa-solid fa-info"></i></span>
+                            <div class="content">
+                                <p class="name" title="The customers name">John Doe</p>
+                                <p class="cabin" title="The cabin that the customer has booked">Cabin #4</p>
+                                <div class="row center">
+                                    <div class="btn primary view-calendar-btn" title="Check the calendar for this customer">Check Calendar</div>
+                                    <div class="btn secondary pay-btn" title="Process the customers payment!">Pay</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="back col">
+                            <div class="row">
+                                <p class="identifier">name</p>
+                                <p class="content" id="cust-name">john doe</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">Cabin</p>
+                                <p class="content" id="cust-name">Cabin #4</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">adults</p>
+                                <p class="content" id="cust-name">3 adults</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">children</p>
+                                <p class="content" id="cust-name">3 children</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">pets</p>
+                                <p class="content" id="cust-name">3 pets</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">payment</p>
+                                <p class="content" id="cust-name">online</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">nights</p>
+                                <p class="content" id="cust-name">13 nights</p>
+                            </div>
+                            <div class="btn primary">Close</div>
+                        </div>
+                    </div>
+                    <div class="card col">
+                        <div class="front" style="background-image: url('/assets/images/debug/Man.png');">
+                            <span class="info-btn center" title="For more information on the customers stay!"><i class="fa-solid fa-info"></i></span>
+                            <div class="content">
+                                <p class="name" title="The customers name">John Doe</p>
+                                <p class="cabin" title="The cabin that the customer has booked">Cabin #4</p>
+                                <div class="row center">
+                                    <div class="btn primary view-calendar-btn" title="Check the calendar for this customer">Check Calendar</div>
+                                    <div class="btn secondary pay-btn" title="Process the customers payment!">Pay</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="back col">
+                            <div class="row">
+                                <p class="identifier">name</p>
+                                <p class="content" id="cust-name">john doe</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">Cabin</p>
+                                <p class="content" id="cust-name">Cabin #4</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">adults</p>
+                                <p class="content" id="cust-name">3 adults</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">children</p>
+                                <p class="content" id="cust-name">3 children</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">pets</p>
+                                <p class="content" id="cust-name">3 pets</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">payment</p>
+                                <p class="content" id="cust-name">online</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">nights</p>
+                                <p class="content" id="cust-name">13 nights</p>
+                            </div>
+                            <div class="btn primary">Close</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="quick-view-row row">
+                    <div class="card title col" id="departures-card">
+                        <p class="banner">departures</p>
+                        <div class="icon center">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        </div>
+                        <div class="btn primary">Check Calendar</div>
+                    </div>
+                    <div class="card col paid">
+                        <div class="front" style="background-image: url('/assets/images/debug/Man.png');">
+                            <span class="info-btn center" title="For more information on the customers stay!"><i class="fa-solid fa-info"></i></span>
+                            <div class="content">
+                                <p class="name" title="The customers name">John Doe</p>
+                                <p class="cabin" title="The cabin that the customer has booked">Cabin #4</p>
+                                <div class="row center">
+                                    <div class="btn primary view-calendar-btn" title="Check out the customer">Check Out</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="back col">
+                            <div class="row">
+                                <p class="identifier">name</p>
+                                <p class="content" id="cust-name">john doe</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">Cabin</p>
+                                <p class="content" id="cust-name">Cabin #4</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">adults</p>
+                                <p class="content" id="cust-name">3 adults</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">children</p>
+                                <p class="content" id="cust-name">3 children</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">pets</p>
+                                <p class="content" id="cust-name">3 pets</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">payment</p>
+                                <p class="content" id="cust-name">online</p>
+                            </div>
+                            <div class="row">
+                                <p class="identifier">nights</p>
+                                <p class="content" id="cust-name">13 nights</p>
+                            </div>
+                            <div class="btn primary">Close</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -60,6 +209,9 @@
     <!-- Page Scripts -->
     <script src="/assets/js/min/auth.min.js"></script>
     <script src="/assets/js/min/lf.min.js"></script>
+
+    <!-- <script src="https://use.fontawesome.com/70437c560e.js"></script> -->
+
 </body>
 
 </html>
