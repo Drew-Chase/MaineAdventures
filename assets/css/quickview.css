@@ -1,4 +1,4 @@
-.quick-view-row{
+.quick-view-row {
     margin: 1rem 0;
 }
 
@@ -168,6 +168,71 @@
     display: none;
 }
 
-#quickview-content .quick-view-row .card .back {
-    display: none;
+#quickview-content .card .stars {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0;
 }
+#quickview-content .card .stars i{
+    font-size: 2rem;
+    margin: 0 6px;
+}
+
+ /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+ .card {
+    background-color: transparent;
+    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  }
+  
+  /* This container is needed to position the front and back side */
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 500ms;
+    transform-style: preserve-3d;
+  }
+  
+  /* Do an horizontal flip when you move the mouse over the flip box container */
+  .card[flip] .front{
+    opacity: 0;
+  }
+  .card:not([flip]) .back{
+    opacity: 0;
+  }
+  .card[flip] .card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  /* Position the front and back side */
+  .front, .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+    transition: opacity 500ms;
+  }
+  
+  .back {
+    background-color: var(--foreground);
+    transform: rotateY(180deg);
+  } 
+
+  .back .back-content{
+    height: 100%;
+    width: 90%;
+    margin: 1rem auto;
+  }
+  .back .row p{
+    text-transform: uppercase;
+  }
+  .back .row p.identifier{
+    opacity: .5;
+    font-weight: 900;
+  }
+  .back .row p.content{
+    width: 100%;
+    text-align: end;
+  }
