@@ -41,6 +41,11 @@ button {
     color: var(--foreground);
 }
 
+.btn.dark{
+    color: var(--background);
+    background-color: var(--foreground);
+}
+
 .btn:hover {
     box-shadow: 0 0 10px 0px rgba(0, 0, 0, .15);
     background-color: var(--primary);
