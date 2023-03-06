@@ -1,4 +1,5 @@
 <?php
+header("Content-Type: application/json");
 require "connection.inc.php";
 
 if (isset($_GET["c"])) {
@@ -47,9 +48,7 @@ if (isset($_GET["c"])) {
         default:
             break;
     }
-} else {
-    die(json_encode(["error" => "No category was provided!"]));
-}
+} 
 
 class Bookings
 {

@@ -1,5 +1,5 @@
 <?php
-
+header("Content-Type: application/json");
 require "connection.inc.php";
 $cabins = new Cabins();
 if (isset($_GET["c"])) {
