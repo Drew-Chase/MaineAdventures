@@ -166,6 +166,10 @@
         })
     }
 
+    /**
+     * It takes the currentOptions object, and updates the price based on the number of nights, the number
+     * of people, and the price of the cabin.
+     */
     function UpdatePrice() {
         let price = 0;
         let price_per_child = 10;
@@ -187,6 +191,7 @@
         currentOptions.price = price;
         price = formatter.format(price)
 
+        /* Setting the text of the elements with the id's listed to the values of the variables listed. */
         $("#itemized-cabin-name")[0].innerText = currentOptions.cabin.name;
         $("#itemized-nights")[0].innerText = `${currentOptions.nights} Nights`;
         $("#itemized-cabin-price")[0].innerText = formatter.format(cabin_cost);
@@ -217,6 +222,11 @@
         next: "cabin",
         previous: null
     };
+    /**
+     * It takes a string as an argument, and then it hides all the sections except the one with the id that
+     * matches the string.
+     * @param name - The name of the section to navigate to.
+     */
 
     function NavigateTo(name) {
         $("#section-navigation").css('opacity', "")
@@ -272,6 +282,10 @@
             }
         }, 500)
     }
+    /**
+     * It opens a new window, writes the contents of the div with the id of "itemized" to the new window,
+     * and then prints the new window.
+     */
 
     function Print() {
         let print_window = window.open('', "PRINT", 'width=1280,height=720,scale=200')
@@ -305,6 +319,11 @@
         }
     }
 
+    /**
+     * It takes a date object and returns a string in the format of YYYY-MM-DD.
+     * @param input - The date object to be formatted.
+     * @returns A string in the format of YYYY-MM-DD
+     */
     function GetFormattedDate(input) {
         let day = ("0" + input.getDate()).slice(-2);
         let month = ("0" + (input.getMonth() + 1)).slice(-2);
