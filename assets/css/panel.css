@@ -1,6 +1,9 @@
-#login-form{
+.form{
     margin: auto;
     width: 75%;
+}
+.form .btn{
+    min-width: 200px;
 }
 #login-form .btn{
     width: 200px;
