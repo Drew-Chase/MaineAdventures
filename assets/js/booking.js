@@ -6,7 +6,8 @@
         isNightly: "nightly",
         cabin: {
             name: "",
-            price: 0
+            price: 0,
+            id: 0
         },
         people: {
             adults: 0,
@@ -60,7 +61,7 @@
                 item.innerText = `${i.name} (${i.people} people) - ${formatter.format(i.price)}/night`;
 
                 $("#cabin-names")[0].appendChild(item)
-                $(item).attr("index", index)
+                $(item).attr("index", i.id)
 
                 /* Adding an event listener to the item. */
                 $(item).on('click', () => {
@@ -72,16 +73,20 @@
 
                     cabinImage.css("background-image", `url('${url}')`)
                     SelectCabin($(item).attr("index"))
+                    console.log(currentOptions.cabin)
 
                 })
-                if (index == 0) {
-                    item.click();
+                if (currentOptions.cabin.id == 0) {
+                    if (index == 0) {
+                        console.log("CLICKED");
+                        item.click();
+                    }
                 }
             }
             index++;
         })
 
-        $("#cabin-names p")[0].click()
+        // $("#cabin-names p")[0].click()
     }
 
     /**
@@ -92,7 +97,8 @@
      */
     function SelectCabin(index) {
         let cabin;
-        cabin = cabins[index]
+        cabin = cabins[index - 1]
+        currentOptions.cabin.id = cabin.id;
         currentOptions.cabin.name = cabin.name;
         currentOptions.cabin.price = cabin.price;
         currentOptions.cabin.people = cabin.people;
@@ -166,56 +172,6 @@
         })
     }
 
-    /**
-     * It takes the currentOptions object, and updates the price based on the number of nights, the number
-     * of people, and the price of the cabin.
-     */
-    function UpdatePrice() {
-        let price = 0;
-        let price_per_child = 10;
-        let price_per_adult = 15;
-        let price_per_pet = 10;
-
-        let cabin_cost = currentOptions.cabin.price * currentOptions.nights;
-        let adults_cost = currentOptions.people.adults * price_per_adult * currentOptions.nights
-        let children_cost = currentOptions.people.children * price_per_child * currentOptions.nights
-        let pets_cost = currentOptions.people.pets * price_per_pet * currentOptions.nights;
-        price += adults_cost
-        if (currentOptions.people.children > 0)
-            price += children_cost
-        if (currentOptions.people.pets > 0)
-            price += pets_cost
-
-        price += cabin_cost;
-
-        currentOptions.price = price;
-        price = formatter.format(price)
-
-        /* Setting the text of the elements with the id's listed to the values of the variables listed. */
-        $("#itemized-cabin-name")[0].innerText = currentOptions.cabin.name;
-        $("#itemized-nights")[0].innerText = `${currentOptions.nights} Nights`;
-        $("#itemized-cabin-price")[0].innerText = formatter.format(cabin_cost);
-        $("#itemized-cabin-price-per")[0].innerText = formatter.format(currentOptions.cabin.price);
-
-        $("#itemized-adults-count")[0].innerText = currentOptions.people.adults;
-        $("#itemized-adults-price")[0].innerText = formatter.format(adults_cost);
-        $("#itemized-adults-price-per")[0].innerText = formatter.format(price_per_adult);
-
-        $("#itemized-children-count")[0].innerText = currentOptions.people.children;
-        $("#itemized-children-price")[0].innerText = formatter.format(children_cost);
-        $("#itemized-children-price-per")[0].innerText = formatter.format(price_per_child);
-
-        $("#itemized-pets-count")[0].innerText = currentOptions.people.pets;
-        $("#itemized-pets-price")[0].innerText = formatter.format(pets_cost);
-        $("#itemized-pets-price-per")[0].innerText = formatter.format(price_per_pet);
-        if (currentOptions.card != null) {
-            $("#card-suffix")[0].innerText = currentOptions.card;
-        } else {
-            $("#itemized-paid").css('display', "none")
-        }
-        $("#total-balance")[0].innerHTML = price
-    }
-
     let scrollBox = {
         element: $("#sections")[0],
         current: "time-span",
@@ -241,7 +197,7 @@
 
         $("#previous").attr('disabled', "");
         $("#next").attr('disabled', "");
-        if (scrollBox.current == "cabin") {
+        if (scrollBox.current == "cabin" && currentOptions.cabin.id == 0) {
             InitCabin()
         }
         if (scrollBox.current == "success") {
@@ -281,42 +237,6 @@
                 $("#next").attr('disabled', "")
             }
         }, 500)
-    }
-    /**
-     * It opens a new window, writes the contents of the div with the id of "itemized" to the new window,
-     * and then prints the new window.
-     */
-
-    function Print() {
-        let print_window = window.open('', "PRINT", 'width=1280,height=720,scale=200')
-        print_window.document.write(`<html>
-        <head>
-            <link rel="stylesheet" href="/assets/css/min/main.min.css">
-            <link rel="stylesheet" href="/assets/css/min/social-media.min.css">
-            <link rel="stylesheet" href="/assets/css/min/inputs.min.css">
-            <link rel="stylesheet" href="/assets/css/min/links.min.css">
-            <link rel="stylesheet" href="/assets/css/min/nav.min.css">
-            <link rel="stylesheet" href="/assets/css/min/scrollbar.min.css">
-            <link rel="stylesheet" href="/assets/css/min/booking.min.css">
-            <link rel="stylesheet" href="/assets/css/min/footer.min.css">
-            <style>
-                .btn{
-                    display:none;
-                }
-            </style>
-        </head>
-        <body>
-        <div id="itemized">
-            ${$("#itemized").html()}
-        </div>
-        </body>
-        </html>`)
-        print_window.document.close();
-        print_window.onload = () => {
-            print_window.focus();
-            print_window.print();
-            print_window.close();
-        }
     }
 
     /**
@@ -362,25 +282,19 @@
     }
 
     async function Submit() {
-        return Submit(null, null, null, null)
-    }
-
-    async function Submit(card, cvc, exp) {
-        UpdatePrice()
-        let inPerson = card == null;
         let data = new FormData();
         data.append("first_name", $("#contact-information #fname").val());
         data.append("last_name", $("#contact-information #lname").val());
         data.append("email", $("#contact-information #email").val());
         data.append("phone", $("#contact-information #telephone-number").val());
-        data.append("adults", currentOptions.adults);
-        data.append("children", currentOptions.children);
+        data.append("adults", currentOptions.people.adults);
+        data.append("children", currentOptions.people.children);
         data.append("pets", currentOptions.people.pets);
         data.append("cabin", currentOptions.cabin.name);
         data.append("arrival", `${GetFormattedDate($("#start-date")[0].valueAsDate)} ${$("#start-time").val()}`);
         data.append("departure", `${GetFormattedDate($("#end-date")[0].valueAsDate)} ${$("#end-time").val()}`);
         data.append("seasonal", !currentOptions.isNightly);
-        data.append("price", currentOptions.price);
+        data.append("credits", 0);
         let id = -1;
         let response = await fetch("/assets/php/bookings.inc.php?c=create", { method: "POST", body: data })
         if (!response.ok) {
@@ -398,39 +312,53 @@
             } catch { }
         }
         if (id == -1) {
-            alert("Unable to process request at this time!")
-            return;
+            window.location.href = "/error/?c=500";
         }
-        if (!inPerson) {
-            data = new FormData();
-            data.append("id", id);
-            data.append("card", card);
-            data.append("card_exp", exp);
-            data.append("cvc", cvc);
-            data.append("price", Math.ceil(currentOptions.price * 100))
-            let response = await fetch("/assets/php/payments.inc.php", {
-                method: "POST",
-                body: data
-            })
-            if (response.ok) {
-                let cardLength = card.split('').length;
-                currentOptions.card = `x${card.slice(cardLength - 4, cardLength)}`
-            } else {
-                let json = { error: "Unexpected error has occurred when attempting to process your payment!" }
-                try {
-                    json = await response.json();
-                } catch { }
-                alert(json.error)
-                return;
-            }
-        }
-        NavigateTo("itemized");
+        return id;
     }
 
-    $("#inperson-payment-card").on('click', () => {
+    async function LoadItemizedList() {
+        let data =
+        {
+            adults: currentOptions.people.adults,
+            children: currentOptions.people.children,
+            pets: currentOptions.people.pets,
+            cabin: currentOptions.cabin.id,
+            arrival: `${GetFormattedDate($("#start-date")[0].valueAsDate)} ${$("#start-time").val()}`,
+            departure: `${GetFormattedDate($("#end-date")[0].valueAsDate)} ${$("#end-time").val()}`,
+            seasonal: !currentOptions.isNightly,
+        }
+        let html = await $.post("/assets/php/itemized.php", data).then();
+        $("#itemized #itemized-content").html(html)
+        $("#itemized").css('display', "")
+        $("#sections").css('display', "none")
+        $("#itemized")[0].scrollIntoView();
+
+
+    }
+    $("#online-payment-card, #inperson-payment-card").on('click', () => {
         $("#previous").attr('disabled', "");
         $("#next").attr('disabled', "");
-        Submit();
+        LoadItemizedList();
+    })
+    $("#inperson-payment-card").on('click', () => {
+        $("#submit-booking-btn").on('click', async () => {
+            let id = await Submit();
+            window.location.href = `/booking/complete/?id=${id}`;
+        })
+    })
+    $("#online-payment-card").on('click', () => {
+        $("#submit-booking-btn").on('click', async () => {
+            let id = await Submit();
+            window.location.href = `/booking/pay.php?id=${id}`;
+        })
+    })
+    $("#cancel-booking-btn").on('click', async () => {
+        $("#itemized").css('display', "none")
+        $("#sections").css('display', "")
+        $("#sections")[0].scrollIntoView();
+        NavigateTo("cabin");
+        $("#submit-booking-btn").off('click', "**")
     })
 
     $("#time-span .card").on('click', e => {
