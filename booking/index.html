@@ -218,18 +218,6 @@
             </div>
         </section>
 
-        <section id="online-payment" style="display: none;" previous="payment-method">
-            <h2>Pay Online</h2>
-            <div id="online-payment-form" class="col">
-                <input type="text" name="cardholder" id="cardholder" placeholder="Cardholder Name" autocomplete="cc-name">
-                <div class="row">
-                    <input type="text" name="card-number" id="card-number" placeholder="0000 0000 0000 0000" autocomplete="cc-number">
-                    <input type="month" name="" id="" autocomplete="cc-exp">
-                    <input type="number" name="card-cvv2" id="cvv" placeholder="123" maxlength="2" autocomplete="cc-csc">
-                </div>
-            </div>
-        </section>
-
     </div>
     <div id="section-navigation" class="row center no-select" style="opacity: 0;">
         <div id="previous" class="section-nav-item row" disabled><i class="fa fa-chevron-left"></i> Prev.</div>
@@ -237,64 +225,12 @@
     </div>
 
 
-    <section id="itemized" style="display: none;">
-        <h2>Order Completed</h2>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Price per Item</th>
-            </tr>
-            <tr>
-                <td id="itemized-cabin-name"></td>
-                <td id="itemized-nights"></td>
-                <td id="itemized-cabin-price"></td>
-                <td id="itemized-cabin-price-per"></td>
-            </tr>
-            <tr>
-                <td id="itemized-adults-name">Adults</td>
-                <td id="itemized-adults-count"></td>
-                <td id="itemized-adults-price"></td>
-                <td id="itemized-adults-price-per"></td>
-            </tr>
-            <tr>
-                <td id="itemized-children-name">Children</td>
-                <td id="itemized-children-count"></td>
-                <td id="itemized-children-price"></td>
-                <td id="itemized-children-price-per"></td>
-            </tr>
-            <tr>
-                <td id="itemized-pets-name">Pets</td>
-                <td id="itemized-pets-count"></td>
-                <td id="itemized-pets-price"></td>
-                <td id="itemized-pets-price-per"></td>
-            </tr>
-        </table>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Time</th>
-            </tr>
-            <tr>
-                <td>Arrival</td>
-                <td id="itemized-arrival-date">Monday, Oct. 4th, 2023</td>
-                <td id="itemized-arrival-time">10:30 AM</td>
-            </tr>
-            <tr>
-                <td>Departure</td>
-                <td id="itemized-departure-date">Monday, Oct. 16th, 2023</td>
-                <td id="itemized-departure-time">6:00 PM</td>
-            </tr>
-        </table>
-        <hr>
-        <div id="itemized-paid">
-            <p><strong>Paid with Visa ending in <span id="card-suffix"></span></strong></p>
+    <section id="itemized" class="col" style="display: none;">
+        <div id="itemized-content"></div>
+        <div class="row center">
+            <div class="btn primary" id="submit-booking-btn">Continue</div>
+            <div class="btn dark" id="cancel-booking-btn">Change</div>
         </div>
-        <p id="balance-line">Total Balance: <strong id="total-balance"></strong>
-            <span id="print-itemized" class="btn print"> <i class="fa fa-solid fa-print"></i> Print</span>
-        </p>
     </section>
     <footer id="footer" class="center col">
         <img id="footer-logo" src="/assets/images/large-logo.svg" alt="">
