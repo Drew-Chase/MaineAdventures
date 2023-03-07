@@ -18,7 +18,7 @@ if (isset($_GET["c"])) {
                 isset($_POST["arrival"]) &&
                 isset($_POST["departure"]) &&
                 isset($_POST["seasonal"]) &&
-                isset($_POST["price"])
+                isset($_POST["credits"])
             ) {
                 $bookings->Create(
                     $_POST["first_name"],
@@ -32,7 +32,7 @@ if (isset($_GET["c"])) {
                     $_POST["arrival"],
                     $_POST["departure"],
                     $_POST["seasonal"],
-                    $_POST["price"]
+                    $_POST["credits"]
                 );
             } else {
                 http_response_code(401);
@@ -58,23 +58,23 @@ class Bookings
     function GetDepartingToday()
     {
     }
-    function Create($fname, $lname, $email, $phone, $adults, $children, $pets, $cabin, $arrival, $departure,  $seasonal,  $price)
+    function Create($fname, $lname, $email, $phone, $adults, $children, $pets, $cabin, $arrival, $departure,  $seasonal,  $credits)
     {
         $connection = new Connection();
-        $sql = "INSERT INTO `bookings`( `fname`, `lname`, `email`, `phone`, `adults`, `children`, `pets`, `cabin`, `arrival`, `departure`, `seasonal`, `price`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO `bookings`( `fname`, `lname`, `email`, `phone`, `adults`, `children`, `pets`, `cabin`, `arrival`, `departure`, `seasonal`, `credits`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $connection->conn->prepare($sql);
         if (!$stmt) {
             http_response_code(500);
             die(json_encode(array("error" => "Unable to prepare SQL Statement")));
         }
-        $stmt->bind_param("ssssssssssss", $fname, $lname, $email, $phone, $adults, $children, $pets, $cabin, $arrival, $departure,  $seasonal,  $price);
+        $stmt->bind_param("ssssssssssss", $fname, $lname, $email, $phone, $adults, $children, $pets, $cabin, $arrival, $departure,  $seasonal,  $credits);
         if ($stmt->execute()) {
             http_response_code(200);
             $id = $connection->conn->insert_id;
             die(json_encode(["id" => $id]));
         } else {
             http_response_code(500);
-            die(json_encode(array("error" => "Unable to register user!")));
+            die(json_encode(array("error" => "Unable to create booking!")));
         }
     }
 }
