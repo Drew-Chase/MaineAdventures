@@ -4,6 +4,3 @@
 [submodule "assets/libraries/fontawesome"]
 	path = assets/libraries/fontawesome
 	url = https://github.com/FortAwesome/Font-Awesome.git
-[submodule "assets/libraries/hashids"]
-	path = assets/libraries/hashids
-	url = https://github.com/vinkla/hashids.git
