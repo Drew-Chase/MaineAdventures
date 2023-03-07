@@ -1,34 +1,5 @@
 <?php
-require_once realpath(getcwd() . "/../assets/php/connection.inc.php");
-$price = "";
-
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $connection = new Connection();
-    $sql = "SELECT * FROM `bookings` WHERE `id`=? LIMIT 1;";
-    $stmt = $connection->conn->prepare($sql);
-    if (!$stmt) {
-        http_response_code(500);
-        header("location: /error/?c=500");
-        die;
-    }
-    if (!$stmt->bind_param("s", $id)) {
-        http_response_code(500);
-        header("location: /error/?c=500");
-        die;
-    }
-    if ($stmt->execute()) {
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $data = $result->fetch_assoc();
-            $price = $data["price"];
-        }
-    }
-} else {
-    http_response_code(500);
-    header("location: /error/?c=no-cust");
-    die;
-}
+require_once realpath(getcwd() . "/../assets/php/itemized.inc.php");
 
 ?>
 
@@ -96,7 +67,7 @@ if (isset($_GET['id'])) {
                     <input type="text" name="cvv2" id="cvv2" placeholder="CVV2" autocomplete="cc-csc">
                     <input type="text" name="exp" id="exp" placeholder="01/28" autocomplete="cc-exp">
                 </div>
-                <h4>Balance: <span class="balance"><?php echo "$" . number_format($price, 2); ?></span></h4>
+                <h4>Balance: <span class="balance">$<?php echo number_format($price, 2); ?></span></h4>
                 <p class="error" style="opacity: 0;">Unknown error has occurred!</p>
                 <div class="row center">
                     <div class="btn primary" id="pay-btn">Pay</div>
@@ -108,7 +79,7 @@ if (isset($_GET['id'])) {
 
     <footer id="footer" class="center col">
         <img id="footer-logo" src="/assets/images/large-logo.svg" alt="">
-        <p id="copyright">&copy; Copyright 2011-2023 Allagash Gateway Campsites & Cabins. All rights reserved.</p>
+        <p id="copyright">&copy; Copyright 2011-<span class="year"></span> Allagash Gateway Campsites & Cabins. All rights reserved.</p>
     </footer>
 
     <!-- Page Scripts -->
