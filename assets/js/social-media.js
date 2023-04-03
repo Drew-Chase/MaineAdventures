@@ -22,3 +22,31 @@ function Share(platform) {
     }
     window.open(url, "_blank", "popup=true, width=550, height=700")
 }
+var user = null;
+$('.btn.login-fb').attr('disabled', "")
+window.fbAsyncInit = function () {
+    FB.init({
+        appId: '1262781427666667',
+        autoLogAppEvents: true,
+        xfbml: true,
+        version: 'v16.0'
+    })
+
+    $('.btn.login-fb').attr('disabled', null)
+    $('.btn.login-fb').on('click', () => {
+        FB.login(login => {
+            if (login.authResponse) {
+                FB.api('/me', { fields: 'id,first_name,last_name,email' }, response => {
+                    user = response;
+                    $('.btn.login-fb').attr('disabled', "")
+                });
+                FB.api("/me/picture", {type: "square", width: 1024, height: 1024, redirect: false}, picture=>{
+                    console.log(picture)
+                })
+
+            } else {
+                console.log('User cancelled login or did not fully authorize.');
+            }
+        });
+    })
+};

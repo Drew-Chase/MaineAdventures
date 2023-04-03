@@ -90,6 +90,14 @@ nav #nav-items a.nav-item:not(.btn):hover:before {
     max-width: 100%;
 }
 
+nav #nav-hamburger {
+    display: none;
+    position: absolute;
+    right: 1rem;
+    width: 40px;
+    cursor: pointer;
+}
+
 /* Fixed */
 nav[fixed=true] {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, .5);

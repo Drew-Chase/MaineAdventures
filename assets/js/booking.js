@@ -209,6 +209,7 @@
             UpdatePrice()
             $(`#${name}`)[0].scrollIntoView();
         }
+
         setTimeout(() => {
             scrollBox.element.querySelectorAll("section").forEach(i => {
                 if (i.id != name)
@@ -235,6 +236,9 @@
             }
             if (scrollBox.current == "payment-method") {
                 $("#next").attr('disabled', "")
+            }
+            if (scrollBox.current == "login") {
+                $("#next").attr('disabled', "");
             }
         }, 500)
     }
@@ -323,12 +327,12 @@
             adults: currentOptions.people.adults,
             children: currentOptions.people.children,
             pets: currentOptions.people.pets,
-            cabin: currentOptions.cabin.id,
+            cabin: currentOptions.cabin.name,
             arrival: `${GetFormattedDate($("#start-date")[0].valueAsDate)} ${$("#start-time").val()}`,
             departure: `${GetFormattedDate($("#end-date")[0].valueAsDate)} ${$("#end-time").val()}`,
             seasonal: !currentOptions.isNightly,
         }
-        let html = await $.post("/assets/php/itemized.php", data).then();
+        let html = await $.post("/panel/itemized.php", data).then();
         $("#itemized #itemized-content").html(html)
         $("#itemized").css('display', "")
         $("#sections").css('display', "none")
@@ -392,9 +396,6 @@
             $(input).val(`(${area}) ${town}-${unique}`);
         }
     })
-    $("#online-payment-card").on('click', () => {
-        NavigateTo("online-payment")
-    })
     $("#contact-information input").on("focus", e => $(e.target).attr('interacted', ""))
     $("#contact-information input").on("keyup", () => {
         if (validateContactInformation()) {
@@ -412,6 +413,8 @@
     // })
     InitCounts()
     InitTimeSelector()
+
+    NavigateTo("login")
 
 
 }).call();

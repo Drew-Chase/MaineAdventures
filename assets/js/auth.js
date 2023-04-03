@@ -1,6 +1,6 @@
 (() => {
     let user = {}
-    if (!window.location.pathname.startsWith("/panel/login")) {
+    if (!window.location.pathname.startsWith("/panel/login")&&!window.location.pathname.startsWith("/panel/register")) {
         IsLoggedIn().then(response => {
             if (!response.success) {
                 console.error(response)
@@ -60,6 +60,13 @@
         }
 
         return json;
+    }
+
+    async function Register(username, password, admin)
+    {
+
+
+        return Login(username, password)
     }
 
     function Logout() {

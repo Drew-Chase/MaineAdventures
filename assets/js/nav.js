@@ -23,3 +23,14 @@ pageArrow.on("click", () => {
         window.scrollTo(0, window.screen.height - 200)
     }
 })
+
+$("#nav-hamburger").on("click", () => {
+    let isActive = nav.hasClass("active")
+    if (isActive) {
+        $("body").css("overflow", "")
+        nav.removeClass("active")
+    } else {
+        $("body").css("overflow", "hidden")
+        nav.addClass("active")
+    }
+})

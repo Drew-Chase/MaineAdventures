@@ -1,4 +1,5 @@
 <?php
+require_once "hashids.inc.php";
 require_once "connection.inc.php";
 $fname = "";
 $lname = "";
@@ -20,6 +21,7 @@ $credit = 0;
 $connection = new Connection();
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
+    $id = $hashids->decode($id)[0];
     $sql = "SELECT * FROM `bookings` WHERE `id`=? LIMIT 1;";
     $stmt = $connection->conn->prepare($sql);
     if (!$stmt) {

@@ -25,6 +25,7 @@
     min-height: 300px;
     max-height: 450px;
     margin-bottom: 4rem;
+    max-width: 75%;
 }
 
 #landing #landing-buttons {
@@ -60,10 +61,10 @@
     cursor: pointer;
     transition: right, background-color, color, transform;
     transition-duration: 200ms;
-    z-index: 9999;
+    z-index: 10;
 }
 
-#page-arrow:not([fixed=true]){
+#page-arrow:not([fixed=true]) {
     animation-name: bounce;
     animation-timing-function: ease-in-out;
     animation-duration: 1s;
@@ -103,9 +104,13 @@
     padding: 0 4rem;
 }
 
-#about-us>.row>* {
+#about-us > .row > * {
     margin: 0 2rem;
-    width: 50%;
+    width: 100%;
+}
+
+#about-us > .row img {
+    object-fit: contain;
 }
 
 #about-us p {
@@ -174,12 +179,11 @@
     margin-bottom: 0;
 }
 
-#share-page-cta .row {
-    width: 20%;
-}
 
 #share-page-cta .social-icon {
     width: 100%;
+    min-width: 50px;
+    min-height: 50px;
     display: flex;
     font-size: 2rem;
     aspect-ratio: 1;
@@ -190,7 +194,7 @@
     margin: 0 2rem;
 }
 
-#contact>* {
+#contact > * {
     display: flex;
     width: 100%;
 }

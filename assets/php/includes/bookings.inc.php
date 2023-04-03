@@ -1,6 +1,7 @@
 <?php
 header("Content-Type: application/json");
-require "connection.inc.php";
+require_once "connection.inc.php";
+require_once "hashids.inc.php";
 
 if (isset($_GET["c"])) {
     $bookings = new Bookings();
@@ -48,7 +49,7 @@ if (isset($_GET["c"])) {
         default:
             break;
     }
-} 
+}
 
 class Bookings
 {
@@ -71,6 +72,8 @@ class Bookings
         if ($stmt->execute()) {
             http_response_code(200);
             $id = $connection->conn->insert_id;
+            global $hashids;
+            $id = $hashids->encode($id);
             die(json_encode(["id" => $id]));
         } else {
             http_response_code(500);

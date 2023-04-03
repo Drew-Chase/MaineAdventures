@@ -5,3 +5,99 @@
         background-color: rgba(0, 0, 0, .5);
     }
 }
+
+@media (max-width: 1280px) {
+    #about-us > .row img {
+        display: none;
+    }
+
+    #contact {
+        flex-direction: column-reverse;
+    }
+
+    #contact .contact-card {
+        padding: 2rem;
+    }
+
+}
+
+@media (max-width: 720px) {
+
+    #hunting-banner h2 {
+        font-size: 3rem;
+    }
+
+    #hunting-banner h4 {
+        font-size: 2rem;
+    }
+
+    #hunting-banner p {
+        font-size: 1rem;
+    }
+
+    #hunting-banner .btn.secondary {
+        display: none;
+    }
+
+    nav {
+        justify-content: start;
+    }
+
+    nav #nav-items {
+        position: fixed;
+        inset: 0;
+        flex-direction: column;
+        background: black;
+        max-width: 100%;
+        justify-content: center;
+        z-index: -1;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 500ms;
+    }
+
+    nav.active #nav-items {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+
+    nav #nav-items .nav-item:not(.btn) {
+        font-size: 2rem;
+        margin: 2rem;
+        width: 50%;
+        border-bottom: 2px solid white;
+    }
+
+    nav #nav-hamburger {
+        display: block;
+    }
+
+    #top-bar, #middle-bar, #bottom-bar {
+        transition: transform 500ms;
+        transform-origin: center;
+
+    }
+
+    #middle-bar {
+        transition: opacity 200ms;
+    }
+
+    nav.active #nav-hamburger #top-bar {
+        transform: translateX(-13px) translateY(10px) rotate(55deg);
+    }
+
+    nav.active #nav-hamburger #middle-bar {
+        opacity: 0;
+    }
+
+    nav.active #nav-hamburger #bottom-bar {
+        transform: translateX(-14px) translateY(-13px) rotate(-55deg);
+    }
+
+    #about-us {
+        padding: 0 1rem;
+    }
+
+
+}

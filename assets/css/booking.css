@@ -82,7 +82,7 @@
     margin-bottom: 0;
 }
 
-section>p {
+section > p {
     margin-left: 2rem;
 }
 
@@ -301,10 +301,9 @@ section>p {
     transition: background-image 100ms;
 }
 
-#cabin>.row {
+#cabin > .row {
     height: 100%;
 }
-
 
 
 /*#endregion Cabin Selectors */
@@ -503,3 +502,37 @@ label {
 }
 
 /*#endregion Payments */
+#login h2 {
+    margin-left: 0 !important;
+}
+
+#login > * {
+    width: 100%;
+    margin: 0 2rem;
+}
+
+#login .btn.social {
+    width: 70%;
+    padding: 2rem 0;
+    border-radius: 0;
+    background: black;
+    transition: background 500ms;
+}
+
+#login .btn.social:hover {
+    color: white;
+}
+
+#login .btn.social:not([disabled])#facebook-btn:hover {
+    background: #2374e1;
+    color: white;
+}
+
+#login .btn.social:not([disabled])#instagram-btn:hover {
+    background: linear-gradient(65deg, #d400a2 -15%, #ffc200 115%);
+    color: white;
+}
+
+#login .btn.social[disabled] {
+    filter: brightness(.5);
+}

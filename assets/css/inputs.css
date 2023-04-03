@@ -7,6 +7,14 @@ input {
     border: none;
 }
 
+input:read-only {
+    color: rgba(0, 0, 0, .5);
+    cursor: not-allowed;
+
+}
+
+input[type=password] {}
+
 input[type=date], input[type=time], input {
     padding: 3rem;
     font-size: 1.5rem;
@@ -44,4 +52,42 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
     -moz-appearance: textfield;
+}
+
+toggle {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 100px;
+    background: #D9D9D9;
+    --width: 0;
+    --left: 0;
+}
+
+toggle option {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 1;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+toggle::after {
+    content: '';
+    position: absolute;
+    left: var(--left);
+    top: 0;
+    right: 0;
+    width: var(--width);
+    bottom: 0;
+    background: #FFE161;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 100px;
+    transition: left 200ms;
 }

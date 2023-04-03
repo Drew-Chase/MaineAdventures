@@ -1,6 +1,8 @@
 <?php
-require_once realpath(getcwd() . "/../assets/php/itemized.inc.php");
-
+$admin = "";
+if(isset($_GET["tok"])){
+    $admin = $_GET["tok"];
+}
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +12,7 @@ require_once realpath(getcwd() . "/../assets/php/itemized.inc.php");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment - Maine Adventures</title>
+    <title>Staff Login - Maine Adventures</title>
 
     <link rel="shortcut icon" href="/assets/images/icon.svg" type="image/x-icon">
 
@@ -33,20 +35,11 @@ require_once realpath(getcwd() . "/../assets/php/itemized.inc.php");
 </head>
 
 <body>
-    <script>
-        <?php
-        if (isset($_GET["id"])) {
-            $id = $_GET["id"];
-            echo "const id = '$id';";
-        }
-        ?>
-    </script>
-
-    <nav fixed=true static>
+    <nav fixed="true" static>
         <span id="brand">
-            <a href="/" title="Go Home">
+            <a href="/panel" title="Go Home">
                 <img src="/assets/images/icon.svg" alt="Maine Adventures Logo">
-                <span class="title"> Maine Adventures </span>
+                <span class="title"> Admin Panel </span>
             </a>
         </span>
         <div id="nav-items">
@@ -56,35 +49,32 @@ require_once realpath(getcwd() . "/../assets/php/itemized.inc.php");
         </div>
     </nav>
     <main>
-        <div id="payment-form" class="form col">
+        <div id="login-form" class="col form">
             <header class="col">
-                <h1>Payment</h1>
+                <h1>Staff Register</h1>
+                <p>If you're not sure what this is, your in the wrong place</p>
             </header>
-            <div class="col">
-                <input type="text" name="fullname" id="fullname" placeholder="Full Name" autocomplete="cc-name">
-                <input type="text" name="ccnumber" id="ccnumber" placeholder="Card Number" autocomplete="cc-number">
-                <div class="row">
-                    <input type="text" name="cvv2" id="cvv2" placeholder="CVV2" autocomplete="cc-csc">
-                    <input type="text" name="exp" id="exp" placeholder="01/28" autocomplete="cc-exp">
-                </div>
-                <h4>Balance: <span class="balance">$<?php echo number_format($price, 2); ?></span></h4>
-                <p class="error" style="opacity: 0;">Unknown error has occurred!</p>
-                <div class="row center">
-                    <div class="btn primary" id="pay-btn">Pay</div>
-                    <div class="btn dark" onclick="Print('<?php echo $id; ?>')">Print Recept</div>
-                </div>
-            </div>
+            <input type="text" name="username" id="username" placeholder="Username" autocomplete="username">
+            <input type="password" name="password" id="password" placeholder="Password" autocomplete="new-password">
+            <input type="password" name="password" id="password" placeholder="Admin Password" autocomplete="current-password" value="<?php echo $admin; ?>" <?php echo strlen($admin)==0 ? "" : "readonly" ?>>
+            <toggle>
+                <option value="show-password">Show Password</option>
+                <option value="hide-password">Hide Password</option>
+            </toggle>
+            <p class="error" style="opacity: 0;">Unknown error has occurred!</p>
+            <div class="btn">Register</div>
         </div>
     </main>
 
     <footer id="footer" class="center col">
         <img id="footer-logo" src="/assets/images/large-logo.svg" alt="">
-        <p id="copyright">&copy; Copyright 2011-<span class="year"></span> Allagash Gateway Campsites & Cabins. All rights reserved.</p>
+        <p id="copyright">&copy; Copyright 2011-2023 Allagash Gateway Campsites & Cabins. All rights reserved.</p>
     </footer>
 
     <!-- Page Scripts -->
-    <script src="/assets/js/min/payment.min.js"></script>
+    <script src="/assets/js/min/auth.min.js"></script>
     <script src="/assets/js/min/lf.min.js"></script>
+    <script src="/assets/js/min/input.min.js"></script>
 </body>
 
 </html>
