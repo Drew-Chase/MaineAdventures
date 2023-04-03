@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/assets/libraries/fontawesome" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/assets/libraries/stripe" vcs="Git" />
   </component>
 </project>

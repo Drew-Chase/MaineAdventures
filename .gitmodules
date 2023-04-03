@@ -1,6 +1,6 @@
-[submodule "assets/php/includes/stripe"]
-	path = assets/php/includes/stripe
-	url = https://github.com/stripe/stripe-php
 [submodule "assets/libraries/fontawesome"]
 	path = assets/libraries/fontawesome
 	url = https://github.com/FortAwesome/Font-Awesome.git
+[submodule "assets/libraries/stripe"]
+	path = assets/libraries/stripe
+	url = https://github.com/stripe/stripe-php
