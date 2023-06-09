@@ -29,13 +29,19 @@ function GetGalleryImages(): array
 
 function DeleteImage($id)
 {
-    $file = "/assets/images/gallery/$id.webp";
-    $small = "/assets/images/gallery/sm/$id.webp";
-    if (file_exists($file)) {
-        unlink($file);
-    }
-    if (file_exists($small)) {
-        unlink($small);
+    try {
+
+        $file = $_SERVER["DOCUMENT_ROOT"] . "/assets/images/gallery/$id.webp";
+        $small = $_SERVER["DOCUMENT_ROOT"] . "/assets/images/gallery/sm/$id.webp";
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        if (file_exists($small)) {
+            unlink($small);
+        }
+    } catch (Exception $error) {
+        http_response_code(500);
+        die(json_encode(["error" => $error]));
     }
 }
 
@@ -47,22 +53,16 @@ function UploadImage($id): bool
     $image = "image";
     $tempFile = $_FILES[$image]['tmp_name'];
 
-    // Convert the uploaded image to WebP format using FFmpeg
-    $ffmpegCommand = "ffmpeg -y -i '$tempFile' '$path'";
+    $ffmpegCommand = "ffmpeg -y -i \"$tempFile\" \"$path\"";
     exec($ffmpegCommand, $output, $returnCode);
-    echo (json_encode($output));
-    $ffmpegCommand = "ffmpeg -y -i '$tempFile' -vf scale=20:-1 '$sml'";
+    $ffmpegCommand = "ffmpeg -y -i \"$tempFile\" -vf scale=20:-1 \"$sml\"";
     exec($ffmpegCommand, $output, $returnCode);
-    echo (json_encode($output));
 
-    // Check if FFmpeg conversion was successful
     if ($returnCode === 0) {
-        return true;
-
-        // Delete the temporary file
         if (file_exists($tempFile)) {
             unlink($tempFile);
         }
+        return true;
     } else {
         http_response_code(500);
         return false;

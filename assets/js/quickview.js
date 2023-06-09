@@ -219,28 +219,53 @@ function createInputAndUploadGalleryImage() {
     input.type = "file";
     input.name = "image";
     input.accept = "image/jpeg, image/png, image/webp";
+    input.multiple = true;
     input.addEventListener('change', () => {
         uploadGalleryImage(input.files)
     });
     input.click();
 }
 
-function uploadGalleryImage(file) {
+async function uploadGalleryImage(files) {
+    $("#gallery.dropzone").addClass('loading')
+    try {
+        files = Array.from(files);
+        for (const file of files) {
+            console.log(file);
+            let formData = new FormData();
+            formData.append('image', file);
+            formData.append('id', file.name);
+
+            await new Promise((resolve, reject) => {
+                $.ajax({
+                    url: '/assets/php/includes/gallery-images.inc.php?c=upload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: resolve,
+                    error: reject
+                });
+            });
+        }
+        window.location.reload();
+    } catch (error) {
+        console.error('Error uploading files:', error);
+    }
+    $("#gallery.dropzone").removeClass('loading')
+}
+
+
+function deleteGalleryImage(id) {
     let formData = new FormData();
-    formData.append('image', file);
-    formData.append('id', file.name)
+    formData.append('id', id)
     $.ajax({
-        url: `/assets/php/includes/gallery-images.inc.php?c=upload`,
+        url: `/assets/php/includes/gallery-images.inc.php?c=delete`,
         type: 'POST',
         data: formData,
         processData: false,
         contentType: false,
-        success: () => window.location.reload()
     });
-}
-
-function deleteGalleryImage(id) {
-    $.get(`/assets/php/includes/gallery-images.inc.php?c=delete&id=${id}`)
 }
 
 $("#add-image-button").on('click', e => {

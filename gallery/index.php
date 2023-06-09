@@ -49,9 +49,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/assets/php/includes/gallery-images.in
 			foreach (GetGalleryImages() as $image) {
 				echo '
 				<div class="gallery-image" style="background-image: url(\'/assets/images/gallery/sm/' . $image . '\')">
-					<p class="title">' . basename($image, '.' . pathinfo($image, PATHINFO_EXTENSION)) . '</p>
+				<p class="title">' . basename($image, '.' . pathinfo($image, PATHINFO_EXTENSION)) . '</p>
 					<img src="/assets/images/gallery/' . $image . '" alt="" loading="lazy">
-				</div>';
+					</div>';
 			}
 			?>
 		</div>

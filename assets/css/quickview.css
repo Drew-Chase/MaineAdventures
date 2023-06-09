@@ -264,7 +264,9 @@ h1, h2 {
     opacity: .5;
     font-weight: 500;
 }
-
+.dropzone{
+    position: relative;
+}
 .dropzone.dragover {
     position: relative;
     outline: 2px dashed #ff0000;
@@ -272,6 +274,19 @@ h1, h2 {
 
 .dropzone.dragover::before {
     content: 'Drag and Drop';
+    position: absolute;
+    display: flex;
+    z-index: 1;
+    inset: 0;
+    color: white;
+    background-color: rgba(0, 0,0, 0.7);
+    font-size: 5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropzone.loading::before {
+    content: 'Uploading...';
     position: absolute;
     display: flex;
     z-index: 1;

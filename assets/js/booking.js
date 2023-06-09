@@ -1,4 +1,4 @@
-(() => {
+(async () => {
     let cabins = Array.prototype;
     let currentOptions = {
         isNightly: "nightly",
@@ -48,7 +48,7 @@
      */
     function InitCabin() {
         let cabinImage = $("#cabin-image")
-        $("#cabin-names")[0].innerHTML = '';
+        $("#cabin-names").html('');
         let index = 0;
         cabins.forEach(i => {
             let seasonal = i.seasonal != 0;
@@ -58,7 +58,7 @@
                 item.innerText = `${i.name} (${i.people} people) - ${formatter.format(i.price)}/night`;
 
                 $("#cabin-names")[0].appendChild(item)
-                $(item).attr("index", i.id)
+                $(item).attr("index", index)
 
                 /* Adding an event listener to the item. */
                 $(item).on('click', () => {
@@ -70,12 +70,10 @@
 
                     cabinImage.css("background-image", `url('${url}')`)
                     SelectCabin($(item).attr("index"))
-                    console.log(currentOptions.cabin)
 
                 })
                 if (currentOptions.cabin.id == 0) {
                     if (index == 0) {
-                        console.log("CLICKED");
                         item.click();
                     }
                 }
@@ -92,7 +90,7 @@
      */
     function SelectCabin(index) {
         let cabin;
-        cabin = cabins[index - 1]
+        cabin = cabins[index]
         currentOptions.cabin.id = cabin.id;
         currentOptions.cabin.name = cabin.name;
         currentOptions.cabin.price = cabin.price;
@@ -133,39 +131,6 @@
     }
 
     function InitTimeSelector() {
-        let now = new Date();
-        now.setDate(now.getDate() + 5);
-        let start = GetFormattedDate(now)
-        $("#start-date")[0].value = start;
-
-        $("input[type=date]").attr('min', start)
-
-        now.setDate(now.getDate() + 7);
-        $("#end-date")[0].value = GetFormattedDate(now);
-
-        $("#start-date, #end-date").on('change', () => {
-
-            let start = new Date($("#calendar-start").attr('date'));
-            start.setDate(value.getDay() + 1);
-
-            let end = new Date($("#calendar-end").attr('date'));
-            end.setDate(value.getDay() + 1);
-
-            let days = Math.round((start - end) / (1000 * 60 * 60 * 24));
-            currentOptions.nights = days;
-            
-            if (start >= end) {
-                let tmp = end.getDate() + 7
-                let max = end;
-                max.setFullYear(max.getFullYear()+3);
-                createCalendar("end", tmp.getFullYear(), tmp.getMonth()+1, start, max, invalidDates = [])
-            }
-        })
-
-        $("#calendar-end").on('change', e => {
-            let value = e.target.value;
-            $("#start-date")[0].max = value;
-        })
     }
 
     let scrollBox = {
@@ -339,6 +304,9 @@
 
     }
 
+    await GetCabinsList()
+
+
     $("#online-payment-card, #inperson-payment-card").on('click', () => {
         $("#previous").attr('disabled', "");
         $("#next").attr('disabled', "");
@@ -407,10 +375,6 @@
     $("section").css("display", "none")
     NavigateTo("time-span")
 
-    GetCabinsList()
-    // .then(() => {
-    //     NavigateTo("cabin")
-    // })
     InitCounts()
     InitTimeSelector()
 

@@ -92,7 +92,7 @@
 			</div>
 		</section>
 
-		<section id="cabin" class="col" next="times" style="display: none;" previous="time-span">
+		<section id="cabin" class="col" next="start-time" style="display: none;" previous="time-span">
 			<h2>Cabin</h2>
 			<p>We have 4 small cabins that house up to 5 people and 1 large cabin that can house up to 10+ people.</p>
 			<div class="row">
@@ -102,11 +102,13 @@
 			</div>
 
 		</section>
+	
 		<section id="start-time" class="col" style="display:none" next="end-time" previous="cabin">
 			<h2>Arrival Date?</h2>
 			<p>We need at least <strong>5 days</strong> notice before booking</p>
 			<div id="calendar-start"></div>
 		</section>
+	
 		<section id="end-time" class="col" style="display:none" next="adults" previous="start-time">
 			<h2>Departure Date?</h2>
 			<p>We need at least <strong>5 days</strong> notice before booking</p>
@@ -153,7 +155,6 @@
 				<span class="count">6</span>
 			</div>
 		</section>
-
 
 		<section id="contact-information" style="display: none;" next="payment-method" previous="times">
 			<h2>Your Information</h2>
