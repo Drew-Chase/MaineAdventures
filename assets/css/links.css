@@ -52,7 +52,9 @@ button {
     transform: scale(1.03);
     cursor: pointer;
 }
-
+.btn[disabled]{
+    filter: brightness(.5) contrast(.75);
+}
 .btn[disabled]:hover{
     cursor: not-allowed;
 }

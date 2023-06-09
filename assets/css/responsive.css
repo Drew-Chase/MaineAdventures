@@ -6,8 +6,46 @@
     }
 }
 
+@media (max-width: 1375px) {
+    #time-span #buttons, #payment-method #buttons {
+        flex-direction: column;
+    }
+
+    .card {
+        width: 85%;
+        max-width: unset;
+        min-width: unset;
+        height: 200px;
+        max-height: unset;
+        min-height: unset;
+        margin: 1rem 0rem;
+        justify-content: start;
+        align-items: start;
+        background: var(--foreground);
+        border-radius: 20px;
+        padding: 10px;
+    }
+
+    .card .btn {
+        display: none;
+    }
+
+    .card .description {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .card::before {
+        content: unset;
+    }
+
+    .card::after {
+        content: unset;
+    }
+}
+
 @media (max-width: 1280px) {
-    #about-us > .row img {
+    #about-us>.row img {
         display: none;
     }
 
@@ -19,23 +57,77 @@
         padding: 2rem;
     }
 
+    #cabin #cabin-image {
+        display: none;
+    }
+
 }
 
-@media (max-width: 720px) {
-
-    #hunting-banner h2 {
-        font-size: 3rem;
+@media (max-width: 1020px) {
+    #time-span, #payment-method {
+        flex-direction: column;
     }
 
-    #hunting-banner h4 {
-        font-size: 2rem;
+    #time-span #buttons, #payment-method #buttons {
+        flex-direction: row;
     }
 
-    #hunting-banner p {
+    #timespan-information, #payment-information {
+        width: 90%;
+    }
+
+    #payment-information #cards {
+        display: none;
+    }
+
+    .card {
+        height: 20px;
+        min-width: 50px;
+        width: 30%;
+        border-radius: 100px;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 2rem;
+        margin: .5rem;
+    }
+
+    .card .name {
         font-size: 1rem;
     }
 
-    #hunting-banner .btn.secondary {
+    .card .description {
+        display: none;
+    }
+
+    #contact-information h2 {
+        font-size: 3rem;
+    }
+
+    #contact-information .col {
+        width: calc(100% - 4rem);
+    }
+
+
+}
+
+@media (max-width: 720px) {
+    #timespan-information h2 {
+        font-size: 2rem;
+    }
+
+    #hunt-banner h4 {
+        display: none !important;
+    }
+
+    #hunt-banner h2 {
+        font-size: 3rem;
+    }
+
+    #hunt-banner p {
+        font-size: 1rem;
+    }
+
+    #hunt-banner .btn.secondary {
         display: none;
     }
 
@@ -59,6 +151,7 @@
     nav.active #nav-items {
         opacity: 1;
         pointer-events: all;
+        padding: 0;
     }
 
 
@@ -99,5 +192,112 @@
         padding: 0 1rem;
     }
 
+    #payment-form .row {
+        flex-direction: column;
+    }
+
+    #payment-form {
+        width: calc(100% - 4rem);
+    }
+
+}
+
+@media (max-width: 600px) {
+    #timespan-information, #payment-information {
+        height: fit-content;
+    }
+
+
+    #timespan-information h2, #payment-information h2 {
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    #timespan-information p, #payment-information p {
+        display: none;
+    }
+
+    #time-span #buttons, #payment-method #buttons {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    #cabin #cabin-names {
+        font-size: 1rem;
+    }
+
+    .booking-landing h1 {
+        font-size: 2rem;
+    }
+
+    .items {
+        flex-direction: column;
+    }
+
+    #times #end-times, #times #start-times {
+        width: 95%;
+        margin: 1rem;
+    }
+
+    #times h2 {
+        font-size: 3rem;
+    }
+
+    #times h4 {
+        font-size: 2rem;
+    }
+
+    .count {
+        font-size: 1rem;
+        padding: 1rem;
+        margin: 5px;
+    }
+
+    .card {
+        width: 85%;
+        max-width: unset;
+        min-width: unset;
+        height: fit-content;
+        margin: 1rem;
+        justify-content: start;
+        align-items: start;
+        background: var(--foreground);
+        border-radius: 20px;
+        padding: 2rem;
+    }
+
+    .card .description {
+        display: block;
+    }
+
+    .form h1 {
+        font-size: 4rem;
+    }
+
+    .form #button-panel {
+        flex-direction: column;
+    }
+
+    .form toggle.password {
+        margin-top: 0;
+    }
+
+    body#services h1 {
+        font-size: 5rem;
+    }
+    body#services h3 {
+        font-size: 3rem;
+    }
+
+}
+
+@media (max-width: 480px) {
+    #share-page-cta h3 {
+        font-size: 2.5rem;
+    }
+
+    .contact-card i {
+        display: none;
+    }
 
 }

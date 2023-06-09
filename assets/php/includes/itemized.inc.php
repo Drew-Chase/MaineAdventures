@@ -1,8 +1,6 @@
 <?php
 require_once "hashids.inc.php";
 require_once "connection.inc.php";
-$fname = "";
-$lname = "";
 $adults = "";
 $children = "";
 $pets = "";
@@ -34,8 +32,7 @@ if (isset($_GET['id'])) {
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             $data = $result->fetch_assoc();
-            $fname = $data["fname"];
-            $lname = $data["lname"];
+            $name = $data["name"];
             $adults = $data["adults"];
             $children = $data["children"];
             $pets = $data["pets"];
@@ -57,13 +54,13 @@ if (isset($_GET['id'])) {
     isset($_POST["seasonal"])
 ) {
 
-    $adults =  $_POST["adults"];
-    $children =  $_POST["children"];
-    $pets =  $_POST["pets"];
-    $cabin =  $_POST["cabin"];
-    $price =  $_POST["seasonal"];
-    $arrival =  $_POST["arrival"];
-    $departure =  $_POST["departure"];
+    $adults = $_POST["adults"];
+    $children = $_POST["children"];
+    $pets = $_POST["pets"];
+    $cabin = $_POST["cabin"];
+    $price = $_POST["seasonal"];
+    $arrival = $_POST["arrival"];
+    $departure = $_POST["departure"];
     $nights = round((strtotime($departure) - strtotime($arrival)) / (24 * 60 * 60));
     $arrival = date_create($arrival);
     $departure = date_create($departure);
@@ -71,10 +68,10 @@ if (isset($_GET['id'])) {
     echo $_POST["adults"];
     echo $_POST["children"];
     echo $_POST["pets"];
-    echo  $_POST["cabin"];
-    echo  $_POST["seasonal"];
-    echo  $_POST["arrival"];
-    echo  $_POST["departure"];
+    echo $_POST["cabin"];
+    echo $_POST["seasonal"];
+    echo $_POST["arrival"];
+    echo $_POST["departure"];
     die;
 }
 
@@ -106,7 +103,7 @@ if ($stmt->execute()) {
         while (($data = $result->fetch_assoc()) != null) {
             $name = $data["name"];
             if ($name == "adults") {
-                $pricePerAdult =  $data["price"];
+                $pricePerAdult = $data["price"];
             } else if ($name == "children") {
                 $pricePerChild = $data["price"];
             } else if ($name == "pets") {
@@ -122,15 +119,3 @@ $price += $children * $pricePerChild * $nights;
 $price += $pets * $pricePerPet * $nights;
 $subtotal = $price;
 $price -= $credit;
-
-// echo json_encode([
-//     "cabin" => ["name" => $cabin, "price" => $pricePerNight, "subtotal" => $nights * $pricePerNight],
-//     "people" => [
-//         "adults" => ["count" => $adults, "price" => $pricePerAdult, "subtotal" => $adults * $pricePerAdult * $nights],
-//         "children" => ["count" => $children, "price" => $pricePerChild, "subtotal" => $children * $pricePerChild * $nights],
-//         "pets" => ["count" => $pets, "price" => $pricePerPet, "subtotal" => $pets * $pricePerPet * $nights]
-//     ],
-//     "subtotal" => $subtotal,
-//     "credits" => $credit,
-//     "total" => $price
-// ]);

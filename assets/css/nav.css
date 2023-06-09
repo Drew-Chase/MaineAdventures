@@ -19,6 +19,10 @@ nav {
     transition-duration: 200ms;
 }
 
+nav[noanim=true] {
+    position: sticky;
+}
+
 nav #brand {
     min-width: 18rem;
     width: 20%;
@@ -61,19 +65,21 @@ nav #nav-items {
 
 nav #nav-items .nav-item:not(.btn) {
     color: white;
+    opacity: 0.7;
+    transition: opacity 200ms;
 }
 
 nav #nav-items .nav-item {
     margin: 1rem;
-    transition: color 200ms;
 }
 
 nav #nav-items a.nav-item {
     position: relative;
 }
 
-nav #nav-items a.nav-item:not(.btn):hover {
-    color: var(--primary);
+nav #nav-items a.nav-item:not(.btn):hover, nav #nav-items a.nav-item:not(.btn).selected {
+    color: unset;
+    opacity: 1;
 }
 
 nav #nav-items a.nav-item:not(.btn)::before {
@@ -86,7 +92,7 @@ nav #nav-items a.nav-item:not(.btn)::before {
     transition: max-width 200ms;
 }
 
-nav #nav-items a.nav-item:not(.btn):hover:before {
+nav #nav-items a.nav-item:not(.btn):hover:before, nav #nav-items a.nav-item:not(.btn).selected:before {
     max-width: 100%;
 }
 

@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: application/json");
 require_once "values.inc.php";
-require_once "stripe/init.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "assets/libraries/stripe/init.php";
 require_once "itemized.inc.php";
 
 $stripe = new Stripe\StripeClient($stripe_skey);
@@ -22,7 +22,7 @@ if (isset($_POST["card"]) && isset($_POST["card_exp"]) && isset($_POST["card_cvc
             ],
         ]);
 
-        $response =  $stripe->charges->create([
+        $response = $stripe->charges->create([
             "amount" => $price,
             "currency" => "usd",
             "source" => $card["id"]

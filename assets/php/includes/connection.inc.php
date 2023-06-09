@@ -1,5 +1,5 @@
 <?php
-require "values.inc.php";
+require_once "values.inc.php";
 class Connection
 {
     var $conn;

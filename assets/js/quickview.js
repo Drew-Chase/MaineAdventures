@@ -1,190 +1,267 @@
 (() => {
-    let data =
-    {
-        arrivals:
-            [
-                {
-                    id: 0,
-                    name: "John Doe",
-                    cabin: "Cabin #4",
-                    adults: 3,
-                    children: 3,
-                    pets: 3,
-                    paid: true,
-                    checkedIn: false,
-                    start: "03/03/2022",
-                    end: "03/16/2022"
-                },
-                {
-                    id: 0,
-                    name: "John Doe",
-                    cabin: "Cabin #4",
-                    adults: 3,
-                    children: 3,
-                    pets: 3,
-                    paid: false,
-                    checkedIn: false,
-                    start: "03/03/2022",
-                    end: "03/16/2022"
-                },
-            ],
-        departures:
-            [
-                {
-                    id: 0,
-                    name: "John Doe",
-                    cabin: "Cabin #4",
-                    adults: 3,
-                    children: 3,
-                    pets: 3,
-                    paid: true,
-                    checkedIn: true,
-                    start: "03/03/2022",
-                    end: "03/16/2022"
-                },
-                {
-                    id: 0,
-                    name: "John Doe",
-                    cabin: "Cabin #4",
-                    adults: 3,
-                    children: 3,
-                    pets: 3,
-                    paid: false,
-                    checkedIn: true,
-                    start: "03/03/2022",
-                    end: "03/16/2022"
-                },
-            ],
-        reviews:
-            [
-                {
-                    id: 0,
-                    name: "John Doe",
-                    cabin: "Cabin #4",
-                    adults: 3,
-                    children: 3,
-                    pets: 3,
-                    paid: true,
-                    checkedIn: false,
-                    start: "03/03/2022",
-                    end: "03/16/2022",
-                    review: 1,
-                    note: "This was a nice place, bad food!"
-                },
-                {
-                    id: 0,
-                    name: "John Doe",
-                    cabin: "Cabin #4",
-                    adults: 3,
-                    children: 3,
-                    pets: 3,
-                    paid: true,
-                    checkedIn: false,
-                    start: "03/03/2022",
-                    end: "03/16/2022",
-                    review: 4,
-                    note: "Best stay ever!!!"
-                },
-            ],
-    };
-    populateCards();
-    function populateCards() {
-        let arrivals = data.arrivals;
-        let departures = data.departures;
-        let reviews = data.reviews;
-        $("#arrivals.quick-view-row .cards").html("")
-        arrivals.forEach(arr => {
-            createCard(arr).then(i => {
-                if (!i.checkedIn) {
-                    $("#arrivals.quick-view-row .cards").append(i)
-                }
-            })
-        })
-        departures.forEach(arr => {
-            createCard(arr).then(i => {
-                if (!i.checkedIn) {
-                    $("#departures.quick-view-row .cards").append(i)
-                }
-            })
-        })
-        reviews.forEach(arr => {
-            createCard(arr).then(i => {
-                if (!i.checkedIn) {
-                    $("#reviews.quick-view-row .cards").append(i)
-                }
-            })
-        })
-
-    };
-    /**
-     * It creates a card with the data passed in.
-     * @param data - {
-     * @returns The html variable is being returned.
-     */
-    async function createCard(data) {
-        let html = await $.get("/assets/html/quickview-card.html")
-        html = $($.parseHTML(html))
-        let isReview = data.review != null;
-        if (data.paid) {
-            html.addClass('paid')
+    getArrivals();
+    getDepartures();
+    getCalendar()
+    let timeout = null;
+    let searchDelay = 1000;
+    $('.nav-item#search-button').on('click', () => {
+        $(".search-modal").attr('active', true);
+    })
+    $(".search-modal").on('click', e => {
+        let target = $(e.target)
+        if (target.hasClass('search-modal')) {
+            $(".search-modal").attr('active', null);
         }
-        /* Populating the html with the data. */
-        html.find('.name').html(data.name)
-        html.find('.cabin').html(data.cabin)
-        html.find('#cust-adults').html(`${data.adults} Adults`)
-        html.find('#cust-children').html(`${data.children} children`)
-        html.find('#cust-pets').html(`${data.pets} pets`)
-        html.find('#cust-payment').html(data.paid ? "online" : "in person");
-        html.find('#cust-start').html(data.start)
-        html.find('#cust-end').html(data.end)
-        html.find('#cust-nights').html(`${Math.round((new Date(data.end).getTime() - new Date(data.start).getTime()) / (1000 * 3600 * 24))} Nights`)
-
-
-        html.find('.info-btn').on('click', () => {
-            html.attr('flip', true)
-        })
-        html.find('.close-info-btn').on('click', () => {
-            html.attr('flip', null)
-        })
-        if (!isReview) {
-            if (data.checkedIn) {
-                html.find('.front .btn.primary').html('Check Out')
-                if (!data.paid) {
-                    html.find('.front .btn.secondary').css('background', '#ff3131');
-                    html.find('.front .btn.secondary').css('color', 'white');
-                    html.find('.front .btn.secondary').css('font-weight', '900');
-                    html.find('.front .btn.secondary').css('text-transform', 'uppercase');
-                }
-            } else {
-                html.find('.front .btn.primary').html('Check In')
-            }
-            if (!data.paid) {
-                let payBtn = html.find('.front .btn.secondary');
-                payBtn.html('Pay')
-                payBtn.attr('title', 'Process payment!');
-                payBtn.on('click', () => {
-                    window.open(`/panel/pay.php?id=${data.id}`)
-                })
-            } else {
-                html.find('.front .btn.secondary').remove()
-            }
+    })
+    $(".search-modal input").on('keyup', () => {
+        let input = $(".search-modal input");
+        if (timeout != null) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(() => search(input.val()), searchDelay)
+        if (input.val() == "") {
+            $(".search-box").attr('focus', null)
+            $(".search-results").attr('focus', null)
         } else {
-            html.find('.front .btn.primary').html('View')
-            html.find('.front .btn.secondary').html('Respond')
-            html.find('.front .content .col.center').prepend(createStars(data.review))
+            $(".search-box").attr('focus', true)
+            $(".search-results").attr('focus', true)
         }
-        return html;
+    })
+
+    async function getArrivals() {
+        let response = await $.get('/assets/php/includes/bookings.inc.php?c=arriving')
+        let arrivalContent = $(".arrivals");
+        if (response.message != null) {
+            arrivalContent.html(`<p>${response.message}</p>`)
+        } else {
+            Array.from(response).forEach(item => {
+                arrivalContent.append(createCustomer(item.id, item.name, item.email, item.phone, item.paid == "1", item.processed == "1"))
+            })
+        }
     }
-    function createStars(rating) {
-        let html = `<div class="stars row" title="${rating} / 5 Stars">`
-        for (let i = 0; i < 5; i++) {
-            if (i < rating) {
-                html += `<i class="fa-solid fa-star"></i>`;
-            } else {
-                html += `<i class="fa-regular fa-star"></i>`;
+
+    async function getCalendar() {
+        let response = await $.get('/assets/php/includes/bookings.inc.php?c=calendar')
+        let arrivalContent = $(".calendar");
+        if (response.message != null) {
+            arrivalContent.html(`<p>${response.message}</p>`)
+        } else {
+            let index = 0
+            Array.from(response).forEach(item => {
+                if (index <= 5) {
+                    arrivalContent.append(createCustomer(item.id, item.name, item.email, item.phone, item.paid == "1", item.processed == "1"))
+                    index++;
+                }
+            })
+        }
+    }
+    async function getDepartures() {
+        let response = await $.get('/assets/php/includes/bookings.inc.php?c=departing')
+        let arrivalContent = $(".departures");
+        if (response.message != null) {
+            arrivalContent.html(`<p>${response.message}</p>`)
+        } else {
+            Array.from(response).forEach(item => {
+                arrivalContent.append(createCustomer(item.id, item.name, item.email, item.phone, item.paid == "1", item.processed == "1"))
+            })
+        }
+    }
+    async function search(query) {
+        console.log(`Searching for '${query}'`)
+        let response = await $.post('/assets/php/includes/bookings.inc.php?c=search', { query: query })
+        let result = $(".search-results")
+        result.html("");
+        Array.from(response).forEach(item => {
+            result.append(createCustomer(item.id, item.name, item.email, item.phone, item.paid == "1", item.processed == "1"))
+        })
+    }
+
+    function createCustomer(id, name, email, phone, paid, checkedin) {
+        let item = document.createElement('div')
+        item.classList.add('col', 'customer-item')
+
+        let row = document.createElement('div')
+        row.classList.add('row')
+
+        let title = document.createElement('p')
+        title.classList.add('title')
+        title.innerText = name;
+
+        let buttons = document.createElement('div')
+        buttons.classList.add('row', 'buttons')
+
+        let primaryButton = document.createElement('a')
+        primaryButton.classList.add('btn', 'primary')
+        primaryButton.innerText = checkedin ? "Check Out" : "Check In"
+        primaryButton.href = `/panel/checkin.php?id=${id}`;
+
+        let secondaryButton = document.createElement('div')
+        secondaryButton.classList.add('btn', 'secondary', 'dark')
+        secondaryButton.innerText = "More Info..."
+
+        $(secondaryButton).on('click', () => {
+            window.open(`/panel/itemized.php?id=${id}`, '_blank', 'width=1280,height=720,toolbar=no,location=no,status=no,menubar=no');
+        })
+
+        buttons.appendChild(primaryButton)
+        buttons.appendChild(secondaryButton)
+        row.appendChild(title)
+        row.appendChild(buttons)
+        item.appendChild(row)
+        return item;
+    }
+
+    $("#save-cabins").on('click', () => {
+        if ($("#save-cabins").attr('disabled') != null) {
+            return;
+        }
+        $(".cabin-item").each((_, cabin) => {
+            cabin = $(cabin);
+            let id = cabin.attr('id');
+            let name = cabin.find('input#title-input').val();
+            let price = Number.parseInt(cabin.find('input#price-input').val());
+            let people = Number.parseInt(cabin.find('input#people-input').val());
+            let seasonal = cabin.find('toggle.seasonal option[selected]').attr('value') == "seasonal";
+            let json = JSON.stringify({
+                id: id,
+                name: name,
+                price: price,
+                people: people,
+                seasonal: seasonal
+            });
+            $("#save-cabins").attr('disabled', "true")
+            $.ajax({
+                url: `/assets/php/includes/cabins.inc.php?c=update`,
+                type: 'POST',
+                data: json,
+                contentType: "application/json",
+            });
+            setTimeout(() => {
+                $("#save-cabins").attr('disabled', null)
+            }, 5000);
+        })
+    })
+    $("#add-cabin").on('click', addCabin)
+    function addCabin() {
+        let id = "-1";
+        let name = "";
+        let price = 0;
+        let people = 0;
+        let seasonal = 0;
+        let json = JSON.stringify({
+            id: id,
+            name: name,
+            price: price,
+            people: people,
+            seasonal: seasonal
+        });
+        $("#save-cabins").attr('disabled', "true")
+        $.ajax({
+            url: `/assets/php/includes/cabins.inc.php?c=update`,
+            type: 'POST',
+            data: json,
+            contentType: "application/json",
+            complete: _ => {
+                setTimeout(() => window.location.reload(), 1000)
             }
-        }
-        html += `</div>`
-        return html;
+        });
     }
-})()
+
+})();
+
+function removeCabin(id) {
+    $.get(`/assets/php/includes/cabins.inc.php?c=delete&id=${id}`)
+    $(`#${id}`).addClass('delete')
+    setTimeout(() => {
+        $(`#${id}`).remove();
+    }, 1000)
+}
+
+
+function uploadCabinImage(id) {
+    let imagePreview = $(`#${id} .image-preview`);
+    let input = document.createElement('input');
+    input.type = "file";
+    input.name = "image";
+    input.accept = "image/jpeg, image/png, image/webp";
+    input.addEventListener('change', () => {
+        imagePreview.addClass('loading');
+        imagePreview.empty().append('<img>');
+        let imageElement = imagePreview.find('img');
+
+        let formData = new FormData();
+        formData.append('image', input.files[0]);
+
+        $.ajax({
+            url: `/assets/php/includes/cabins.inc.php?c=upload&id=${id}`,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: response => {
+                console.log(response);
+                setTimeout(() => {
+                    imageElement.attr('src', `/assets/images/cabins/${id}.webp?timestamp=${Date.now()}`);
+                    imagePreview.removeClass('loading');
+                }, 1000);
+            },
+            complete: _ => {
+                imagePreview.removeClass('loading');
+            }
+        });
+    });
+    input.click();
+}
+
+
+function createInputAndUploadGalleryImage() {
+    let input = document.createElement('input');
+    input.type = "file";
+    input.name = "image";
+    input.accept = "image/jpeg, image/png, image/webp";
+    input.addEventListener('change', () => {
+        uploadGalleryImage(input.files)
+    });
+    input.click();
+}
+
+function uploadGalleryImage(file) {
+    let formData = new FormData();
+    formData.append('image', file);
+    formData.append('id', file.name)
+    $.ajax({
+        url: `/assets/php/includes/gallery-images.inc.php?c=upload`,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: () => window.location.reload()
+    });
+}
+
+function deleteGalleryImage(id) {
+    $.get(`/assets/php/includes/gallery-images.inc.php?c=delete&id=${id}`)
+}
+
+$("#add-image-button").on('click', e => {
+    createInputAndUploadGalleryImage()
+})
+$(".gallery-image.admin").on('click', e => {
+    e.currentTarget.remove();
+    deleteGalleryImage($(e.currentTarget).find('.title').text())
+})
+
+$("#gallery").on('dragover', e => {
+    e.preventDefault();
+    $("#gallery").addClass('dragover');
+})
+$("#gallery").on('dragleave', e => {
+    e.preventDefault();
+    $("#gallery").removeClass('dragover');
+})
+$("#gallery").on('drop', e => {
+    e.preventDefault();
+    $("#gallery").removeClass('dragover');
+
+    uploadGalleryImage(e.originalEvent.dataTransfer.files);
+})

@@ -28,31 +28,30 @@
 </head>
 
 <body>
-    <nav fixed="true" static>
-        <span id="brand">
-            <a href="/panel" title="Go Home">
-                <img src="/assets/images/icon.svg" alt="Maine Adventures Logo">
-                <span class="title"> Admin Panel </span>
-            </a>
-        </span>
-        <div id="nav-items">
-            <a href="/" class="nav-item" title="Goto Home Page">Home</a>
-            <a href="/services" class="nav-item" title="Goto Services Page">Services</a>
-            <a href="/booking" class="nav-item btn primary" title="Goto Booking Page">Schedule Trip</a>
-        </div>
-    </nav>
-    <main>
-        <div id="login-form" class="col form">
-            <header class="col">
-                <h1>Staff Login</h1>
-                <p>If you're not sure what this is, your in the wrong place</p>
-            </header>
-            <input type="text" name="username" id="username" placeholder="Username" autocomplete="username">
-            <input type="password" name="password" id="password" placeholder="Password" autocomplete="current-password">
-            <p class="error" style="opacity: 0;">Unknown error has occurred!</p>
+
+    <?php
+    $page = 1;
+    $noanim = true;
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/assets/php/nav.php";
+    ?>
+    <div id="login-form" class="col form">
+        <header class="col">
+            <h1>Staff Login</h1>
+            <p>If you're not sure what this is, your in the wrong place</p>
+        </header>
+        <input type="text" name="username" id="username" placeholder="Username" autocomplete="username" required>
+        <input type="password" name="password" id="password" placeholder="Password" autocomplete="current-password" required>
+        <p class="error" style="display:none">Unknown error has occurred!</p>
+        <toggle class="password">
+            <option value="show-password">Show Password</option>
+            <option value="hide-password" selected>Hide Password</option>
+        </toggle>
+
+        <div id="button-panel" class="row center">
             <div class="btn">Login</div>
+            <a href="/panel/register" class="btn secondary dark">Register</a>
         </div>
-    </main>
+    </div>
 
     <footer id="footer" class="center col">
         <img id="footer-logo" src="/assets/images/large-logo.svg" alt="">
@@ -60,8 +59,11 @@
     </footer>
 
     <!-- Page Scripts -->
-    <script src="/assets/js/min/auth.min.js"></script>
+    <script src="/assets/js/min/nav.min.js"></script>
+    <script src="/assets/js/auth.js"></script>
+    <!-- <script src="/assets/js/min/auth.min.js"></script> -->
     <script src="/assets/js/min/lf.min.js"></script>
+    <script src="/assets/js/min/input.min.js"></script>
 </body>
 
 </html>

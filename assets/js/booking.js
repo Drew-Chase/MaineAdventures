@@ -1,8 +1,6 @@
-
 (() => {
     let cabins = Array.prototype;
-    let currentOptions =
-    {
+    let currentOptions = {
         isNightly: "nightly",
         cabin: {
             name: "",
@@ -15,21 +13,22 @@
             pets: 0
         },
         nights: 7,
+        arrival: new Date(),
+        departure: new Date(),
         card: null,
         price: 0.00
     };
 
 
     let formatter = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD"
+        style: "currency", currency: "USD"
     })
 
     /**
      * It fetches a JSON file from the server and stores it in a variable.
      */
     async function GetCabinsList() {
-        let response = await fetch("/assets/php/cabins.inc.php?c=get");
+        let response = await fetch("/assets/php/includes/cabins.inc.php?c=get");
         let json = { "error": "Unexpected error has occurred" };
         try {
             json = await response.json();
@@ -38,8 +37,7 @@
         }
         if (response.ok) {
             cabins = json;
-        } else
-            alert(json.error);
+        } else alert(json.error);
 
     }
 
@@ -50,7 +48,6 @@
      */
     function InitCabin() {
         let cabinImage = $("#cabin-image")
-        // let c = currentOptions.isNightly ? Array.from(cabins.nightly) : Array.from(cabins.seasonal);
         $("#cabin-names")[0].innerHTML = '';
         let index = 0;
         cabins.forEach(i => {
@@ -65,7 +62,7 @@
 
                 /* Adding an event listener to the item. */
                 $(item).on('click', () => {
-                    let url = `/assets/images/cabins/${i.image}.jpg`
+                    let url = `/assets/images/cabins/${i.id}.webp`
                     Array.from($("#cabin-names p[selected]")).forEach(c => {
                         $(c).attr('selected', null)
                     })
@@ -85,8 +82,6 @@
             }
             index++;
         })
-
-        // $("#cabin-names p")[0].click()
     }
 
     /**
@@ -150,34 +145,33 @@
 
         $("#start-date, #end-date").on('change', () => {
 
-            let start = $("input#end-date")[0].valueAsDate
-            let end = $("input#start-date")[0].valueAsDate
+            let start = new Date($("#calendar-start").attr('date'));
+            start.setDate(value.getDay() + 1);
+
+            let end = new Date($("#calendar-end").attr('date'));
+            end.setDate(value.getDay() + 1);
+
             let days = Math.round((start - end) / (1000 * 60 * 60 * 24));
             currentOptions.nights = days;
-        })
-
-        $("#start-date").on('change', e => {
-            let value = e.target.value;
-            $("#end-date")[0].min = value;
-            let startDate = e.target.valueAsDate;
-            if (startDate > $("#end-date")[0].valueAsDate) {
-                startDate.setDate(startDate.getDate() + 7);
-                $("#end-date").val(GetFormattedDate(startDate))
-
+            
+            if (start >= end) {
+                let tmp = end.getDate() + 7
+                let max = end;
+                max.setFullYear(max.getFullYear()+3);
+                createCalendar("end", tmp.getFullYear(), tmp.getMonth()+1, start, max, invalidDates = [])
             }
         })
-        $("#end-date").on('change', e => {
+
+        $("#calendar-end").on('change', e => {
             let value = e.target.value;
             $("#start-date")[0].max = value;
         })
     }
 
     let scrollBox = {
-        element: $("#sections")[0],
-        current: "time-span",
-        next: "cabin",
-        previous: null
+        element: $("#sections")[0], current: "time-span", next: "cabin", previous: null
     };
+
     /**
      * It takes a string as an argument, and then it hides all the sections except the one with the id that
      * matches the string.
@@ -185,7 +179,11 @@
      */
 
     function NavigateTo(name) {
-        $("#section-navigation").css('opacity', "")
+        if ($(`#${name}`).hasClass('footless')) {
+            $("#section-navigation").css('opacity', "0")
+        } else {
+            $("#section-navigation").css('opacity', "")
+        }
         $("#previous").attr('disabled', null);
         $("#next").attr('disabled', null);
 
@@ -212,8 +210,7 @@
 
         setTimeout(() => {
             scrollBox.element.querySelectorAll("section").forEach(i => {
-                if (i.id != name)
-                    $(i).css('display', "none")
+                if (i.id != name) $(i).css('display', "none")
             })
 
             if (scrollBox.next == null) {
@@ -287,33 +284,35 @@
 
     async function Submit() {
         let data = new FormData();
-        data.append("first_name", $("#contact-information #fname").val());
-        data.append("last_name", $("#contact-information #lname").val());
+        data.append("name", $("#contact-information #name").val())
         data.append("email", $("#contact-information #email").val());
-        data.append("phone", $("#contact-information #telephone-number").val());
+        data.append("phone", $("#contact-information #telephone-number").val().replaceAll('(', "").replaceAll('-', "").replaceAll(')', "").replaceAll(' ', ""));
+
         data.append("adults", currentOptions.people.adults);
         data.append("children", currentOptions.people.children);
         data.append("pets", currentOptions.people.pets);
         data.append("cabin", currentOptions.cabin.name);
-        data.append("arrival", `${GetFormattedDate($("#start-date")[0].valueAsDate)} ${$("#start-time").val()}`);
-        data.append("departure", `${GetFormattedDate($("#end-date")[0].valueAsDate)} ${$("#end-time").val()}`);
+        data.append("arrival", `${GetFormattedDate(currentOptions.arrival)}`);
+        data.append("departure", `${GetFormattedDate(currentOptions.departure)}`);
         data.append("seasonal", !currentOptions.isNightly);
         data.append("credits", 0);
         let id = -1;
-        let response = await fetch("/assets/php/bookings.inc.php?c=create", { method: "POST", body: data })
+        let response = await fetch("/assets/php/includes/bookings.inc.php?c=create", { method: "POST", body: data })
         if (!response.ok) {
             console.error("not ok")
             let json = { error: "Unable to process request at this time!" };
             try {
                 json = await response.json();
-            } catch { }
+            } catch {
+            }
             alert(json.error)
             return;
         } else {
             try {
                 let json = await response.json();
                 id = json["id"];
-            } catch { }
+            } catch {
+            }
         }
         if (id == -1) {
             window.location.href = "/error/?c=500";
@@ -322,14 +321,13 @@
     }
 
     async function LoadItemizedList() {
-        let data =
-        {
+        let data = {
             adults: currentOptions.people.adults,
             children: currentOptions.people.children,
             pets: currentOptions.people.pets,
             cabin: currentOptions.cabin.name,
-            arrival: `${GetFormattedDate($("#start-date")[0].valueAsDate)} ${$("#start-time").val()}`,
-            departure: `${GetFormattedDate($("#end-date")[0].valueAsDate)} ${$("#end-time").val()}`,
+            arrival: `${GetFormattedDate($("#start-date")[0].valueAsDate)}`,
+            departure: `${GetFormattedDate($("#end-date")[0].valueAsDate)}`,
             seasonal: !currentOptions.isNightly,
         }
         let html = await $.post("/panel/itemized.php", data).then();
@@ -340,6 +338,7 @@
 
 
     }
+
     $("#online-payment-card, #inperson-payment-card").on('click', () => {
         $("#previous").attr('disabled', "");
         $("#next").attr('disabled', "");
@@ -348,13 +347,13 @@
     $("#inperson-payment-card").on('click', () => {
         $("#submit-booking-btn").on('click', async () => {
             let id = await Submit();
-            window.location.href = `/booking/complete/?id=${id}`;
+            if (id != -1) window.location.href = `/booking/complete/?id=${id}`;
         })
     })
     $("#online-payment-card").on('click', () => {
         $("#submit-booking-btn").on('click', async () => {
             let id = await Submit();
-            window.location.href = `/booking/pay.php?id=${id}`;
+            if (id != -1) window.location.href = `/booking/pay.php?id=${id}`;
         })
     })
     $("#cancel-booking-btn").on('click', async () => {
@@ -367,17 +366,14 @@
 
     $("#time-span .card").on('click', e => {
         currentOptions.isNightly = e.currentTarget.querySelector('.name').innerText == "Nightly"
-        NavigateTo("cabin");
-        $("#section-navigation").css('opacity', "")
+        NavigateTo(scrollBox.next);
     })
 
     $("#next").on('click', e => {
-        if ($(e.currentTarget).attr('disabled') == null)
-            NavigateTo(scrollBox.next);
+        if ($(e.currentTarget).attr('disabled') == null) NavigateTo(scrollBox.next);
     });
     $("#previous").on('click', e => {
-        if ($(e.currentTarget).attr('disabled') == null)
-            NavigateTo(scrollBox.previous);
+        if ($(e.currentTarget).attr('disabled') == null) NavigateTo(scrollBox.previous);
     });
 
     $("input[type=tel]").on('keydown', e => {
@@ -407,15 +403,16 @@
 
 
     $(".btn.print").on('click', () => Print())
+
+    $("section").css("display", "none")
+    NavigateTo("time-span")
+
     GetCabinsList()
     // .then(() => {
     //     NavigateTo("cabin")
     // })
     InitCounts()
     InitTimeSelector()
-
-    NavigateTo("login")
-
 
 }).call();
 

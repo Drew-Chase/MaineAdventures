@@ -1,19 +1,19 @@
 <?php
-header("Content-Type: application/json");
 require "connection.inc.php";
 
 if (isset($_GET["c"])) {
+    header("Content-Type: application/json");
     $category = $_GET["c"];
     $auth = new Auth();
     switch ($category) {
         case "login":
             if (isset($_POST["username"]) && isset($_POST["password"])) {
-                $auth->Login($_POST["username"], crypt($_POST["password"],  $salt));
+                die($auth->Login($_POST["username"], $_POST["password"]));
             }
             break;
         case "register":
-            if (isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["admin"])) {
-                $auth->Register($_POST["username"], $_POST["password"], $_POST["admin"]);
+            if (isset($_POST["username"]) && isset($_POST["password"])) {
+                die($auth->Register($_POST["username"], $_POST["password"]));
             }
             break;
         default:
@@ -21,31 +21,45 @@ if (isset($_GET["c"])) {
             die(json_encode(array("error" => "No such category: $category")));
             break;
     }
-} else {
-    http_response_code(401);
-    die(json_encode(array("error" => "No category was specified!")));
 }
 
 class Auth
 {
     var $connection;
     var $salt;
+
     function __construct()
     {
         $this->connection = new Connection();
     }
 
-    function Login($username, $password)
+    function LoginWithCookies()
+    {
+        $username = $_COOKIE["username"];
+        $password = $_COOKIE["password"];
+        return $this->Login($username, $password);
+    }
+
+
+
+    function Login($username, $password): string
+    {
+        global $salt;
+        $password = crypt($_POST["password"], $salt);
+        return $this->LoginWithToken($username, $password);
+    }
+
+    function LoginWithToken($username, $password)
     {
         $sql = "SELECT * from staff WHERE `username`=? AND `password`=? LIMIT 1; ";
         $stmt = $this->connection->conn->prepare($sql);
         if (!$stmt) {
             http_response_code(500);
-            die(json_encode(array("error" => $this->connection->conn->error)));
+            return json_encode(array("error" => $this->connection->conn->error));
         }
         if (!$stmt->bind_param("ss", $username, $password)) {
             http_response_code(500);
-            die(json_encode(array("error" => $stmt->error)));
+            return json_encode(array("error" => $stmt->error));
         }
 
         if ($stmt->execute()) {
@@ -53,29 +67,32 @@ class Auth
             if ($result->num_rows > 0) {
                 $data = $result->fetch_assoc();
                 $id = $data["id"];
-                $admin = $data["admin"];
-                die(json_encode(array("id" => $id, "username" => $username, "password" => $password, "admin" => $admin)));
+                return json_encode(array("id" => $id, "username" => $username, "password" => $password));
             } else {
                 http_response_code(401);
-                die(json_encode(array("error" => "Invalid username and/or password")));
+                return json_encode(array("error" => "Invalid username and/or password"));
             }
         }
+        return json_encode(array("error" => "Unknown issue"));
     }
-    function Register($username, $password, $admin)
+
+    function Register($username, $password)
     {
-        $sql = "INSERT INTO `staff`( `username`, `password`, `admin`) VALUES (?,?,?)";
+        global $salt;
+        $password = crypt($_POST["password"], $salt);
+        $sql = "INSERT INTO `staff`( `username`, `password`) VALUES (?,?)";
         $stmt = $this->connection->conn->prepare($sql);
         if (!$stmt) {
             http_response_code(500);
             die(json_encode(array("error" => "Unable to prepare SQL Statement")));
         }
-        $stmt->bind_param("sss", $username, $password, $admin);
+        $stmt->bind_param("ss", $username, $password);
         if ($stmt->execute()) {
             http_response_code(200);
             die();
         } else {
             http_response_code(500);
-            die(json_encode(array("error" => "Unable to register user!")));
+            return json_encode(array("error" => "Unable to register user!"));
         }
     }
 }

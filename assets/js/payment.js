@@ -28,7 +28,7 @@ async function Pay(id, cc, cvv2, exp) {
         card_exp: exp,
         card_cvc: cvv2
     }
-    let response = await $.post(`/assets/php/payments.inc.php?id=${id}`, data).then();
+    let response = await $.post(`/assets/php/includes/payments.inc.php?id=${id}`, data).then();
     try {
         let json = JSON.parse(response);
         return json

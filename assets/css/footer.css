@@ -10,6 +10,7 @@ footer {
     max-height: 600px;
     z-index: 1;
     background-image: url('/assets/images/footer.webp');
+    background-repeat: no-repeat;
 }
 
 footer #copyright {

@@ -1,0 +1,10 @@
+section h3, h1{
+    margin-bottom: 0;
+}
+
+section:not(#hunt-banner){
+    margin: 1rem;
+}
+#hunt-banner{
+    margin-top: 0;
+}

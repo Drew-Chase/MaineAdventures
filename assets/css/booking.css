@@ -82,7 +82,7 @@
     margin-bottom: 0;
 }
 
-section > p {
+section>p {
     margin-left: 2rem;
 }
 
@@ -142,11 +142,15 @@ section > p {
     position: relative;
     background-color: var(--foreground);
     color: var(--background);
+    width: 20vw;
+    max-width: 600px;
+    min-width: 200px;
+
     height: 80%;
     max-height: 600px;
     min-height: 400px;
+
     margin: 0 1rem;
-    aspect-ratio: 2/3;
     z-index: 0;
     cursor: pointer;
     transition: box-shadow, transform;
@@ -173,6 +177,13 @@ section > p {
     position: absolute;
     bottom: 1rem;
     width: 75%;
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.card .btn:hover {
+    border: none;
 }
 
 .card:hover .description {
@@ -245,6 +256,8 @@ section > p {
     justify-content: start;
     font-size: 2rem;
     font-weight: 300;
+    overflow: scroll;
+    max-height: 500px;
 }
 
 #cabin #cabin-names p, .page-nav-item {
@@ -254,6 +267,9 @@ section > p {
     z-index: 1;
     cursor: pointer;
     transition: color 200ms;
+    border: 2px solid var(--foreground);
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 #cabin #cabin-names p::before, .page-nav-item::before {
@@ -299,9 +315,10 @@ section > p {
     background-size: cover;
     background-repeat: no-repeat;
     transition: background-image 100ms;
+    border-radius: 20px;
 }
 
-#cabin > .row {
+#cabin>.row {
     height: 100%;
 }
 
@@ -332,6 +349,9 @@ section > p {
     justify-content: center;
     align-items: center;
     font-size: 2rem;
+    border: 2px solid var(--foreground);
+    margin: 5px;
+    border-radius: 10px;
 }
 
 .count[selected], .count:hover {
@@ -426,7 +446,7 @@ section > p {
 }
 
 #contact-information input {
-    width: 100%;
+    width: calc(100% - 1rem);
 }
 
 #contact-information input[name="fname"] {
@@ -463,6 +483,7 @@ label {
     margin-left: 1rem;
     position: relative;
     height: 100%;
+    min-width: 560px;
 }
 
 #payment-method #buttons, #time-span #buttons {
@@ -479,7 +500,7 @@ label {
 }
 
 #payment-method #cards i {
-    font-size: 6rem;
+    font-size: 4rem;
     margin: 0 5px;
 }
 
@@ -506,7 +527,7 @@ label {
     margin-left: 0 !important;
 }
 
-#login > * {
+#login>* {
     width: 100%;
     margin: 0 2rem;
 }

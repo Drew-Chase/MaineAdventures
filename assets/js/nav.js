@@ -1,20 +1,27 @@
 var nav = $("nav")
 var pageArrow = $("#page-arrow")
 $(document).on('scroll', () => {
+
     if (window.scrollY <= window.screen.availHeight / 2) {
         pageArrow.attr("fixed", false);
     } else {
         pageArrow.attr("fixed", true);
     }
     if (nav.attr('static') == null) {
-        if (window.scrollY <= 50) {
-            nav.attr("fixed", false);
+        if (nav.attr('noanim') != "true") {
+            if (window.scrollY <= 50) {
+                nav.attr("fixed", false);
+            } else {
+                nav.attr("fixed", true);
+            }
         } else {
             nav.attr("fixed", true);
         }
     }
 })
-
+if (nav.attr('noanim') == "true") {
+    nav.attr("fixed", true);
+}
 pageArrow.on("click", () => {
     let isFixed = pageArrow.attr("fixed") != null && pageArrow.attr("fixed") == "true";
     if (isFixed) {
