@@ -2,39 +2,107 @@
     text-align: center;
     font-weight: bold;
     margin-bottom: 10px;
+    font-size: 2rem;
+    width: 100%;
 }
 
-.calendar-days {
+.calendar-container {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
+    aspect-ratio: 7/5;
 }
 
-.calendar-day {
+.calendar-months {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.calendar-years {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.calendar-item {
     text-align: center;
-    outline: 1px solid black;
-    outline-color: var(--foreground);
     aspect-ratio: 1;
     border-radius: 20px;
+    background: var(--foreground);
+    color: var(--background);
     transition: scale, background-color, color;
     transition-duration: 200ms;
+    font-family: 'Roboto';
+    font-size: 1.5rem;
 }
-.calendar-day:not(.invalid):hover, .calendar-day.selected{
-    background-color: black;
-    /* background-color: var(--foreground); */
-    color: white;
-    
+
+.calendar-month-button {
+    font-size: 1rem;
 }
-.calendar-day:not(.invalid):hover{
+
+.calendar-item:not(.invalid):hover, .calendar-item.selected {
+    background-color: var(--primary);
+    color: var(--foreground);
+
+}
+
+.calendar-item.invalid {
+    cursor: default;
+}
+
+.calendar-item:not(.invalid):hover {
     scale: 1.1;
     cursor: pointer;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
 
-.calendar-day.invalid {
+.calendar-item.invalid, .calendar-nav-button.disabled {
     background-color: rgba(0, 0, 0, 0.5);
+    opacity: .5;
 }
 
-.current-day {
-    background-color: rgba(0, 0, 0, 0.2);
+.calendar-item.current {
+    background-color: rgba(0, 0, 0, 1.2);
+}
+
+.calendar-nav-button {
+    border-radius: 100%;
+    background-color: var(--foreground);
+    color: var(--background);
+    font-size: 1.5rem;
+    padding: .5rem 1rem;
+    margin: 0 1rem;
+    aspect-ratio: 1;
+    transition: background, color;
+    transition-duration: 200ms;
+}
+
+.calendar-nav-button:not(.disabled):hover {
+    background-color: var(--primary);
+    color: var(--foreground);
+    cursor: pointer;
+}
+
+.calendar-time-selector {
+    min-width: 320px;
+    display: inline-block;
+}
+
+.calendar-selector {
+    background: var(--foreground);
+    color: var(--background);
+    margin: 0 5px;
+    padding: .5rem 1rem;
+    border-radius: 100px;
+    transition: background, color;
+    transition-duration: 200ms;
+}
+
+.calendar-selector:hover, .calendar-selector.selected {
+    cursor: pointer;
+    background: var(--primary);
+    color: var(--foreground);
+}
+
+
+
+.calendar-day.invalid p {
+    display: none;
 }
