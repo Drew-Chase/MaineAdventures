@@ -6,7 +6,8 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/assets/php/includes/itemized.inc.php"
     <?php
     if (isset($_GET["id"])) {
         $id = $_GET["id"];
-        echo "const id = '$id';";
+        echo "const id = '$id';\n";
+        echo 'const admin = ' . (isset($_GET['admin']) ? 'true' : 'false') . ';';
     }
     ?>
 </script>
@@ -30,4 +31,5 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/assets/php/includes/itemized.inc.php"
     </div>
 </div>
 
-<script src="/assets/js/min/payment.min.js"></script>
+<script src="/assets/js/payment.js"></script>
+<!-- <script src="/assets/js/min/payment.min.js"></script> -->
