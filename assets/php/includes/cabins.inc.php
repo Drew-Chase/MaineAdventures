@@ -38,7 +38,7 @@ class Cabins
     }
     function UploadImage($id)
     {
-        $path = $_SERVER['DOCUMENT_ROOT'] . "/assets/images/cabins/$id.webp";
+        $path = $_SERVER['DOCUMENT_ROOT'] . "/assets/images/cabins/$id.jpeg";
         $image = "image";
         $tempFile = $_FILES[$image]['tmp_name'];
 
@@ -59,7 +59,7 @@ class Cabins
     {
         $conn = $this->connection->conn;
         global $hashids;
-        $image = $_SERVER["DOCUMENT_ROOT"] . "/assets/images/cabins/$id.webp";
+        $image = $_SERVER["DOCUMENT_ROOT"] . "/assets/images/cabins/$id.jpeg";
         $id = $hashids->decode($id)[0];
 
         // Prepare and execute the SQL statement
