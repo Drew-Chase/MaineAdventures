@@ -33,7 +33,7 @@ class Auth
         $this->connection = new Connection();
     }
 
-    function LoginWithCookies()
+    function LoginWithCookies(): string
     {
         $username = $_COOKIE["username"];
         $password = $_COOKIE["password"];
@@ -45,7 +45,7 @@ class Auth
     function Login($username, $password): string
     {
         global $salt;
-        $password = crypt($_POST["password"], $salt);
+        $password = crypt($password, $salt);
         return $this->LoginWithToken($username, $password);
     }
 
@@ -65,6 +65,7 @@ class Auth
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
+                http_response_code(200);
                 $data = $result->fetch_assoc();
                 $id = $data["id"];
                 return json_encode(array("id" => $id, "username" => $username, "password" => $password));
@@ -79,17 +80,17 @@ class Auth
     function Register($username, $password)
     {
         global $salt;
-        $password = crypt($_POST["password"], $salt);
+        $password = crypt($password, $salt);
         $sql = "INSERT INTO `staff`( `username`, `password`) VALUES (?,?)";
         $stmt = $this->connection->conn->prepare($sql);
         if (!$stmt) {
             http_response_code(500);
-            die(json_encode(array("error" => "Unable to prepare SQL Statement")));
+            return json_encode(array("error" => "Unable to prepare SQL Statement"));
         }
         $stmt->bind_param("ss", $username, $password);
         if ($stmt->execute()) {
             http_response_code(200);
-            die();
+            return json_encode(array("message" => "Account successfully created!"));
         } else {
             http_response_code(500);
             return json_encode(array("error" => "Unable to register user!"));
