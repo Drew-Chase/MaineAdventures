@@ -289,6 +289,10 @@
         font-size: 3rem;
     }
 
+    #sections section h2{
+        font-size: 4rem;
+    }
+
 }
 
 @media (max-width: 480px) {
