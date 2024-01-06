@@ -63,6 +63,11 @@ if (isset($_GET["c"])) {
                 echo json_encode($bookings->Search($_POST['query']));
             }
             break;
+        case "unavailable":
+            if (isset($_GET['cabin'])) {
+                die(json_encode($bookings->GetUnavailableDates($_GET['cabin'])));
+            }
+            break;
         default:
             break;
     }
@@ -70,6 +75,40 @@ if (isset($_GET["c"])) {
 
 class Bookings
 {
+
+    function GetUnavailableDates(string $cabin): array
+    {
+        $conn = new Connection();
+        $connection = $conn->conn;
+        $unavailableDates = array();
+        
+        // Retrieve unavailable dates from the bookings table
+        $query = "SELECT arrival, departure FROM bookings WHERE cabin = ? ORDER BY arrival";
+        $stmt = $connection->prepare($query);
+        $stmt->bind_param("s", $cabin);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $bookings = $result->fetch_all(MYSQLI_ASSOC);
+        
+        // Process each booking to find unavailable dates
+        foreach ($bookings as $booking) {
+            $arrival = new DateTime($booking['arrival']);
+            $departure = new DateTime($booking['departure']);
+            
+            // Add each date within the span to the unavailable dates array
+            $currentDate = clone $arrival;
+            $currentDate->modify('-1 day');
+            $departure->modify('+1 day');
+            while ($currentDate <= $departure) {
+                $unavailableDates[] = $currentDate->format('Y-m-d');
+                $currentDate->modify('+1 day');
+            }
+        }
+
+        $stmt->close();
+
+        return $unavailableDates;
+    }
 
 
     function CheckIn(string $id)
@@ -109,7 +148,7 @@ class Bookings
         }
     }
 
-    function GetAllBookingsOrderedByArrival()
+    function GetAllBookingsOrderedByArrival(): array
     {
         $connection = new Connection();
         $conn = $connection->conn; // This is the mysqli connection object
@@ -137,7 +176,7 @@ class Bookings
         }
     }
 
-    function GetArrivingToday()
+    function GetArrivingToday(): array
     {
         $connection = new Connection();
         $conn = $connection->conn; // This is the mysqli connection object
@@ -167,7 +206,7 @@ class Bookings
         }
     }
 
-    function GetDepartingToday()
+    function GetDepartingToday(): array
     {
         $connection = new Connection();
         $conn = $connection->conn; // This is the mysqli connection object
@@ -197,7 +236,7 @@ class Bookings
         }
     }
 
-    function Search($query)
+    function Search($query): array
     {
         if ($query == "") {
             return [];
