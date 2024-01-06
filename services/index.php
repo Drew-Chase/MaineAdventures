@@ -1,9 +1,4 @@
 <!-- A LFInteractive Project -->
-<?php
-define("SERVER_ROOT", __DIR__);
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +6,7 @@ define("SERVER_ROOT", __DIR__);
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Main Adventures - Ditch the city for a taste of nature</title>
+	<title>Services - Main Adventures</title>
 	<link rel="shortcut icon" href="/assets/images/icon.svg" type="image/x-icon">
 
 	<!-- Pages Styling -->
@@ -109,7 +104,7 @@ define("SERVER_ROOT", __DIR__);
 		<div class="col">
 			<h3>Boating and Kayaks</h3>
 			<div class="row">
-				<p>Our facilities include a boat launching area, docking for boats, and parking for cars and trailers. We provide shuttles to various points along the Penobscot River Corridor. Our campsites are in harmony with nature, some being secluded while others are more open. Each campsite is equipped with a fire ring and trash container. Drinking water is supplied by an on-site well. We offer canoes and kayaks for hourly and daily rental. A security deposit is required for rentals in the form of cash or credit card, and signing a waiver is mandatory.</p>
+				<p>Our facilities include a boat launching area, docking for boats, and parking for cars and trailers. Our campsites are in harmony with nature, some being secluded while others are more open. Each campsite is equipped with a fire ring and trash container. Drinking water is supplied by an on-site well. We offer canoes and kayaks for hourly and daily rental. A security deposit is required for rentals in the form of cash or credit card, and signing a waiver is mandatory.</p>
 			</div>
 		</div>
 	</section>
