@@ -55,47 +55,60 @@
     }
 
     async function Login(username, password, report = true) {
-        let data = new FormData();
-
-        data.append("username", username);
-        data.append("password", password);
-        let response = await fetch("/assets/php/includes/auth.inc.php?c=login", {
-            body: data,
-            method: "POST"
-        });
         let json = { error: "Unknown error has occurred!" };
-        try {
-            json = await response.json();
-        } catch (e) {
-            console.error(e)
-        }
-        error()
-        if (report) {
-            if (json.error != null) {
-                error(json.error)
+        await $.ajax({
+            type: "POST",
+            url: "/assets/php/includes/auth.inc.php?c=login",
+            data: {
+                "username": username,
+                "password": password
+            },
+            success: async response => {
+                try {
+                    json = await response;
+                } catch (e) {
+                    console.error(e)
+                }
+                error()
+                if (report) {
+                    if (json.error != null) {
+                        error(json.error)
+                    }
+                }
+                document.cookie = `username=${username}; expires=${new Date(3000, 1, 1).toLocaleString("GMT")}; path=/panel`
+                document.cookie = `password=${password}; expires=${new Date(3000, 1, 1).toLocaleString("GMT")}; path=/panel`
             }
-        }
-        if (response.ok) {
-            document.cookie = `username=${username}; expires=${new Date(3000, 1, 1).toLocaleString("GMT")}; path=/panel`
-            document.cookie = `password=${password}; expires=${new Date(3000, 1, 1).toLocaleString("GMT")}; path=/panel`
-        }
+        });
+
 
         return json;
     }
+
 
     async function Register(username, password, confirm) {
         if (password != confirm) {
             error('Passwords must match');
             return;
         }
-        let response = await $.post("/assets/php/includes/auth.inc.php?c=register", {
-            "username": username,
-            "password": password,
-        })
+
+        return await $.ajax({
+            type: "POST",
+            url: "/assets/php/includes/auth.inc.php?c=register",
+            data: {
+                "username": username,
+                "password": password,
+            },
+            dataType: "json",
+            success: async response => {
+                await Login(username, password)
+                window.location.href = "/panel"
+            },
+            failure: async (xhr, status, ex) => {
+                error(ex);
+            }
+        });
 
 
-
-        await Login(username, password)
     }
 
     function Logout() {
