@@ -264,9 +264,11 @@ h1, h2 {
     opacity: .5;
     font-weight: 500;
 }
-.dropzone{
+
+.dropzone {
     position: relative;
 }
+
 .dropzone.dragover {
     position: relative;
     outline: 2px dashed #ff0000;
@@ -279,20 +281,23 @@ h1, h2 {
     z-index: 1;
     inset: 0;
     color: white;
-    background-color: rgba(0, 0,0, 0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     font-size: 5rem;
     justify-content: center;
     align-items: center;
 }
 
-.dropzone.loading::before {
-    content: 'Uploading...';
+.dropzone .upload-msg {
+    display: none;
+}
+
+.dropzone.loading .upload-msg {
     position: absolute;
     display: flex;
     z-index: 1;
     inset: 0;
     color: white;
-    background-color: rgba(0, 0,0, 0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     font-size: 5rem;
     justify-content: center;
     align-items: center;
@@ -301,11 +306,12 @@ h1, h2 {
 .gallery-image .title {
     transform: translateY(0%) !important;
 }
+
 .gallery-image:hover .title {
     transform: translateY(100%) !important;
 }
 
-.gallery-image::after{
+.gallery-image::after {
     content: '\f1f8';
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
@@ -320,11 +326,12 @@ h1, h2 {
     opacity: 0;
     transition: opacity 200ms;
 }
-.gallery-image:hover::after{
+
+.gallery-image:hover::after {
     opacity: 1;
 }
 
-#add-image-button{
+#add-image-button {
     background-color: var(--foreground);
     font-size: 8rem;
     color: white;
@@ -344,7 +351,11 @@ h1, h2 {
     transition: scale 200ms;
 }
 
-#add-image-button:hover{
+#add-image-button:hover {
     cursor: pointer;
     scale: 1.03;
+}
+
+#calendar{
+    padding-top: 1rem;
 }
