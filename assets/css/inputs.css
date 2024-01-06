@@ -23,8 +23,8 @@ input[type=date], input[type=time], input {
 input {
     margin-bottom: 1rem;
     margin-right: 1rem;
-    border: 0px solid var(--foreground);
-    border-radius: 0px;
+    border: 2px solid rgba(0, 0, 0, .3);
+    border-radius: 5px;
 }
 
 input[type=time] {
