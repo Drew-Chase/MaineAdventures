@@ -4,7 +4,7 @@ $dir = $_SERVER['DOCUMENT_ROOT'] . "/assets/images/gallery/";
 if (isset($_GET['c'])) {
     if ($_GET['c'] == 'upload') {
         $id = $_POST['id'];
-        UploadImage($id);
+        die(json_encode(["success" => UploadImage($id)]));
     } else if ($_GET['c'] == 'delete') {
         $id = $_POST['id'];
         DeleteImage($id);
@@ -31,8 +31,8 @@ function DeleteImage($id)
 {
     try {
 
-        $file = $_SERVER["DOCUMENT_ROOT"] . "/assets/images/gallery/$id.webp";
-        $small = $_SERVER["DOCUMENT_ROOT"] . "/assets/images/gallery/sm/$id.webp";
+        $file = $_SERVER["DOCUMENT_ROOT"] . "/assets/images/gallery/$id.jpeg";
+        $small = $_SERVER["DOCUMENT_ROOT"] . "/assets/images/gallery/sm/$id.jpeg";
         if (file_exists($file)) {
             unlink($file);
         }
@@ -48,10 +48,9 @@ function DeleteImage($id)
 function UploadImage($id): bool
 {
     $id = basename($id, '.' . pathinfo($id, PATHINFO_EXTENSION));
-    $path = $_SERVER['DOCUMENT_ROOT'] . "/assets/images/gallery/$id.webp";
-    $sml = $_SERVER['DOCUMENT_ROOT'] . "/assets/images/gallery/sm/$id.webp";
-    $image = "image";
-    $tempFile = $_FILES[$image]['tmp_name'];
+    $path = $_SERVER['DOCUMENT_ROOT'] . "/assets/images/gallery/$id.jpeg";
+    $sml = $_SERVER['DOCUMENT_ROOT'] . "/assets/images/gallery/sm/$id.jpeg";
+    $tempFile = $_FILES["image"]['tmp_name'];
 
     $ffmpegCommand = "ffmpeg -y -i \"$tempFile\" \"$path\"";
     exec($ffmpegCommand, $output, $returnCode);
@@ -64,7 +63,6 @@ function UploadImage($id): bool
         }
         return true;
     } else {
-        http_response_code(500);
         return false;
     }
 }
