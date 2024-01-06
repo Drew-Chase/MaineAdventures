@@ -35,34 +35,25 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/assets/php/includes/itemized.inc.php"
 </head>
 
 <body>
-<script>
+
 	<?php
-	if (isset($_GET["id"])) {
-		$id = $_GET["id"];
-		echo "const id = '$id';";
-	}
+	$fixed = true;
+	$noanim = true;
+	include_once $_SERVER["DOCUMENT_ROOT"] . "/assets/php/nav.php";
 	?>
-</script>
+	<main>
+		<?php
+		include_once $_SERVER["DOCUMENT_ROOT"] . "/assets/php/payment-form.php";
+		?>
+	</main>
 
-<?php
-$fixed = true;
-$noanim=true;
-include_once $_SERVER["DOCUMENT_ROOT"] . "/assets/php/nav.php";
-?>
-<main>
-	<?php
-	include_once $_SERVER["DOCUMENT_ROOT"] . "/assets/php/payment-form.php";
-	?>
-</main>
+	<footer id="footer" class="center col">
+		<img id="footer-logo" src="/assets/images/large-logo.svg" alt="">
+		<p id="copyright">&copy; Copyright 2011-<span class="year"></span> Allagash Gateway Campsites & Cabins. All rights reserved.</p>
+	</footer>
 
-<footer id="footer" class="center col">
-	<img id="footer-logo" src="/assets/images/large-logo.svg" alt="">
-	<p id="copyright">&copy; Copyright 2011-<span class="year"></span> Allagash Gateway Campsites & Cabins. All rights
-	                  reserved.</p>
-</footer>
-
-<!-- Page Scripts -->
-<script src="/assets/js/min/nav.min.js"></script>
+	<!-- Page Scripts -->
+	<script src="/assets/js/min/nav.min.js"></script>
 </body>
 
 </html>
