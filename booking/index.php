@@ -1,5 +1,9 @@
 <!-- A LFInteractive Project -->
 
+<?php
+header("location: /booking/coming-soon.php")
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -102,20 +106,20 @@
 			</div>
 
 		</section>
-	
+
 		<section id="start-time" class="col" style="display:none" next="end-time" previous="cabin">
 			<h2>Arrival Date?</h2>
 			<p>We need at least <strong>5 days</strong> notice before booking</p>
-			<div id="calendar-start"></div>
+			<div id="calendar-start" date="2023-06-21"></div>
 		</section>
-	
+
 		<section id="end-time" class="col" style="display:none" next="adults" previous="start-time">
 			<h2>Departure Date?</h2>
 			<p>We need at least <strong>5 days</strong> notice before booking</p>
 			<div id="calendar-end"></div>
 		</section>
 
-		<section id="adults" style="display: none;" next="children" previous="times">
+		<section id="adults" style="display: none;" next="children" previous="end-time">
 			<h2>Adults</h2>
 			<p>Adults are <b>$15.00</b> per person per night</p>
 			<div class="items">
@@ -156,15 +160,15 @@
 			</div>
 		</section>
 
-		<section id="contact-information" style="display: none;" next="payment-method" previous="times">
+		<section id="contact-information" style="display: none;" next="payment-method" previous="pets">
 			<h2>Your Information</h2>
 			<div class="center">
 				<div class="col">
 					<label for="name">Full Name</label>
-					<input type="text" name="name" id="name" placeholder="Full Name" autocomplete="name">
+					<input type="text" name="name" id="name" placeholder="John M. Smith" autocomplete="name">
 
 					<label for="email">Email</label>
-					<input type="email" name="email" id="email" placeholder="Email" autocomplete="email">
+					<input type="email" name="email" id="email" placeholder="email@example.com" autocomplete="email">
 					<label for="telephone-number">Phone Number</label>
 					<input type="tel" name="telephone-number" id="telephone-number" placeholder="(123) 456-7890" autocomplete="mobile">
 				</div>
@@ -229,10 +233,18 @@
 	</footer>
 
 	<!-- JS Scripts -->
-	<script src="/assets/js/min/social-media.min.js"></script>
-	<script src="/assets/js/min/contact-us.min.js"></script>
+
+	<script src="/assets/js/min/calendar.min.js"></script>
 	<script src="/assets/js/min/nav.min.js"></script>
-	<script src="/assets/js/booking.js"></script>
+
+
+	<script src="/assets/js/min/booking-utility.min.js"></script>
+	<script src="/assets/js/min/booking-navigation.min.js"></script>
+	<script src="/assets/js/min/booking-events.min.js"></script>
+	<script src="/assets/js/min/booking-count.min.js"></script>
+	<script src="/assets/js/min/booking-cabins.min.js"></script>
+	<script src="/assets/js/min/booking-time-selectors.min.js"></script>
+	<script src="/assets/js/min/booking.min.js"></script>
 	<script src="https://lfinteractive.net/assets/js/min/lf.min.js"></script>
 
 	<!-- Facebook SDK -->
