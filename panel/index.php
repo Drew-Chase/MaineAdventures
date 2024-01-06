@@ -44,7 +44,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/assets/php/includes/auth.inc.php";
 		</span>
 		<div id="nav-items">
 			<a href="/panel" class="nav-item" title="Goto Home Page">Home</a>
-			<a href="/panel/calendar" class="nav-item" title="Goto Calendar">Calendar</a>
+			<a href="#calendar" class="nav-item" title="Goto Calendar">Calendar</a>
 			<div class="nav-item btn primary" id="search-button" title="Search">
 				<i class="fa fa-search right"></i>
 				Search
@@ -69,7 +69,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/assets/php/includes/auth.inc.php";
 
 				</div>
 			</section>
-			<section>
+			<section id="calendar">
 				<h2>Calendar</h2>
 				<div class="calendar">
 
@@ -89,7 +89,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/assets/php/includes/auth.inc.php";
 				$price = $item["price"];
 				$seasonal = $item["seasonal"] == 1;
 
-				$imagePath = "/assets/images/cabins/$id.webp";
+				$imagePath = "/assets/images/cabins/$id.jpeg";
 				$fallbackImage = "/assets/images/no-image.svg";
 				$backgroundImage = file_exists($_SERVER["DOCUMENT_ROOT"] . $imagePath) ? $imagePath : $fallbackImage;
 
@@ -131,6 +131,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/assets/php/includes/auth.inc.php";
 			</div>
 		</section>
 		<section id="gallery" class="col dropzone">
+			<div class="upload-msg">
+				<p>Uploading (0 / 0)</p>
+			</div>
 			<h1>Gallery</h1>
 			<div class="grid">
 
