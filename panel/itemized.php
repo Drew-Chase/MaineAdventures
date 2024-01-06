@@ -17,12 +17,23 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/assets/php/includes/itemized.inc.php"
 	<link rel="stylesheet" href="/assets/css/min/scrollbar.min.css">
 	<link rel="stylesheet" href="/assets/css/min/booking.min.css">
 	<link rel="stylesheet" href="/assets/css/min/footer.min.css">
+	
 </head>
 
 <body>
 	<div id="itemized">
 		<section id="itemized">
-			<h2>Your Order</h2>
+			<?php 
+			if(!isset($_GET['print'])){
+				echo '<h2>Your Order</h2>';
+				echo '<style>
+				#itemized{
+					padding: 0;
+					margin: 0;
+				}
+				</style>';
+			}
+			?>
 			<table>
 				<tr>
 					<th>Name</th>
@@ -80,14 +91,25 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/assets/php/includes/itemized.inc.php"
 			if ($paid) {
 				echo "
                 <div id=\"itemized-paid\">
-                    <p><strong>Paid with Visa ending in <span id=\"card-suffix\"></span></strong></p>
+                    <p><strong>Paid with Card ending in <span id=\"card-suffix\"></span></strong></p>
                 </div>";
 			}
 			?>
 			<div class="row">
 				<p id="balance-line">Total Balance: <strong id="total-balance"><?php echo "$" . number_format($price, 2); ?></strong>
 				</p>
-				<a href="/booking/pay.php?id=<?php echo $_GET['id']; ?>" class="btn primary" style="width: 200px;margin: auto 1rem;margin-left: auto;">Pay</a>
+				<?php
+				if (isset($_GET['id'])) {
+					if (isset($_GET['show-pay'])) {
+						echo '<a href="/booking/pay.php?id=' . $_GET['id'] . '" class="btn primary" style="width: 200px;margin: auto 1rem;margin-left: auto;">Pay</a>';
+					} else if (isset($_GET['show-print'])) {
+						echo '<a class="btn primary" style="width: 200px;margin: auto 1rem;margin-left: auto;" onclick="Print(\'' . $_GET["id"] . '\')">Print</a>';
+						echo '<script src="/assets/js/min/payment.min.js"></script>';
+					}
+				}
+
+				?>
+
 			</div>
 		</section>
 	</div>
