@@ -201,7 +201,7 @@ function uploadCabinImage(id) {
             success: response => {
                 console.log(response);
                 setTimeout(() => {
-                    imageElement.attr('src', `/assets/images/cabins/${id}.webp?timestamp=${Date.now()}`);
+                    imageElement.attr('src', `/assets/images/cabins/${id}.jpeg?timestamp=${Date.now()}`);
                     imagePreview.removeClass('loading');
                 }, 1000);
             },
@@ -230,8 +230,9 @@ async function uploadGalleryImage(files) {
     $("#gallery.dropzone").addClass('loading')
     try {
         files = Array.from(files);
+        let index = 0;
         for (const file of files) {
-            console.log(file);
+            $(".dropzone.loading .upload-msg p").html(`Uploading (${index} / ${files.length})`)
             let formData = new FormData();
             formData.append('image', file);
             formData.append('id', file.name);
@@ -247,6 +248,7 @@ async function uploadGalleryImage(files) {
                     error: reject
                 });
             });
+            index++;
         }
         window.location.reload();
     } catch (error) {
