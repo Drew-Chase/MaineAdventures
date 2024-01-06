@@ -11,8 +11,13 @@ define("SERVER_ROOT", __DIR__);
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- SEO -->
 	<title>Main Adventures - Ditch the city for a taste of nature</title>
 	<link rel="shortcut icon" href="/assets/images/icon.svg" type="image/x-icon">
+	<meta name="description" content="Main Adventures - Ditch the city for a taste of nature. Allagash Gateway Campsites & Cabins offers camping, hunting, hiking, and more in Maine.">
+	<meta name="keywords" content="Maine Adventures, Allagash Gateway Campsites & Cabins, camping, hunting, hiking, Maine">
+
 
 	<!-- Pages Styling -->
 	<link rel="stylesheet" href="/assets/css/min/main.min.css">
@@ -92,41 +97,42 @@ define("SERVER_ROOT", __DIR__);
 		</div>
 	</section>
 
-	<section id="contact" class="row">
-		<div class="col">
-			<div id="phone-card" class="contact-card row" onclick="Call()" title="Call Us">
-				<i class="fa-solid fa-phone"></i>
-				<div class="col">
-					<p class="name">Phone</p>
-					<a href="tel:+1 (207) 723-9215" class="value">+1 (207) 723-9215</a>
+		<section id="contact" class="row">
+			<div class="col">
+				<div id="phone-card" class="contact-card row" onclick="Call()" title="Call Us">
+					<i class="fa-solid fa-phone"></i>
+					<div class="col">
+						<p class="name">Phone</p>
+						<a href="javascript:void();" class="value">+1 (207) 723-9215</a>
+					</div>
+				</div>
+				<div id="email-card" class="contact-card row" onclick="Email()" title="Email Us">
+					<i class="fa-solid fa-envelope"></i>
+					<div class="col">
+						<p class="name">Email</p>
+						<a href="javascript:void();" class="value">bscanlin1@yahoo.com</a>
+					</div>
 				</div>
 			</div>
-			<div id="email-card" class="contact-card row" onclick="Email()" title="Email Us">
-				<i class="fa-solid fa-envelope"></i>
-				<div class="col">
-					<p class="name">Email</p>
-					<a href="mailto:contact-us@maineadventures.org?subject=Contact US" class="value">contact-us@maineadventures.org</a>
-				</div>
-			</div>
-		</div>
-		<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d5554.9241316447815!2d-69.222342!3d45.882071!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x81e08b7556a8c8e3!2sAllagash%20Gateway!5e0!3m2!1sen!2sus!4v1674368904758!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-	</section>
-
-	<footer id="footer" class="center col">
-		<img id="footer-logo" src="/assets/images/large-logo.svg" alt="">
-		<a href="https://www.facebook.com/allagashgateway/" target="_blank">
-			<i class="fa fa-brands fa-facebook-f social-icon center" title="Check us out on Facebook"></i>
-		</a>
-		<p id="copyright">&copy; Copyright 2011-2023 Allagash Gateway Campsites & Cabins. All rights reserved.</p>
-	</footer>
-
-	<!-- Fixed Items -->
-	<div id="page-arrow"><i class="fa-solid fa-chevron-down"></i></div>
-
-	<!-- JS Scripts -->
-	<script src="/assets/js/min/contact-us.min.js"></script>
-	<script src="/assets/js/min/social-media.min.js"></script>
-	<script src="/assets/js/min/nav.min.js"></script>
+			<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d5554.9241316447815!2d-69.222342!3d45.882071!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x81e08b7556a8c8e3!2sAllagash%20Gateway!5e0!3m2!1sen!2sus!4v1674368904758!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+		</section>
+		
+		
+		<footer id="footer" class="center col">
+			<img id="footer-logo" src="/assets/images/large-logo.svg" alt="">
+			<a href="https://www.facebook.com/allagashgateway/" target="_blank">
+				<i class="fa fa-brands fa-facebook-f social-icon center" title="Check us out on Facebook"></i>
+			</a>
+			<p id="copyright">&copy; Copyright 2011-2023 Allagash Gateway Campsites & Cabins. All rights reserved.</p>
+		</footer>
+		
+		<!-- Fixed Items -->
+		<div id="page-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+		
+		<!-- JS Scripts -->
+		<script src="/assets/js/min/social-media.min.js"></script>
+		<script src="/assets/js/min/nav.min.js"></script>
+		<script src="/assets/js/min/contact-us.min.js"></script>
 
 </body>
 
