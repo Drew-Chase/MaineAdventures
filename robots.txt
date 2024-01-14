@@ -1,0 +1,12 @@
+User-agent: Googlebot
+Disallow: /assets/
+Disallow: /panel/
+Disallow: /error/
+
+User-agent: *
+Allow: /
+Allow: /gallery
+Allow: /booking
+Allow: /services
+
+Sitemap: https://maineadventures.org/sitemap.xml
